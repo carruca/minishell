@@ -10,14 +10,17 @@ int	main()
 	char	*line;
 
 	line = NULL;
-	prompt_write();
-	while (get_next_line(0, &line) > 0)
+	while (1)
 	{
-		printf("%s\n", line);
-		free(line);
 		prompt_write();
+		get_next_line(0, &line);
+		printf("%s\n", line);
+		if (!ft_strcmp(line, "exit"))
+		{
+			free(line);
+			exit(0);
+		}
+		free(line);
 	}
-	printf("%s\n", line);
-	free(line);
 	return (0);
 }
