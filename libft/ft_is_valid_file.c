@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 14:38:57 by tsierra-          #+#    #+#             */
-/*   Updated: 2020/11/27 14:42:04 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/04 13:15:59 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	ft_is_valid_file(char *path)
 	int	fd;
 
 	fd = 0;
-	if ((fd = open(path, O_RDONLY)) < 0)
+	fd = open(path, O_RDONLY);
+	if (fd < 0)
 		return (0);
 	close(fd);
 	return (1);

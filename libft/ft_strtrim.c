@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 14:12:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2019/11/27 14:07:59 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/04 17:21:10 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	size_t	len;
-	size_t	start;
+	int		start;
 	char	*copys1;
 
 	if (!s1 || !set)
@@ -27,10 +27,11 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (len != 0)
 	{
 		while (s1[start + len - 1]
-				&& ft_strchr(set, s1[start + len - 1]) != NULL)
+			&& ft_strchr(set, s1[start + len - 1]) != NULL)
 			len--;
 	}
-	if ((copys1 = (char*)malloc(sizeof(char) * (len + 1))) == NULL)
+	copys1 = malloc(sizeof(char) * (len + 1));
+	if (!copys1)
 		return (NULL);
 	copys1 = ft_strncpy(copys1, &s1[start], len);
 	copys1[len] = '\0';

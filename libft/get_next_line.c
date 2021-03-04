@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@41.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 1010/01/08 17:01:19 by tsierra-          #+#    #+#             */
-/*   Updated: 2020/11/16 13:10:09 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/04 13:07:36 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	get_output(char **line, int fd, int n_bytes_read, char **s)
 		return (get_line(line, &s[fd]));
 }
 
-int			get_next_line(int fd, char **line)
+int	get_next_line(int fd, char **line)
 {
 	int			n_bytes_read;
 	char		buff[BUFFER_SIZE + 1];
@@ -59,8 +59,10 @@ int			get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || BUFFER_SIZE < 1 || read(fd, buff, 0) < 0)
 		return (-1);
-	while ((n_bytes_read = read(fd, buff, BUFFER_SIZE)) > 0)
+	n_bytes_read = 1;
+	while (n_bytes_read > 0)
 	{
+		n_bytes_read = read(fd, buff, BUFFER_SIZE);
 		buff[n_bytes_read] = '\0';
 		if (next_line[fd] == NULL)
 			next_line[fd] = ft_strdup(buff);

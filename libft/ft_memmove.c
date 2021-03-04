@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 15:31:37 by tsierra-          #+#    #+#             */
-/*   Updated: 2019/11/19 13:33:28 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/04 13:55:57 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	char	*b;
 
 	i = 0;
-	a = (void*)dst;
-	b = (void*)src;
+	a = (void *)dst;
+	b = (void *)src;
 	if (dst == src)
 		return (dst);
 	if (src < dst)

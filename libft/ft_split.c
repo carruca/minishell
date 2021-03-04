@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:02:41 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/01 16:19:19 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/04 15:27:01 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,24 +46,20 @@ static int	ft_strnlen(char const *s, char c)
 	return (count);
 }
 
-char		**ft_split(char const *s, char c)
+static int	ft_tablecpy(char const *s, char **table, char c)
 {
-	char	**table;
 	int		word;
 	int		i;
 	int		j;
 
-	if (!s)
-		return (NULL);
+	word = 0;
 	i = 0;
 	j = 0;
-	word = 0;
-	if (!(table = malloc(sizeof(char *) * ft_word_count(s, c) + 1)))
-		return (NULL);
 	while (word < ft_word_count(s, c))
 	{
-		if (!(table[word] = malloc(sizeof(char) * ft_strnlen(&s[i], c) + 1)))
-			return (NULL);
+		table[word] = malloc(sizeof(char) * ft_strnlen(&s[i], c) + 1);
+		if (!table[word])
+			return (0);
 		j = 0;
 		while (s[i] == c)
 			i++;
@@ -72,5 +68,19 @@ char		**ft_split(char const *s, char c)
 		table[word++][j] = '\0';
 	}
 	table[word] = NULL;
+	return (1);
+}
+
+char	**ft_split(char const *s, char c)
+{
+	char	**table;
+
+	if (!s)
+		return (NULL);
+	table = malloc(sizeof(char *) * ft_word_count(s, c) + 1);
+	if (!table)
+		return (NULL);
+	if (!ft_tablecpy(s, table, c))
+		return (NULL);
 	return (table);
 }

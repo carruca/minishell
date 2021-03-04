@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/27 13:43:30 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/01/07 17:49:27 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/04 16:55:25 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ static size_t	ft_strlen_no_tab(char *str)
 	return (len);
 }
 
-char			*ft_str_tab_remove(char *str)
+char	*ft_str_tab_remove(char *str)
 {
 	size_t	len;
-	size_t	i;
+	int		i;
 	char	*copy;
 
 	len = ft_strlen_no_tab(str);
-	if (!(copy = (char*)malloc((len + 1) * sizeof(char))))
+	copy = malloc(sizeof(char) * (len + 1));
+	if (!copy)
 		return (NULL);
 	i = 0;
 	len = 0;
