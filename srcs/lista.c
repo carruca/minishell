@@ -1,9 +1,8 @@
 #include "../include/minishell.h"
 
-t_var	*insertardatos(char *str)
+t_var	*variable_create(char *str)
 {
 	t_var	*new_var;
-	char	*aux;
 	int		index;
 	
 
@@ -11,9 +10,7 @@ t_var	*insertardatos(char *str)
 	index = 0;
 	while (str[index] != '=')
 		index++;
-	new_var->nombre = ft_strndup(str, index);
-	aux = ft_strchr(str, '=');
-	aux++;
-	new_var->valor = ft_strdup(aux);
+	new_var->nombre = ft_substr(str, 0, index);
+	new_var->valor = ft_substr(str, index + 1, ft_strlen(&str[index + 1]));
 	return (new_var);
 }

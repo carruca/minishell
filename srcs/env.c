@@ -16,7 +16,7 @@ void	capture_env(t_all *mini ,char **env)
 	mini->lista = NULL;
 	while (*env)
 	{
-		ft_lstadd_back(&mini->lista, ft_lstnew(insertardatos(*env)));
+		ft_lstadd_back(&mini->lista, ft_lstnew(variable_create(*env)));
 		env++;
 	}
 	ft_lstiter(mini->lista, &imprimirlista);

@@ -32,6 +32,6 @@ typedef struct	s_all
 
 //Se encuentran en la carpeta srcs/
 void	capture_env(t_all *mini, char **env);
-t_var	*insertardatos(char *str);
+t_var	*variable_create(char *str);
 
 #endif
