@@ -1,20 +1,19 @@
 #include "../include/minishell.h"
 
-void	insertardatos(t_campo **datos, char *str)
+t_var	*insertardatos(char *str)
 {
-	t_campo	*new;
+	t_var	*new_var;
 	char	*aux;
 	int		index;
 	
 
-	new = (t_campo *)malloc(sizeof(t_campo));
+	new_var = (t_var *)malloc(sizeof(t_var));
 	index = 0;
 	while (str[index] != '=')
 		index++;
-	new->nombre = ft_strndup(str, index);
+	new_var->nombre = ft_strndup(str, index);
 	aux = ft_strchr(str, '=');
 	aux++;
-	new->valor = ft_strdup(aux);
-	(*datos)->nombre = new->nombre;
-	(*datos)->valor = new->valor;
+	new_var->valor = ft_strdup(aux);
+	return (new_var);
 }

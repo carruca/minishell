@@ -7,11 +7,11 @@
 # include <stdlib.h>
 # include <string.h>
 
-typedef struct	s_nodo
+typedef struct	s_variable
 {
 	char	*nombre;
 	char	*valor;
-}	t_campo;
+}	t_var;
 
 typedef struct	s_control
 {
@@ -32,6 +32,6 @@ typedef struct	s_all
 
 //Se encuentran en la carpeta srcs/
 void	capture_env(t_all *mini, char **env);
-void	insertardatos(t_campo **datos, char *str);
+t_var	*insertardatos(char *str);
 
 #endif
