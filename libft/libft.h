@@ -22,7 +22,7 @@
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 8192
 # endif
 
 # ifndef FD_SIZE
@@ -91,5 +91,6 @@ void		ft_lstdelone(t_list *lst, void (*del)(void *));
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_list		*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *));
 
 #endif

@@ -73,7 +73,8 @@ LSOURCE = ft_memset.c \
 		  ft_lstiter.c \
 		  ft_lstlast.c \
 		  ft_lstmap.c \
-		  ft_lstsize.c
+		  ft_lstsize.c \
+		  ft_lstfind.c
 
 OBJS = $(LSOURCE:.c=.o)
 
