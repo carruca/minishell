@@ -4,7 +4,6 @@ t_var	*variable_create(char *str)
 {
 	t_var	*new_var;
 	int		index;
-	
 
 	new_var = (t_var *)malloc(sizeof(t_var));
 	index = 0;
