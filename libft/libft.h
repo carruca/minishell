@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:15:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/04 17:24:31 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/08 16:58:17 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		ft_putnbr_fd(int n, int fd);
 int			get_next_line(int fd, char **line);
 size_t		ft_nbrlen(long int nbr);
 int			ft_strcmp(const char *s1, const char *s2);
-void		free_2d(char **ptr);
+void		ft_free_tab(char **ptr);
 int			ft_is_str_digit(char *str);
 int			ft_file_format_cmp(char *str, char *format);
 int			ft_count_char_in_str(char *str, char c);
@@ -92,5 +92,8 @@ void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list		*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *));
+size_t		ft_strspn(const char *s, const char *charset);
+size_t		ft_strcspn(const char *s, const char *charset);
+char		*ft_strtok(char *str, const char *sep);
 
 #endif

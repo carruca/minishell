@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstfind.c                                       :+:      :+:    :+:   */
+/*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 13:17:58 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/08 13:19:54 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/03/08 13:53:28 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/03/08 16:30:49 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *))
+char	*ft_strtok(char *str, const char *sep)
 {
-	if (lst && cmp)
+	static char	*ptr;
+
+	if (str)
+		ptr = str;
+	else if (!ptr)
+		return (NULL);
+	str = ptr + ft_strspn(ptr, sep);
+	ptr = str + ft_strcspn(str, sep);
+	if (ptr == str)
 	{
-		while (lst)
-		{
-			if (!cmp(content, lst->content))
-				return (lst);
-			lst = lst->next;
-		}
+		ptr = NULL;
+		return (ptr);
 	}
-	return (NULL);
+	if (*ptr)
+		*ptr++ = '\0';
+	return (str);
 }

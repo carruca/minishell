@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstfind.c                                       :+:      :+:    :+:   */
+/*   ft_strspn.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/08 13:17:58 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/08 13:19:54 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/03/08 13:20:30 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/03/08 13:40:19 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *))
+size_t	ft_strspn(const char *s, const char *charset)
 {
-	if (lst && cmp)
-	{
-		while (lst)
-		{
-			if (!cmp(content, lst->content))
-				return (lst);
-			lst = lst->next;
-		}
-	}
-	return (NULL);
+	size_t	len;
+
+	len = 0;
+	while (s[len] && ft_strchr(charset, s[len]))
+		len++;
+	return (len);
 }
