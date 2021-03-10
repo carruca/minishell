@@ -11,13 +11,8 @@ char	*read_command_line()
 
 	line = NULL;
 	if (get_next_line(0, &line) < 0)
-		ft_putstr_fd("error", 2);
+		ft_putstr_fd("Error\n", 2);
 	return (line);
-}
-
-void	lexical_scanner()
-{
-	//Input to token
 }
 
 void	parser()

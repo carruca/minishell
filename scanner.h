@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   scanner.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/09 14:42:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/10 17:06:36 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/03/10 16:53:14 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/03/10 16:57:44 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef SCANNER_H
+# define SCANNER_H
 
-# define ERRCHAR		0
-# define INIT_SRC_POS	-2
-
-typedef struct s_source
+typedef struct s_token
 {
-	char	*buf;
-	long	size;
-	long	pos;
-}			t_src;
+	t_src	*src;
+	int		len;
+	char	*text;
+}			t_token;
 
-void	unget_char(t_src *src);
-char	get_next_char(t_src *src);
-char	peek_char(t_src *src);
-void	skip_white_spaces(t_src *src);
+t_token	*tokenize(t_src *src);
+void	free_token(t_token *tok);
 
 #endif
