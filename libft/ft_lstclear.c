@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 11:50:46 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/02 15:51:43 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/15 16:54:18 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 
 	aux = *lst;
 	tmp = NULL;
-	while (*lst)
+	while (aux)
 	{
 		tmp = aux->next;
 		del(aux->content);
