@@ -4,7 +4,8 @@ SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 LIBFT_DIR = ./libft/
 
-SRC = main.c
+SRC = main.c \
+	  lexer.c
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)
 LIBFT = -L $(LIBFT_DIR) -lft

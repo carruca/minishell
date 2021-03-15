@@ -13,63 +13,112 @@
 #include "lexer.h"
 #include "minishell.h"
 
-void	unget_char(t_src *src)
+size_t	get_delimiter_in_str(char *str, char delim)
 {
-	if (src->pos < 0)
-		return ;
-	src->pos--;
+	size_t		len;
+	unsigned	quate[3];
+
+	len = 0;
+	ft_bzero(quate, sizeof(quate));
+	while (str[len] != '\0' && *str)
+	{
+		if (str[len] == '\\' && !quate[0] && !quate[1])
+		{
+			len++;
+			quate[2] = 1;
+		}
+		if (str[len] == '\"' && !quate[0])
+			quate[1] = quate[1] ^ 1;
+		if (str[len] == '\'' && !quate[1])
+			quate[0] = quate[0] ^ 1;
+		if (str[len] == delim && !quate[0] && !quate[1] && !quate[2])
+		{
+			len++;
+			break ;
+		}
+		len++;
+		quate[2] = 0;
+	}
+	return (len);
 }
 
-int	get_next_char(t_src *src)
+int		count_simple_command(char *compound)
 {
-	char	next_char;
+	int	counter;
+	int	i;
+	int	quate[3];
 
-	next_char = 0;
-	if (!src || src->buf)
+	counter = 1;
+	i = 0;
+	ft_bzero(quate, sizeof(quate));
+	while (compound[i] != '\0')
 	{
-		errno = ENODATA;
-		return (ERRCHAR);
+		if (compound[i] == '\\' && !quate[0] && !quate[1])
+		{
+			i++;
+			quate[2] = 1;
+		}
+		if (compound[i] == '\"' && !quate[0] && !quate[2])
+			quate[1] = quate[1] ^ 1;
+		if (compound[i] == '\'' && !quate[1] && !quate[2])
+			quate[0] = quate[0] ^ 1;
+		if (compound[i] == ' ' && !quate[0] && !quate[1] && !quate[2])
+			counter++;
+		i++;
+		quate[2] = 0;
 	}
-	if (src->pos == INIT_SRC_POS)
-		src->pos = -1;
-	else
-		next_char = src->buf[src->pos];
-	if (++src->pos >= src->size)
-	{
-		src->pos = src->size;
-		return (EOF);
-	}
-	return (src->buf[src->pos]);
+	return (counter);
 }
 
-int	peek_char(t_src *src)
-{
-	long	pos;
 
-	if (!src || !src->buf)
+void	split_compound_command(t_compound *compound)
+{
+	int		start;
+	int		len;
+
+	//Hacer tokens
+
+	start = 0;
+	len = 0;
+
+	compound->token_counter = count_simple_command(compound->cmd);
+	printf("counter = %d\n", compound->token_counter);
+	compound->simple = malloc(sizeof(t_simple) * (compound->token_counter + 1));
+	while (compound->cmd[start] != '\0')
 	{
-		errno = ENODATA;
-		return (ERRCHAR);
+//		len = get_delimiter_in_str(&compound->cmd[start], ' ');
+	/*	//buscar pipes redirecciones
+		if (compound->cmd[len] == '|')
+			compound->simple->control = PIPE;
+		else if (compound->cmd[len] == '<')
+			compound.simple->control = LESS;
+		else if (compound->cmd[len] == '>')
+			compound.control = GREAT;
+		else if (compound->cmd[len] == '>' )*/
+//		compound->cmd.simple->cmd = ft_substr(&compound->cmd[start], 0, len);
+//		printf("simple command = %s", compound->cmd->simple->cmd);
+//		start += len;
+		start++;
 	}
-	pos = src->pos;
-	if (pos == INIT_SRC_POS)
-		pos++;
-	pos++;
-	if (pos >= src->size)
-		return (EOF);
-	return (src->buf[pos]);
 }
 
-void	skip_white_spaces(t_src *src)
+void	split_command_line(char *line)
 {
-	char c;
+	t_compound	compound;
+	int			start;
+	int			len;
 
-	c = 0;
-	if (!src || !src->buf)
-		return ;
-	while ((c != EOF) && (c == ' ' || c == '\t'))
+	start = 0;
+	len = 0;
+	ft_bzero(&compound, sizeof(compound));
+	while (line[start] != '\0')
 	{
-		c = peek_char(src);
-		get_next_char(src);
+		len = get_delimiter_in_str(&line[start], ';');
+		compound.cmd = ft_substr(&line[start], 0, len);
+		printf("compound command = $%s$\n", compound.cmd);
+		split_compound_command(&compound);
+		free(compound.cmd);
+		compound.cmd = NULL;
+		start += len;
 	}
 }

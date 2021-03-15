@@ -13,19 +13,38 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-# define ERRCHAR		0
-# define INIT_SRC_POS	-2
+#include "minishell.h"
+#include <stdio.h>
 
-typedef struct s_source
+typedef enum e_control_operator
 {
-	char	*buf;
-	long	size;
-	long	pos;
-}			t_src;
+	PIPE,
+	LESS,
+	GREAT,
+	GREATGREAT,
+	STDOUT,
+	STDIN
+}	t_control;
 
-void	unget_char(t_src *src);
-char	get_next_char(t_src *src);
-char	peek_char(t_src *src);
-void	skip_white_spaces(t_src *src);
+typedef struct s_simple_command
+{
+	char		*cmd;
+	char		*name;
+	int			argc;
+	char		**argv;
+	char		*path;
+	t_control	control;
+}				t_simple;
+
+typedef struct s_compound_command
+{
+	char		*cmd;
+	int			token_counter;
+	t_simple	**simple; 	//Mejor una lista?
+}				t_compound;
+
+void	split_command_line(char *line);
+void	split_compound_command(t_compound *compound);
+size_t	get_delimiter_in_str(char *str, char delim);
 
 #endif
