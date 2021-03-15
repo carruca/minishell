@@ -1,4 +1,5 @@
 NAME = minishell
+LNAME = ./libft/libft.a
 
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
@@ -11,18 +12,20 @@ INC = -I. -I $(LIBFT_DIR)
 LIBFT = -L $(LIBFT_DIR) -lft
 
 CC = gcc
-WFLAGS = -Wall -Wextra -Werror
+WFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
 MAKE = make
 RM = rm -rf
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(MAKE) -C $(LIBFT_DIR)
 	$(CC) $(WFLAGS) $(INC) $(LIBFT) $(OBJ) -o $(NAME)
 
-%.o: %.c
+%.o: %.c $(LNAME)
 	$(CC) $(WFLAGS) -c -o $@ $<
+
+$(LNAME): 
+	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean

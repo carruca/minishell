@@ -6,14 +6,14 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:58:27 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/10 16:47:04 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/15 19:41:49 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "minishell.h"
 
-size_t	get_delimiter_in_str(char *str, char delim)
+size_t	get_delimiter_in_str(char *str, char *set)
 {
 	size_t		len;
 	unsigned	quate[3];
@@ -31,9 +31,11 @@ size_t	get_delimiter_in_str(char *str, char delim)
 			quate[1] = quate[1] ^ 1;
 		if (str[len] == '\'' && !quate[1])
 			quate[0] = quate[0] ^ 1;
-		if (str[len] == delim && !quate[0] && !quate[1] && !quate[2])
+		if (ft_strchr(set, str[len]) && !quate[0] && !quate[1] && !quate[2])
 		{
 			len++;
+			if (ft_strchr(set, str[len]))
+				len++;
 			break ;
 		}
 		len++;
@@ -62,8 +64,12 @@ int		count_simple_command(char *compound)
 			quate[1] = quate[1] ^ 1;
 		if (compound[i] == '\'' && !quate[1] && !quate[2])
 			quate[0] = quate[0] ^ 1;
-		if (compound[i] == ' ' && !quate[0] && !quate[1] && !quate[2])
+		if (ft_strchr("<>|", compound[i]) && !quate[0] && !quate[1] && !quate[2])
+		{
+			if (compound[i + 1] == '>')
+				i++;
 			counter++;
+		}
 		i++;
 		quate[2] = 0;
 	}
@@ -75,31 +81,32 @@ void	split_compound_command(t_compound *compound)
 {
 	int		start;
 	int		len;
+	char	*tmp;
+	int		i;
 
-	//Hacer tokens
-
+	i = 0;
 	start = 0;
 	len = 0;
-
-	compound->token_counter = count_simple_command(compound->cmd);
-	printf("counter = %d\n", compound->token_counter);
-	compound->simple = malloc(sizeof(t_simple) * (compound->token_counter + 1));
-	while (compound->cmd[start] != '\0')
+	compound->simple_counter = 0;
+	tmp = ft_strtrim(compound->cmd, " ;");
+	compound->simple_counter = count_simple_command(tmp);
+	printf("tmp = $%s$\n", tmp);
+	printf("counter = %d\n", compound->simple_counter);
+	compound->simple = ft_calloc(compound->simple_counter, sizeof(t_simple));
+//	compound->simple[compound->token_counter] = NULL;
+//	printf("%lu\n", sizeof(t_simple));
+	while (tmp[start] != '\0')
 	{
-//		len = get_delimiter_in_str(&compound->cmd[start], ' ');
-	/*	//buscar pipes redirecciones
-		if (compound->cmd[len] == '|')
-			compound->simple->control = PIPE;
-		else if (compound->cmd[len] == '<')
-			compound.simple->control = LESS;
-		else if (compound->cmd[len] == '>')
-			compound.control = GREAT;
-		else if (compound->cmd[len] == '>' )*/
-//		compound->cmd.simple->cmd = ft_substr(&compound->cmd[start], 0, len);
-//		printf("simple command = %s", compound->cmd->simple->cmd);
-//		start += len;
-		start++;
+		len = get_delimiter_in_str(tmp + start, "<>|");
+		printf("len token = %d\n", len);
+		compound->simple[i].cmd = ft_substr(tmp + start, 0, len);
+		printf("simple command = %s\n", compound->simple[i].cmd);
+		free(compound->simple[i].cmd);
+		i++;
+		start += len;
 	}
+	free(tmp);
+	free(compound->simple);
 }
 
 void	split_command_line(char *line)
@@ -113,8 +120,8 @@ void	split_command_line(char *line)
 	ft_bzero(&compound, sizeof(compound));
 	while (line[start] != '\0')
 	{
-		len = get_delimiter_in_str(&line[start], ';');
-		compound.cmd = ft_substr(&line[start], 0, len);
+		len = get_delimiter_in_str(line + start, ";");
+		compound.cmd = ft_substr(line, start, len);
 		printf("compound command = $%s$\n", compound.cmd);
 		split_compound_command(&compound);
 		free(compound.cmd);
