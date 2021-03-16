@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:42:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/15 19:39:29 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/16 16:29:58 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ typedef struct s_simple_command
 {
 	char		*cmd;
 	int			token_counter;
-//	char		*name;
+	char		*name;
 //	int			argc;
-//	char		**argv;
+	char		**argv;
 //	char		*path;
 //	t_control	control;
 }				t_simple;
