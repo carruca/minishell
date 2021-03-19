@@ -13,6 +13,31 @@
 #include "lexer.h"
 #include "minishell.h"
 
+size_t	get_token_delimiter(char *str, char *set)
+{
+	size_t	len;
+	int		quated;
+
+	len = 0;
+	quated = 0;
+	while (str[len] != '\0' && *str)
+	{
+		if (str[len] == '\"' && (quated == 0 || quated == 0x02))
+			quates ^= 0x02;
+		else if (str[len] == '\'' && (quated == 0 || quated == 0x01))
+			quates ^= 0x01;
+		else if (ft_strchr(set, str[len]) && !quated)
+		{
+			len++;
+			if (str[len - 1] == '>' && str[len] == '>')
+				len++;
+			break ;
+		}
+		len++;
+	}
+	return (len);
+}
+
 size_t	get_delimiter_in_str(char *str, char *set)
 {
 	size_t			len;
@@ -150,3 +175,5 @@ void	split_command_line(char *line)
 		start += len;
 	}
 }
+
+

@@ -16,12 +16,28 @@
 #include "minishell.h"
 #include <stdio.h>
 
+# define TOKEN	0x01
+# define IO_NUMBER
+
+typedef struct s_word
+{
+	char	*word;
+	int		flags;
+}			t_word_desc;
+
+typedef struct s_token
+{
+	char	*token;
+	int		identifier;
+}			t_token;
+
 typedef enum e_control_operator
 {
 	PIPE,
+	DSEMI,
 	LESS,
 	GREAT,
-	GREATGREAT,
+	DGREAT,
 	STDOUT,
 	STDIN
 }	t_control;
