@@ -6,48 +6,47 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:58:27 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/17 18:37:01 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/22 20:31:38 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "minishell.h"
 
-int		isquated(char c)
+void		is_quoted(int *quoted, char c)
 {
-	static int	quated = 0;
-
-	if (c == '\'')
-		quated ^= 0x01;
-	else if (c == '\"')
-		quated ^= 0x02;
-	return (quated);
+	if (c == '\'' && (*quoted == 0 || *quoted == 0x01))
+		*quoted ^= 0x01;
+	else if (c == '\"' && (*quoted == 0 || *quoted == 0x02))
+		*quoted ^= 0x02;
 }
 
-size_t	skip_to_delimiter(char *str, char *set)
+int	skip_to_delimiter(char *str, char *set, size_t *lenght)
 {
-	size_t	len;
-	int		quated;
+	int		i;
+	int		quoted;
 
-	len = 0;
-	quated = 0;
-	while (str[len] != '\0' && *str)
+	i = 0;
+	*lenght = 0;
+	quoted = 0;
+	while (str[i] != '\0' && *str)
 	{
-/*		if (str[len] == '\"' && (quated == 0 || quated == 0x02))
-			quated ^= 0x02;
-		else if (str[len] == '\'' && (quated == 0 || quated == 0x01))
-			quated ^= 0x01;*/
-		quated = isquated(str[len]);
-		if (ft_strchr(set, str[len]) && !quated)
+		is_quoted(&quoted, str[i]);
+		if (ft_strchr(set, str[i]) && !quoted)
 		{
-			len++;
-			if (str[len - 1] == str[len])
-				len++;
+			i += (*lenght == 0);
+			*lenght += (*lenght == 0 && str[i - 1] != ' ');
+			if (str[i - 1] == str[i] && str[i] != ' ')
+			{
+				(*lenght)++;
+				i++;
+			}
 			break ;
 		}
-		len++;
+		i++;
+		(*lenght)++;
 	}
-	return (len);
+	return (i);
 }
 
 size_t	get_delimiter_in_str(char *str, char *set)
@@ -147,7 +146,7 @@ void	split_compound_command(t_compound *compound)
 	len = 0;
 	compound->simple_counter = 0;
 	tmp = NULL;
-	tmp = ft_strtrim(compound->cmd, " ;");
+	tmp = ft_strtrim(compound->cmd, " ");
 	compound->simple_counter = count_simple_command(tmp, "<>|");
 	printf("compound compound = $%s$\n", tmp);
 	printf("simple counter = %d\n", compound->simple_counter);
@@ -169,21 +168,48 @@ void	split_compound_command(t_compound *compound)
 
 void	split_command_line(char *line)
 {
-	t_compound	compound;
+	char		*token;
 	int			start;
-	int			len;
+	size_t		len;
+	int			i;
 
 	start = 0;
 	len = 0;
-	ft_bzero(&compound, sizeof(compound));
+	i = 0;
+	token = NULL;
 	while (line[start] != '\0')
 	{
-		len = skip_to_delimiter(line + start, ";");
-		compound.cmd = ft_substr(line, start, len);
-		printf("compound command = $%s$\n", compound.cmd);
-		split_compound_command(&compound);
-		free(compound.cmd);
-		compound.cmd = NULL;
-		start += len;
+		i = skip_to_delimiter(line + start, " ><|;", &len);
+		if (len != 0)
+		{
+			token = ft_substr(line, start, len);
+			printf("token = $%s$\n", token);
+			free(token);
+		}
+		token = NULL;
+		start += i;
 	}
 }
+/*
+
+t_list	*lexer(char *input)
+{
+	t_list	*tokenv;
+	t_token	*token;
+	char	*str;
+	int		start;
+	int		len;
+
+	token = NULL;
+	tokenv = NULL;
+	start = 0;
+	len = 0;
+	str = NULL;
+	while (input != '\0')
+	{
+		len = skip_to_delimiter(input + start, " <>|;");
+		str = ft_substr(input, start, len);
+
+	}
+	return (token);
+}*/
