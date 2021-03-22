@@ -16,7 +16,7 @@ WFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
 MAKE = make
 RM = rm -rf
 
-all: $(NAME)
+all: $(NAME) $(LNAME)
 
 $(NAME): $(OBJ)
 	$(CC) $(WFLAGS) $(INC) $(LIBFT) $(OBJ) -o $(NAME)

@@ -13,7 +13,18 @@
 #include "lexer.h"
 #include "minishell.h"
 
-size_t	get_token_delimiter(char *str, char *set)
+int		isquated(char c)
+{
+	static int	quated = 0;
+
+	if (c == '\'')
+		quated ^= 0x01;
+	else if (c == '\"')
+		quated ^= 0x02;
+	return (quated);
+}
+
+size_t	skip_to_delimiter(char *str, char *set)
 {
 	size_t	len;
 	int		quated;
@@ -22,14 +33,15 @@ size_t	get_token_delimiter(char *str, char *set)
 	quated = 0;
 	while (str[len] != '\0' && *str)
 	{
-		if (str[len] == '\"' && (quated == 0 || quated == 0x02))
-			quates ^= 0x02;
+/*		if (str[len] == '\"' && (quated == 0 || quated == 0x02))
+			quated ^= 0x02;
 		else if (str[len] == '\'' && (quated == 0 || quated == 0x01))
-			quates ^= 0x01;
-		else if (ft_strchr(set, str[len]) && !quated)
+			quated ^= 0x01;*/
+		quated = isquated(str[len]);
+		if (ft_strchr(set, str[len]) && !quated)
 		{
 			len++;
-			if (str[len - 1] == '>' && str[len] == '>')
+			if (str[len - 1] == str[len])
 				len++;
 			break ;
 		}
@@ -166,7 +178,7 @@ void	split_command_line(char *line)
 	ft_bzero(&compound, sizeof(compound));
 	while (line[start] != '\0')
 	{
-		len = get_delimiter_in_str(line + start, ";");
+		len = skip_to_delimiter(line + start, ";");
 		compound.cmd = ft_substr(line, start, len);
 		printf("compound command = $%s$\n", compound.cmd);
 		split_compound_command(&compound);
@@ -175,5 +187,3 @@ void	split_command_line(char *line)
 		start += len;
 	}
 }
-
-

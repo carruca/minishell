@@ -36,14 +36,14 @@ typedef enum e_token_type
 	TOKEN_OPTIONS,
 	TOKEN_ERROR
 }	token_type;
-
+/*
 typedef struct s_token
 {
 	token_type	type;
 	char		*start;
 	int			len;
 }				t_token;
-
+*/
 void	print_prompt();
 char	*read_command_line();
 void	read_eval_print_loop();
