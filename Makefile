@@ -6,7 +6,8 @@ OBJ_DIR = ./obj/
 LIBFT_DIR = ./libft/
 
 SRC = main.c \
-	  lexer.c
+	  lexer.c \
+	  token.c
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)
 LIBFT = -L $(LIBFT_DIR) -lft
@@ -30,6 +31,9 @@ $(LNAME):
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(RM) $(OBJ)
+
+tag:
+	ctags $(SRC)
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
