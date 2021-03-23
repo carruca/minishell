@@ -190,11 +190,48 @@ void	split_command_line(char *line)
 		start += i;
 	}
 }
-/*
 
+int	id_token(char *content)
+{
+	int	id;
+
+	id = WORD;
+	if (*content == '<')
+		id = LESS;
+	else if (*content == '>')
+		id = GREAT;
+	if (*content == '>' && *content + 1 == '>')
+		id = DGREAT;
+	else if (*content == '|')
+		id = PIPE;
+	else if (*content == ';')
+		id = SCOLON;
+	return (id);
+}
+
+
+t_token	*new_token(char *content)
+{
+	t_token	*tkn;
+
+	tkn = malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
+	tkn->token = content;
+	tkn->identifier = id_token(content);
+	return (tkn);
+}
+
+void	free_token(t_token *tkn)
+{
+	free(tkn->token);
+	free(tkn);
+}
+
+/*
 t_list	*lexer(char *input)
 {
-	t_list	*tokenv;
+	t_list	*tkn_lst;
 	t_token	*token;
 	char	*str;
 	int		start;

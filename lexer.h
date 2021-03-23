@@ -16,8 +16,12 @@
 #include "minishell.h"
 #include <stdio.h>
 
-# define TOKEN	0x01
-# define IO_NUMBER
+# define WORD	0x01
+# define LESS	0x02
+# define GREAT	0x04
+# define DGREAT	0x08
+# define PIPE	0x10
+# define SCOLON	0x20
 
 typedef struct s_word
 {
