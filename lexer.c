@@ -6,14 +6,14 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:58:27 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/22 20:31:38 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/23 18:47:59 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "minishell.h"
 
-void		is_quoted(int *quoted, char c)
+void	is_quoted(char c, int *quoted)
 {
 	if (c == '\'' && (*quoted == 0 || *quoted == 0x01))
 		*quoted ^= 0x01;
@@ -21,34 +21,31 @@ void		is_quoted(int *quoted, char c)
 		*quoted ^= 0x02;
 }
 
-int	skip_to_delimiter(char *str, char *set, size_t *lenght)
+int	skip_to_delimiter(char *str, char *set, size_t *len)
 {
 	int		i;
 	int		quoted;
 
 	i = 0;
-	*lenght = 0;
+	*len = 0;
 	quoted = 0;
 	while (str[i] != '\0' && *str)
 	{
-		is_quoted(&quoted, str[i]);
+		is_quoted(str[i], &quoted);
 		if (ft_strchr(set, str[i]) && !quoted)
 		{
-			i += (*lenght == 0);
-			*lenght += (*lenght == 0 && str[i - 1] != ' ');
-			if (str[i - 1] == str[i] && str[i] != ' ')
-			{
-				(*lenght)++;
-				i++;
-			}
+			i += (*len == 0);
+			*len += (*len == 0 && str[i - 1] != ' ' && str[i - 1] != '\t');
+			*len += (str[i - 1] == str[i] && str[i] != ' ' && str[i] != '\t');
+			i += (str[i - 1] == str[i] && str[i] != ' ' && str[i] != '\t');
 			break ;
 		}
 		i++;
-		(*lenght)++;
+		(*len)++;
 	}
 	return (i);
 }
-
+/*
 size_t	get_delimiter_in_str(char *str, char *set)
 {
 	size_t			len;
@@ -165,10 +162,59 @@ void	split_compound_command(t_compound *compound)
 	free(tmp);
 	free(compound->simple);
 }
-
-void	split_command_line(char *line)
+*/
+/*
+int	id_token(char *str)
 {
-	char		*token;
+	int	id;
+
+	id = WORD;
+	if (*str == '>')
+		id = GREAT;
+	if (str[0] == '>' && str[1] == '>')
+		id = DGREAT;
+	else if (*str == '<')
+		id = LESS;
+	else if (*str == '|')
+		id = PIPE;
+	else if (*str == ';')
+		id = SCOLON;
+	return (id);
+}
+
+t_token	*new_token(char *str)
+{
+	t_token	*tkn;
+
+	tkn = malloc(sizeof(t_token));
+	if (!tkn)
+		return (NULL);
+	tkn->token = str;
+	tkn->identifier = id_token(str);
+	return (tkn);
+}
+
+void	free_token(void *tkn)
+{
+	t_token	*tmp;
+
+	tmp = tkn;
+	free(tmp->token);
+	free(tmp);
+}
+
+void	print_token(void *tkn)
+{
+	t_token	*tmp;
+
+	tmp = tkn;
+	printf("token	= $%s$\n", tmp->token);
+//	printf("id	= $0x%02x$\n", tmp->identifier);
+}*/
+
+t_list	*tokenizer(char *input)
+{
+	t_list		*tkn_lst;
 	int			start;
 	size_t		len;
 	int			i;
@@ -176,77 +222,16 @@ void	split_command_line(char *line)
 	start = 0;
 	len = 0;
 	i = 0;
-	token = NULL;
-	while (line[start] != '\0')
+	tkn_lst = NULL;
+	while (input[start] != '\0')
 	{
-		i = skip_to_delimiter(line + start, " ><|;", &len);
+		i = skip_to_delimiter(input + start, " ><|;\t", &len);
 		if (len != 0)
-		{
-			token = ft_substr(line, start, len);
-			printf("token = $%s$\n", token);
-			free(token);
-		}
-		token = NULL;
+			ft_lstadd_back(&tkn_lst,
+					ft_lstnew(new_token(ft_substr(input, start, len))));
 		start += i;
 	}
+	ft_lstiter(tkn_lst, &print_token);
+	ft_lstclear(&tkn_lst, &free_token);
+	return (tkn_lst);
 }
-
-int	id_token(char *content)
-{
-	int	id;
-
-	id = WORD;
-	if (*content == '<')
-		id = LESS;
-	else if (*content == '>')
-		id = GREAT;
-	if (*content == '>' && *content + 1 == '>')
-		id = DGREAT;
-	else if (*content == '|')
-		id = PIPE;
-	else if (*content == ';')
-		id = SCOLON;
-	return (id);
-}
-
-
-t_token	*new_token(char *content)
-{
-	t_token	*tkn;
-
-	tkn = malloc(sizeof(t_token));
-	if (!new)
-		return (NULL);
-	tkn->token = content;
-	tkn->identifier = id_token(content);
-	return (tkn);
-}
-
-void	free_token(t_token *tkn)
-{
-	free(tkn->token);
-	free(tkn);
-}
-
-/*
-t_list	*lexer(char *input)
-{
-	t_list	*tkn_lst;
-	t_token	*token;
-	char	*str;
-	int		start;
-	int		len;
-
-	token = NULL;
-	tokenv = NULL;
-	start = 0;
-	len = 0;
-	str = NULL;
-	while (input != '\0')
-	{
-		len = skip_to_delimiter(input + start, " <>|;");
-		str = ft_substr(input, start, len);
-
-	}
-	return (token);
-}*/

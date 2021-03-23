@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:42:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/17 16:43:33 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/23 18:52:15 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_token
 	char	*token;
 	int		identifier;
 }			t_token;
-
+/*
 typedef enum e_control_operator
 {
 	PIPE,
@@ -64,9 +64,12 @@ typedef struct s_compound_command
 	int			simple_counter;
 	t_simple	*simple; 	//Mejor una lista?
 }				t_compound;
-
-void	split_command_line(char *line);
-void	split_compound_command(t_compound *compound);
-size_t	get_delimiter_in_str(char *str, char *set);
-
+*/
+t_list	*tokenizer(char *input);
+int		skip_to_delimiter(char *str, char *set, size_t *lenght);
+void	is_quoted(char c, int *quoted);
+int		id_token(char *str);
+t_token	*new_token(char *str);
+void	free_token(void *tkn);
+void	print_token(void *tkn);
 #endif

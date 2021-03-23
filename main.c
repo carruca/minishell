@@ -35,8 +35,7 @@ void	read_eval_print_loop()
 	{
 		print_prompt();
 		cmd_line = read_command_line();
-//		printf("command line = %s\n", cmd_line);
-		split_command_line(cmd_line);
+		tokenizer(cmd_line);
 		if (!ft_strcmp(cmd_line, "exit"))
 		{
 			free(cmd_line);
