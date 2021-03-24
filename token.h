@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   token.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/09 14:42:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/24 13:59:34 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/03/24 13:51:35 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/03/24 14:01:42 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef TOKEN_H
+# define TOKEN_H
 
 # include "minishell.h"
-# include "token.h"
+# include "lexer.h"
 # include <stdio.h>
 
-typedef struct s_word
-{
-	char	*word;
-	int		flags;
-}			t_word_desc;
+# define WORD	0x01
+# define LESS	0x02
+# define GREAT	0x04
+# define DGREAT	0x08
+# define PIPE	0x10
+# define SCOLON	0x20
 
-t_list	*tokenizer(char *input);
-int		skip_to_delimiter(char *str, char *set, size_t *lenght);
-void	is_quoted(char c, int *quoted);
+typedef struct s_token
+{
+	char	*token;
+	int		identifier;
+}			t_token;
+
+t_token 	*new_token(char *str);
+int			id_token(char *str);
+void		free_token(void *tkn);
+void		print_token(void *tkn);
 
 #endif

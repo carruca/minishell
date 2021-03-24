@@ -6,12 +6,13 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/23 18:15:16 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/23 18:46:58 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/03/24 14:01:32 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer.h"
+#include "token.h"
 
 int	id_token(char *str)
 {

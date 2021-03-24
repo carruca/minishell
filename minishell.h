@@ -1,23 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/03/24 14:00:49 by tsierra-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "./libft/libft.h"
 # include "lexer.h"
+# include "token.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <errno.h>
 # include <limits.h>
-
-typedef struct s_variable
-{
-	char	*name;
-	char	*value;
-	char	*exportstr;
-	int		attributes;
-	int		context;
-}			t_var;
 
 typedef enum e_token_type
 {
@@ -36,14 +40,7 @@ typedef enum e_token_type
 	TOKEN_OPTIONS,
 	TOKEN_ERROR
 }	token_type;
-/*
-typedef struct s_token
-{
-	token_type	type;
-	char		*start;
-	int			len;
-}				t_token;
-*/
+
 void	print_prompt();
 char	*read_command_line();
 void	read_eval_print_loop();
