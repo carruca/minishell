@@ -15,11 +15,6 @@ char	*read_command_line()
 	return (line);
 }
 
-void	parser()
-{
-	//Token parsing and expansions
-}
-
 void	executor()
 {
 	//I/O redirection and execution
@@ -29,7 +24,6 @@ void	read_eval_print_loop()
 {
 	char *cmd_line;
 	
-
 	cmd_line = NULL;
 	while (1)
 	{

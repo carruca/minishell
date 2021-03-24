@@ -6,6 +6,7 @@ OBJ_DIR = ./obj/
 LIBFT_DIR = ./libft/
 
 SRC = main.c \
+	  parser.c \
 	  lexer.c \
 	  token.c
 OBJ = $(SRC:.c=.o)
@@ -31,6 +32,7 @@ $(LNAME):
 clean:
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(RM) $(OBJ)
+	$(RM) tag
 
 tag:
 	ctags $(SRC)
