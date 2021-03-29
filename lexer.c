@@ -62,11 +62,15 @@ t_list	*tokenizer(char *input)
 	{
 		i = skip_to_delimiter(input + start, " ><|;\t", &len);
 		if (len != 0)
+		{
 			ft_lstadd_back(&tkn_lst,
 					ft_lstnew(new_token(ft_substr(input, start, len))));
+			if (!tkn_lst->content)
+				return (NULL);
+		}
 		start += i;
 	}
-	ft_lstiter(tkn_lst, &print_token);
-	ft_lstclear(&tkn_lst, &free_token);
+	//ft_lstiter(tkn_lst, &print_token);
+	//ft_lstclear(&tkn_lst, &free_token);
 	return (tkn_lst);
 }

@@ -18,4 +18,25 @@
 # include "token.h"
 # include <stdio.h>
 
+typedef struct s_redirection
+{
+	char	*file;
+	int		redirection;
+}			t_redir;
+
+typedef struct s_command
+{
+	t_list	*args;
+	int		pipe;
+	t_redir	*redir;
+}			t_cmd;
+
+typedef struct s_pipeline
+{
+	t_list	*cmd_lst;
+}			t_pip;
+
+t_list	*parser(char *input);
+t_list	*parse_pipeline(t_list **tkn_lst);
+
 #endif

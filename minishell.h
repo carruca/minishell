@@ -16,6 +16,7 @@
 # include "./libft/libft.h"
 # include "lexer.h"
 # include "token.h"
+# include "parser.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>

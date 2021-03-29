@@ -29,7 +29,7 @@ void	read_eval_print_loop()
 	{
 		print_prompt();
 		cmd_line = read_command_line();
-		tokenizer(cmd_line);
+		parser(cmd_line);
 		if (!ft_strcmp(cmd_line, "exit"))
 		{
 			free(cmd_line);
