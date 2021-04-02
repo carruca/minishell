@@ -18,8 +18,8 @@ void	print_redir(void *redir)
 	t_redir	*tmp;
 
 	tmp = redir;
-	printf("-------redir file = %s\n", tmp->file);
-	printf("-------redir type = %d\n", tmp->type);
+	printf("--------\\redir file = %s\n", tmp->file);
+	printf("--------\\redir type = %d\n", tmp->type);
 }
 
 void	print_arg(void *arg)
@@ -27,7 +27,7 @@ void	print_arg(void *arg)
 	char *tmp;
 
 	tmp = arg;
-	printf("----arg = %s\n", tmp);
+	printf("--------\\arg = %s\n", tmp);
 }
 
 void	print_command(void *command)
@@ -35,10 +35,14 @@ void	print_command(void *command)
 	t_cmd	*tmp;
 
 	tmp = command;
-	printf("--Command:\n");
-	ft_lstiter(tmp->args_lst, print_arg);
-	ft_lstiter(tmp->redir_lst, print_redir);
-	printf("----pipe = %d\n", tmp->pipe);
+	if (tmp)
+	{
+		printf("-----\\\n-------*Command:\n");
+		ft_lstiter(tmp->args_lst, print_arg);
+		ft_lstiter(tmp->redir_lst, print_redir);
+		if (tmp->pipe)
+			printf("-------\\pipe = %d\n", tmp->pipe);
+	}
 }
 
 void	print_pipeline(void *pipeline)
@@ -46,10 +50,23 @@ void	print_pipeline(void *pipeline)
 	t_pip	*tmp;
 
 	tmp = pipeline;
-	printf("Pipeline:\n");
-	ft_lstiter(tmp->cmd_lst, print_command);
+	if (tmp)
+	{
+		printf("#################################\n--*Pipeline:\n");
+		ft_lstiter(tmp->cmd_lst, print_command);
+	}
 }
 
+void	print_parse_tree(t_list *pipeline_lst)
+{
+	if (pipeline_lst)
+	{
+		ft_lstiter(pipeline_lst, print_pipeline);
+		printf("#################################\n");
+	}
+}
+
+/*
 void	del_current_token(t_list **tkn_lst)
 {
 	t_list	*alst;
@@ -58,7 +75,7 @@ void	del_current_token(t_list **tkn_lst)
 	ft_lstdelone(*tkn_lst, free_token);
 	(*tkn_lst) = alst;
 }
-
+*/
 void	free_redir(void *redir)
 {
 	t_redir	*tmp;
@@ -152,26 +169,29 @@ void	parse_args(t_list **tkn_lst, t_list **args_lst)
 	}
 }
 
-void	parse_redirection(t_list **tkn_lst, t_list **redir_lst, int id)
+int parse_redir(t_list **tkn_lst, t_cmd *cmd, int id)
 {
 	t_token	*atkn;
 	t_redir	*aredir;
 
 	aredir = new_redirection(tkn_lst, id);
 	if (!aredir)
-		return ;
-	ft_lstadd_back(redir_lst, ft_lstnew(aredir));
+	{
+		free_command(cmd);
+		return (0);
+	}
+	ft_lstadd_back(&cmd->redir_lst, ft_lstnew(aredir));
 	atkn = (*tkn_lst)->content;
-	printf("Entra\n");
 	while (*tkn_lst && atkn->identifier == WORD)
 	{
 		del_current_token(tkn_lst);
 		if (*tkn_lst)
 			atkn = (*tkn_lst)->content;
 	}
+	return (1);
 }
 
-void	parse_pipe(t_list **tkn_lst, int *pipe)
+int	parse_pipe(t_list **tkn_lst, t_cmd *cmd, int *pipe)
 {
 	t_token	*atkn;
 
@@ -180,47 +200,79 @@ void	parse_pipe(t_list **tkn_lst, int *pipe)
 	if (!(*tkn_lst))
 	{
 		print_syntax_error("newline", tkn_lst);
-		return ;
+		free_command(cmd);
+		return (0);
 	}
 	atkn = (*tkn_lst)->content;
-	if (atkn->identifier == PIPE)
+	if (atkn->identifier != WORD)
+	{
 		print_syntax_error(atkn->token, tkn_lst);
+		free_command(cmd);
+		return (0);
+	}
+	return (1);
 }
 
-void	parse_simple_command(t_list **tkn_lst, t_cmd **cmd)
+t_cmd	*parse_simple_command(t_list **tkn_lst)
 {
-	t_token	*atkn;
-	t_cmd	*acmd;
+	t_cmd	*cmd;
 	int		id;
 
-	acmd = *cmd;
-	atkn = NULL;
-	while (*tkn_lst)
+	cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	while (*tkn_lst && id != SCOLON)
 	{
-		atkn = (*tkn_lst)->content;
-		id = atkn->identifier;
+		id = ((t_token *)(*tkn_lst)->content)->identifier;
 		if (id == WORD)
-			parse_args(tkn_lst, &acmd->args_lst);
+			parse_args(tkn_lst, &cmd->args_lst);
 		else if (id == GREAT || id == DGREAT || id == LESS)
-			parse_redirection(tkn_lst, &acmd->redir_lst, id);
+		{
+			if (!parse_redir(tkn_lst, cmd, id))
+				return (NULL);
+		}
 		else if (id == PIPE)
 		{
-			parse_pipe(tkn_lst, &acmd->pipe);
-			if (!(*tkn_lst))
-			{
-				free_command(acmd);
-				return ;
-			}
+			if (!parse_pipe(tkn_lst, cmd, &cmd->pipe))
+				return (NULL);
 			break ;
 		}
-		else if (id == SCOLON)
+	}
+	return (cmd);
+}
+
+/*
+void	parse_simple_command(t_list **tkn_lst, t_cmd *cmd)
+{
+	int		id;
+
+	while (*tkn_lst && id != SCOLON)
+	{
+		id = ((t_token *)(*tkn_lst)->content)->identifier;
+		if (id == WORD)
+			parse_args(tkn_lst, &cmd->args_lst);
+		else if (id == GREAT || id == DGREAT || id == LESS)
+		{
+			parse_redirection(tkn_lst, &cmd->redir_lst, id);
+			if (!cmd->redir_lst)
+			{
+//				free_args_and_redir(&cmd->args_lst, &cmd->redir_lst);
+				break ;
+			}
+		}
+		else if (id == PIPE)
+		{
+			parse_pipe(tkn_lst, &cmd->pipe);
+			if (!(*tkn_lst))
+				free_command(cmd);
 			break ;
+		}
 	}
 }
 
 t_cmd	*new_simple_command(t_list **tkn_lst)
 {
-	t_token	*atkn;
+//	t_token	*atkn;
 	t_cmd	*cmd;
 	char	stop_word;
 
@@ -228,9 +280,11 @@ t_cmd	*new_simple_command(t_list **tkn_lst)
 	if (!cmd)
 		return (NULL);
 	stop_word = 0;
-/*	parse_simple_command(tkn_lst, &cmd);
-	if (!cmd)
-		return (NULL);*/
+	parse_simple_command(tkn_lst, cmd);
+	if (!cmd->args_lst && !cmd->redir_lst)
+	{
+		free_command(cmd);
+	}
 	while (*tkn_lst)
 	{
 		atkn = (*tkn_lst)->content;
@@ -266,6 +320,7 @@ t_cmd	*new_simple_command(t_list **tkn_lst)
 	}
 	return (cmd);
 }
+*/
 
 t_list	*parse_command(t_list **tkn_lst)
 {
@@ -274,7 +329,6 @@ t_list	*parse_command(t_list **tkn_lst)
 	t_token	*atkn;
 
 	cmd_lst = NULL;
-	acmd = NULL;
 	while (*tkn_lst)
 	{
 		atkn = (*tkn_lst)->content;
@@ -283,7 +337,7 @@ t_list	*parse_command(t_list **tkn_lst)
 			del_current_token(tkn_lst);
 			break ;
 		}
-		acmd = new_simple_command(tkn_lst);
+		acmd = parse_simple_command(tkn_lst);
 		if (!acmd)
 		{
 			ft_lstclear(&cmd_lst, free_command);
@@ -317,8 +371,6 @@ t_list	*parse_pipeline(t_list **tkn_lst)
 	t_pip	*apipeline;
 
 	pipeline_lst = NULL;
-	atkn = NULL;
-	apipeline = NULL;
 	while (*tkn_lst)
 	{
 		atkn = (*tkn_lst)->content;
@@ -333,7 +385,10 @@ t_list	*parse_pipeline(t_list **tkn_lst)
 			ft_lstadd_back(&pipeline_lst, ft_lstnew(apipeline));
 		}
 		else
+		{
 			print_syntax_error(atkn->token, tkn_lst);
+			ft_lstclear(&pipeline_lst, free_pipeline);
+		}
 	}
 	return (pipeline_lst);
 }
@@ -348,7 +403,7 @@ t_list	*parser(char *input)
 	pipeline_lst = parse_pipeline(&tkn_lst);
 	if (!pipeline_lst)
 		return (NULL);
-	ft_lstiter(pipeline_lst, print_pipeline);
+	print_parse_tree(pipeline_lst);
 	ft_lstclear(&pipeline_lst, free_pipeline);
 	return (pipeline_lst);
 }

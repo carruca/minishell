@@ -53,6 +53,15 @@ void	free_token(void *tkn)
 	free(tmp);
 }
 
+void	del_current_token(t_list **tkn_lst)
+{
+	t_list	*alst;
+
+	alst = (*tkn_lst)->next;
+	ft_lstdelone(*tkn_lst, free_token);
+	*tkn_lst = alst;
+}
+
 void	print_token(void *tkn)
 {
 	t_token	*tmp;

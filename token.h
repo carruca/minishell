@@ -34,5 +34,6 @@ t_token 	*new_token(char *str);
 int			id_token(char *str);
 void		free_token(void *tkn);
 void		print_token(void *tkn);
+void		del_current_token(t_list **tkn_lst);
 
 #endif

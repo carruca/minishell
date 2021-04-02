@@ -37,8 +37,8 @@ int	skip_to_delimiter(char *str, char *set, size_t *len)
 		{
 			i += (*len == 0);
 			*len += (*len == 0 && str[i - 1] != ' ' && str[i - 1] != '\t');
-			*len += (str[i - 1] == str[i] && str[i] != ' ' && str[i] != '\t');
-			i += (str[i - 1] == str[i] && str[i] != ' ' && str[i] != '\t');
+			*len += (str[i - 1] == str[i] && !ft_strchr(" \t|<;", str[i]));
+			i += (str[i - 1] == str[i] && !ft_strchr(" \t|<;", str[i]));
 			break ;
 		}
 		i++;
