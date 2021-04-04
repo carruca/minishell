@@ -37,7 +37,7 @@ void	read_eval_print_loop()
 			exit(EXIT_SUCCESS);
 		}
 		free(cmd_line);
-		system("leaks minishell");
+//		system("leaks minishell");
 	}
 }
 

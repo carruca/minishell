@@ -18,8 +18,8 @@ void	print_redir(void *redir)
 	t_redir	*tmp;
 
 	tmp = redir;
-	printf("--------\\redir file = %s\n", tmp->file);
-	printf("--------\\redir type = %d\n", tmp->type);
+	printf("--------*redir file = %s\n", tmp->file);
+	printf("--------*redir type = %d\n", tmp->type);
 }
 
 void	print_arg(void *arg)
@@ -27,7 +27,7 @@ void	print_arg(void *arg)
 	char *tmp;
 
 	tmp = arg;
-	printf("--------\\arg = %s\n", tmp);
+	printf("--------*arg = %s\n", tmp);
 }
 
 void	print_command(void *command)
@@ -37,11 +37,12 @@ void	print_command(void *command)
 	tmp = command;
 	if (tmp)
 	{
-		printf("-----\\\n-------*Command:\n");
+		printf("-----\\\n------*Command:\n");
+		printf("-------\\\n");
 		ft_lstiter(tmp->args_lst, print_arg);
 		ft_lstiter(tmp->redir_lst, print_redir);
 		if (tmp->pipe)
-			printf("-------\\pipe = %d\n", tmp->pipe);
+			printf("--------*pipe = %d\n", tmp->pipe);
 	}
 }
 
@@ -52,7 +53,7 @@ void	print_pipeline(void *pipeline)
 	tmp = pipeline;
 	if (tmp)
 	{
-		printf("#################################\n--*Pipeline:\n");
+		printf("#################################\n----*Pipeline:\n");
 		ft_lstiter(tmp->cmd_lst, print_command);
 	}
 }
@@ -61,7 +62,9 @@ void	print_parse_tree(t_list *pipeline_lst)
 {
 	if (pipeline_lst)
 	{
+		printf("#################################\n");
 		ft_lstiter(pipeline_lst, print_pipeline);
+		printf("#################################\n");
 		printf("#################################\n");
 	}
 }
