@@ -6,13 +6,14 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:46:50 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/31 16:50:52 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:47:49 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "lexer.h"
 
+/*
 void	print_redir(void *redir)
 {
 	t_redir	*tmp;
@@ -69,7 +70,6 @@ void	print_parse_tree(t_list *pipeline_lst)
 	}
 }
 
-/*
 void	del_current_token(t_list **tkn_lst)
 {
 	t_list	*alst;
@@ -78,7 +78,7 @@ void	del_current_token(t_list **tkn_lst)
 	ft_lstdelone(*tkn_lst, free_token);
 	(*tkn_lst) = alst;
 }
-*/
+
 void	free_redir(void *redir)
 {
 	t_redir	*tmp;
@@ -216,35 +216,6 @@ int	parse_pipe(t_list **tkn_lst, t_cmd *cmd, int *pipe)
 	return (1);
 }
 
-t_cmd	*parse_simple_command(t_list **tkn_lst)
-{
-	t_cmd	*cmd;
-	int		id;
-
-	cmd = ft_calloc(1, sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	while (*tkn_lst && id != SCOLON)
-	{
-		id = ((t_token *)(*tkn_lst)->content)->identifier;
-		if (id == WORD)
-			parse_args(tkn_lst, &cmd->args_lst);
-		else if (id == GREAT || id == DGREAT || id == LESS)
-		{
-			if (!parse_redir(tkn_lst, cmd, id))
-				return (NULL);
-		}
-		else if (id == PIPE)
-		{
-			if (!parse_pipe(tkn_lst, cmd, &cmd->pipe))
-				return (NULL);
-			break ;
-		}
-	}
-	return (cmd);
-}
-
-/*
 void	parse_simple_command(t_list **tkn_lst, t_cmd *cmd)
 {
 	int		id;
@@ -325,6 +296,34 @@ t_cmd	*new_simple_command(t_list **tkn_lst)
 }
 */
 
+t_cmd	*new_simple_command(t_list **tkn_lst)
+{
+	t_cmd	*cmd;
+	int		id;
+
+	cmd = ft_calloc(1, sizeof(t_cmd));
+	if (!cmd)
+		return (NULL);
+	while (*tkn_lst && id != SCOLON)
+	{
+		id = ((t_token *)(*tkn_lst)->content)->identifier;
+		if (id == WORD)
+			parse_args(tkn_lst, &cmd->args_lst);
+		else if (id == GREAT || id == DGREAT || id == LESS)
+		{
+			if (!parse_redir(tkn_lst, cmd, id))
+				return (NULL);
+		}
+		else if (id == PIPE)
+		{
+			if (!parse_pipe(tkn_lst, cmd, &cmd->pipe))
+				return (NULL);
+			break ;
+		}
+	}
+	return (cmd);
+}
+
 t_list	*parse_command(t_list **tkn_lst)
 {
 	t_list	*cmd_lst;
@@ -340,7 +339,7 @@ t_list	*parse_command(t_list **tkn_lst)
 			del_current_token(tkn_lst);
 			break ;
 		}
-		acmd = parse_simple_command(tkn_lst);
+		acmd = new_simple_command(tkn_lst);
 		if (!acmd)
 		{
 			ft_lstclear(&cmd_lst, free_command);
@@ -402,7 +401,6 @@ t_list	*parser(char *input)
 	t_list	*tkn_lst;
 
 	tkn_lst = tokenizer(input);
-//	ft_lstiter(tkn_lst, &print_token);
 	pipeline_lst = parse_pipeline(&tkn_lst);
 	if (!pipeline_lst)
 		return (NULL);

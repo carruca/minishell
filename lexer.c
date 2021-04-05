@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:58:27 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/24 14:02:08 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:51:30 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,11 @@ t_list	*tokenizer(char *input)
 		if (len != 0)
 		{
 			ft_lstadd_back(&tkn_lst,
-					ft_lstnew(new_token(ft_substr(input, start, len))));
+				ft_lstnew(new_token(ft_substr(input, start, len))));
 			if (!tkn_lst->content)
 				return (NULL);
 		}
 		start += i;
 	}
-	//ft_lstiter(tkn_lst, &print_token);
-	//ft_lstclear(&tkn_lst, &free_token);
 	return (tkn_lst);
 }

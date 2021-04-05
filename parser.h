@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:37:06 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/29 17:16:43 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/05 17:44:08 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "minishell.h"
 # include "lexer.h"
 # include "token.h"
+# include "print_parse.h"
 # include <stdio.h>
 
 typedef struct s_redirection
@@ -38,5 +39,15 @@ typedef struct s_pipeline
 
 t_list	*parser(char *input);
 t_list	*parse_pipeline(t_list **tkn_lst);
-
+t_pip	*new_pipeline(t_list **tkn_lst);
+t_list	*parse_command(t_list **tkn_lst);
+t_cmd	*new_simple_command(t_list **tkn_lst);
+void	parse_args(t_list **tkn_lst, t_list **args_lst);
+int		parse_redir(t_list **tkn_lst, t_cmd *cmd, int id);
+t_redir	*new_redirection(t_list **tkn_lst, int type);
+int		parse_pipe(t_list **tkn_lst, t_cmd *cmd, int *pipe);
+void	print_syntax_error(char *token, t_list **tkn_lst);
+void	free_redir(void *redir);
+void	free_command(void *cmd);
+void	free_pipeline(void *pipeline);
 #endif
