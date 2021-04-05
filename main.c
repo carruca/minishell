@@ -1,8 +1,9 @@
 #include "minishell.h"
 
-void	print_prompt()
+void	print_prompt(char *prompt)
 {
-	ft_putstr_fd("minishell$ ", 1);
+	ft_putstr_fd(prompt, 1);
+	ft_putstr_fd("$ ", 1);
 }
 
 char	*read_command_line()
@@ -20,20 +21,20 @@ void	executor()
 	//I/O redirection and execution
 }
 
-void	read_eval_print_loop()
+void	read_eval_print_loop(char *prompt)
 {
 	char *cmd_line;
 	
 	cmd_line = NULL;
 	while (1)
 	{
-		print_prompt();
+		print_prompt(prompt);
 		cmd_line = read_command_line();
 		parser(cmd_line);
 		if (!ft_strcmp(cmd_line, "exit"))
 		{
 			free(cmd_line);
-			system("leaks minishell");
+		//	system("leaks minishell");
 			exit(EXIT_SUCCESS);
 		}
 		free(cmd_line);
@@ -41,8 +42,14 @@ void	read_eval_print_loop()
 	}
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
-	read_eval_print_loop();
+	char	*prompt;
+
+	prompt = ft_strrchr(argv[0], '/') + 1;
+	if (argc == 1)
+	{
+		read_eval_print_loop(prompt);
+	}
 	return (0);
 }
