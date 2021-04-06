@@ -404,6 +404,6 @@ t_list	*parser(char *input)
 	pipeline_lst = parse_pipeline(&tkn_lst);
 	if (!pipeline_lst)
 		return (NULL);
-//	print_parse_tree(pipeline_lst);
+	print_parse_tree(pipeline_lst);
 	return (pipeline_lst);
 }

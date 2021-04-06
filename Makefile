@@ -6,13 +6,14 @@ OBJ_DIR = ./obj/
 LIBFT_DIR = ./libft/
 
 SRC = main.c \
-	  parser.c \
-	  parser_utils.c \
 	  lexer.c \
 	  token.c \
-	  print_parse_tree.c \
-	  free_parse_tree.c \
+	  parser.c \
+	  parser_utils.c \
+	  parser_free.c \
+	  parser_print.c \
 	  executer.c
+
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)
 LIBFT = -L $(LIBFT_DIR) -lft
