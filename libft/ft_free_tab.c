@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 18:32:31 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/08 16:21:10 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/06 17:11:35 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 void	ft_free_tab(char **ptr)
 {
-	while (*ptr)
+	int	i;
+
+	i = 0;
+	while (ptr[i])
 	{
-		free(*ptr);
-		ptr++;
+		free(ptr[i]);
+		i++;
 	}
-	free(*ptr);
+	free(ptr);
 	ptr = NULL;
 }
