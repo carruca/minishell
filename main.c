@@ -34,7 +34,7 @@ void	read_eval_print_loop(char *prompt)
 		if (!ft_strcmp(cmd_line, "exit"))
 		{
 			free(cmd_line);
-		//	system("leaks minishell");
+			system("leaks minishell");
 			exit(EXIT_SUCCESS);
 		}
 		free(cmd_line);

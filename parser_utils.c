@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser.h"
+#include <stdio.h>
 
 void	print_syntax_error(char *token, t_list **tkn_lst)
 {

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_parse.h                                      :+:      :+:    :+:   */
+/*   parser_print.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PRINT_PARSE_H
-# define PRINT_PARSE_H
+#ifndef PARSER_PRINT_H
+# define PARSER_PRINT_H
 
 # include "minishell.h"
 # include "lexer.h"
