@@ -11,7 +11,8 @@ SRC = main.c \
 	  lexer.c \
 	  token.c \
 	  print_parse_tree.c \
-	  free_parse_tree.c
+	  free_parse_tree.c \
+	  executer.c
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)
 LIBFT = -L $(LIBFT_DIR) -lft

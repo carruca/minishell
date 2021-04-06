@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:46:50 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/05 17:47:49 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/06 16:39:59 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -404,7 +404,6 @@ t_list	*parser(char *input)
 	pipeline_lst = parse_pipeline(&tkn_lst);
 	if (!pipeline_lst)
 		return (NULL);
-	print_parse_tree(pipeline_lst);
-	ft_lstclear(&pipeline_lst, free_pipeline);
+//	print_parse_tree(pipeline_lst);
 	return (pipeline_lst);
 }

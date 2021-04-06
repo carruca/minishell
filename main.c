@@ -23,22 +23,29 @@ void	executor()
 
 void	read_eval_print_loop(char *prompt)
 {
-	char *cmd_line;
+	t_list	*parser_tree;
+	char	*cmd_line;
 	
 	cmd_line = NULL;
 	while (1)
 	{
 		print_prompt(prompt);
 		cmd_line = read_command_line();
-		parser(cmd_line);
+		parser_tree = parser(cmd_line);
+		if (parser_tree)
+		{
+			printf("parser_tree\n");
+			executer(parser_tree);
+		}
+	//	ft_lstclear(&parser_tree, free_pipeline);
 		if (!ft_strcmp(cmd_line, "exit"))
 		{
 			free(cmd_line);
-		//	system("leaks minishell");
+			system("leaks minishell");
 			exit(EXIT_SUCCESS);
 		}
 		free(cmd_line);
-//		system("leaks minishell");
+		system("leaks minishell");
 	}
 }
 
