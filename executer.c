@@ -16,20 +16,25 @@
 
 extern char **environ;
 
-char	**lst_to_vector(t_list *lst)
+char	**lst_to_argv(t_list *lst)
 {
 	char	**vector;
 	int		count;
 	int		i;
 	
-	i = 0;
 	count = ft_lstsize(lst);
 	vector = ft_calloc(count + 1, sizeof(char *));
 	if (!vector)
 		return (NULL);
+	i = 0;
 	while (i < count)
 	{
 		vector[i] = ft_strdup((char *)lst->content);
+		if (!vector[i])
+		{
+			ft_free_tab(vector);
+			return (NULL);
+		}
 		lst = lst->next;
 		i++;
 	}
@@ -37,20 +42,34 @@ char	**lst_to_vector(t_list *lst)
 	return (vector);
 }
 
-void	executer_command(t_cmd *cmd)
+void	print_argv(char **argv)
 {
-	char	**argv;
-	int		i;
+	int	i;
 
-	argv = NULL;
-	argv = lst_to_vector(cmd->args_lst);
 	i = 0;
 	while (argv[i] != NULL)
 	{
-		printf("arg = $%s$\n", argv[i]);
+		printf("argv[%d] = %s\n", i, argv[i]);
 		i++;
 	}
-	execve("", argv, environ);
+}
+
+char	*find_path(char *cmd)
+{
+	char	*path;
+
+	path = NULL;
+	(void)cmd;
+	return (NULL);
+}
+
+void	executer_command(t_cmd *cmd)
+{
+	char	**argv;
+
+	argv = lst_to_argv(cmd->args_lst);
+	print_argv(argv);
+	execve("/bin/", argv, environ);
 	ft_free_tab(argv);
 
 }
