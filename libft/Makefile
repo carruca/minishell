@@ -6,7 +6,7 @@
 #    By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/07 17:05:33 by tsierra-          #+#    #+#              #
-#    Updated: 2021/03/08 16:57:20 by tsierra-         ###   ########.fr        #
+#    Updated: 2021/04/09 17:45:55 by tsierra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,8 +85,7 @@ all: $(NAME)
 
 $(NAME):
 	gcc $(CFLAGS) $(LFLAGS) $(LSOURCE)
-	ar rc $(LNAME) $(OBJS) 
-	ranlib $(LNAME)
+	ar rcs $(LNAME) $(OBJS) 
 
 clean:
 	rm -f $(OBJS)
