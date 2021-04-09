@@ -6,13 +6,12 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/07 20:48:36 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/09 17:44:48 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 #include <stdio.h>
-#include <dirent.h>
 
 extern char **environ;
 
@@ -101,6 +100,8 @@ char	*get_exe_path(char *name)
 	char	*dir_path;
 	char	*exe_path;
 
+	if (!name)
+		return (NULL);
 	if (ft_strchr(name, '/'))
 		return (name);
 	env_path = ft_strdup(getenv("PATH"));
@@ -119,34 +120,48 @@ char	*get_exe_path(char *name)
 	return (NULL);
 }
 
-void	executer_command(t_cmd *cmd)
+void	executer_command(char *path, char **argv)
 {
 	int		status;
-	int		ret;
 	pid_t	child_pid;
-	char	**argv;
-	char	*path;
 
 	child_pid = fork();
 	if (child_pid < 0)
 		return ;
 	else if (child_pid == 0)
 	{
-		argv = lst_to_argv(cmd->args_lst);
-		path = get_exe_path(argv[0]);
-		if (!path)
-			exit(EXIT_FAILURE);
-		if ((ret = execve(path, argv, environ)) < 0)
-			printf("minishell: %s: %s\n", argv[0], strerror(errno));
-		printf("ret = %i\n", ret);
-		free(path);
-		ft_free_tab(argv);
+		execve(path, argv, environ);
 		exit(0);
 	}
 	waitpid(child_pid, &status, 0);
 }
 
-void	executer_pipeline(t_pip *pipeline)
+void	print_command_error(char *cmd, char *prompt)
+{
+	printf("%s: %s: command not found\n", prompt, cmd);
+}
+
+void	find_command(t_cmd *cmd, char *prompt)
+{
+	char	**argv;
+	char	*path;
+
+	argv = lst_to_argv(cmd->args_lst);
+	path = get_exe_path(argv[0]);
+	if (!path)
+	{
+		print_command_error(argv[0], prompt);
+		ft_free_tab(argv);
+	}
+	else
+	{
+		executer_command(path, argv);
+		free(path);
+		ft_free_tab(argv);
+	}
+}
+
+void	executer_pipeline(t_pip *pipeline, char *prompt)
 {
 	t_list	*head_lst;
 	t_cmd	*acmd;
@@ -156,13 +171,13 @@ void	executer_pipeline(t_pip *pipeline)
 	{
 		acmd = pipeline->cmd_lst->content;
 		if (acmd)
-			executer_command(acmd);
+			find_command(acmd, prompt);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
 	ft_lstclear(&head_lst, free_command);
 }
 
-void	executer(t_list *pipeline_lst)
+void	executer(t_list *pipeline_lst, char *prompt)
 {
 	t_list	*head;
 	t_pip	*apipeline;
@@ -172,7 +187,7 @@ void	executer(t_list *pipeline_lst)
 	{
 		apipeline = pipeline_lst->content;
 		if (apipeline)
-			executer_pipeline(apipeline);
+			executer_pipeline(apipeline, prompt);
 		pipeline_lst = pipeline_lst->next;
 	}
 	ft_lstclear(&head, free_pipeline);

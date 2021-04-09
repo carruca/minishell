@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:49:33 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/07 15:41:42 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/09 17:36:16 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@
 # include <stdlib.h>
 # include <dirent.h>
 
-void	executer(t_list *pipeline_lst);
+void	executer(t_list *pipeline_lst, char *prompt);
 
 #endif

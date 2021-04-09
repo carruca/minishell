@@ -21,23 +21,18 @@ void	executor()
 	//I/O redirection and execution
 }
 
-void	read_eval_print_loop(char *prompt)
+void	read_eval_print_loop(t_all *all)
 {
-	t_list	*parser_tree;
 	char	*cmd_line;
 	
 	cmd_line = NULL;
 	while (1)
 	{
-		print_prompt(prompt);
+		print_prompt(all->prompt);
 		cmd_line = read_command_line();
-		parser_tree = parser(cmd_line);
-		if (parser_tree)
-		{
-	//		printf("parser_tree\n");
-			executer(parser_tree);
-		}
-	//	ft_lstclear(&parser_tree, free_pipeline);
+		all->tree_lst = parser(cmd_line);
+		if (all->tree_lst)
+			executer(all->tree_lst, all->prompt);
 		if (!ft_strcmp(cmd_line, "exit"))
 		{
 			free(cmd_line);
@@ -51,12 +46,11 @@ void	read_eval_print_loop(char *prompt)
 
 int	main(int argc, char **argv)
 {
-	char	*prompt;
+	t_all	all;
 
-	prompt = ft_strrchr(argv[0], '/') + 1;
+	ft_bzero(&all, sizeof(all));
+	all.prompt = ft_strrchr(argv[0], '/') + 1;
 	if (argc == 1)
-	{
-		read_eval_print_loop(prompt);
-	}
+		read_eval_print_loop(&all);
 	return (0);
 }

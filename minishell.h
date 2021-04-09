@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/06 14:09:15 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/09 17:27:57 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,11 @@
 # include <errno.h>
 # include <limits.h>
 
-typedef enum e_token_type
+typedef struct s_all
 {
-	TOKEN_LEFT_QUOTE,
-	TOKEN_RIGHT_QUOTE,
-	TOKEN_LEFT_DOUBLE_QUOTE,
-	TOKEN_RIGHT_DOUBLE_QUOTE,
-	TOKEN_SEMICOLON,
-	TOKEN_GREAT,
-	TOKEN_GREATGREAT,
-	TOKEN_LESS,
-	TOKEN_PIPE, 
-	TOKEN_ENV, 
-	TOKEN_CMD,
-	TOKEN_ARGS,
-	TOKEN_OPTIONS,
-	TOKEN_ERROR
-}	token_type;
+	char	*prompt;
+	t_list	*tree_lst;
+}			t_all;
 
 void	print_prompt();
 char	*read_command_line();
