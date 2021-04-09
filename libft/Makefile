@@ -86,6 +86,7 @@ all: $(NAME)
 $(NAME):
 	gcc $(CFLAGS) $(LFLAGS) $(LSOURCE)
 	ar rc $(LNAME) $(OBJS) 
+	ranlib $(LNAME)
 
 clean:
 	rm -f $(OBJS)
