@@ -30,7 +30,7 @@ void	read_eval_print_loop(t_all *all)
 	{
 		print_prompt(all->prompt);
 		cmd_line = read_command_line();
-		all->tree_lst = parser(cmd_line);
+		all->tree_lst = parser(cmd_line, all->prompt);
 		if (all->tree_lst)
 			executer(all->tree_lst, all->prompt);
 		if (!ft_strcmp(cmd_line, "exit"))

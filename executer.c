@@ -15,7 +15,7 @@
 
 extern char **environ;
 
-char	**lst_to_argv(t_list *lst)
+char	**arglst_to_argv(t_list *lst)
 {
 	char	**argv;
 	int		argc;
@@ -82,6 +82,8 @@ char	*ft_strjoin_btwchar(char *s1, char *s2, char c)
 	int		s1_len;
 	int		s2_len;
 
+	if (!s1 || !s2)
+		return (NULL);
 	s1_len = ft_strlen(s1);
 	s2_len = ft_strlen(s2);
 	dst = malloc(sizeof(char) * (s1_len + s2_len + 2));
@@ -103,7 +105,7 @@ char	*get_exe_path(char *name)
 	if (!name)
 		return (NULL);
 	if (ft_strchr(name, '/'))
-		return (name);
+		return (ft_strdup(name));
 	env_path = ft_strdup(getenv("PATH"));
 	dir_path = ft_strtok(env_path, ":");
 	while (dir_path != NULL)
@@ -141,37 +143,41 @@ void	print_command_error(char *cmd, char *prompt)
 	printf("%s: %s: command not found\n", prompt, cmd);
 }
 
-void	find_command(t_cmd *cmd, char *prompt)
+void	find_command(t_cmd *cmd, char *prompt, int *fd)
 {
 	char	**argv;
 	char	*path;
 
-	argv = lst_to_argv(cmd->args_lst);
+	argv = arglst_to_argv(cmd->args_lst);
 	path = get_exe_path(argv[0]);
+	fd = NULL;
 	if (!path)
-	{
 		print_command_error(argv[0], prompt);
-		ft_free_tab(argv);
-	}
 	else
 	{
 		executer_command(path, argv);
 		free(path);
-		ft_free_tab(argv);
 	}
+	ft_free_tab(argv);
 }
 
 void	executer_pipeline(t_pip *pipeline, char *prompt)
 {
 	t_list	*head_lst;
 	t_cmd	*acmd;
+	int		fd[2];
 
 	head_lst = pipeline->cmd_lst;
+	ft_bzero(fd, sizeof(fd));
 	while (pipeline->cmd_lst)
 	{
 		acmd = pipeline->cmd_lst->content;
+		if (acmd->pipe)
+		{
+			pipe(fd);
+		}
 		if (acmd)
-			find_command(acmd, prompt);
+			find_command(acmd, prompt, fd);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
 	ft_lstclear(&head_lst, free_command);

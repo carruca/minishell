@@ -12,14 +12,14 @@
 
 #include "parser.h"
 
-void	print_syntax_error(char *token, t_list **tkn_lst)
+void	print_syntax_error(char *token, t_list **tkn_lst, char *prompt)
 {
-	printf("minishell: syntax error near unexpected token `%s'\n", token);
+	printf("%s: syntax error near unexpected token `%s'\n", prompt, token);
 	if (tkn_lst)
 		ft_lstclear(tkn_lst, free_token);
 }
 
-t_redir	*new_redirection(t_list **tkn_lst, int type)
+t_redir	*new_redirection(t_list **tkn_lst, int type, char *prompt)
 {
 	t_redir	*redir;
 	t_token	*atkn;
@@ -27,13 +27,13 @@ t_redir	*new_redirection(t_list **tkn_lst, int type)
 	del_current_token(tkn_lst);
 	if (!(*tkn_lst))
 	{
-		print_syntax_error("newline", tkn_lst);
+		print_syntax_error("newline", tkn_lst, prompt);
 		return (NULL);
 	}
 	atkn = (*tkn_lst)->content;
 	if (atkn->identifier != WORD)
 	{
-		print_syntax_error(atkn->token, tkn_lst);
+		print_syntax_error(atkn->token, tkn_lst, prompt);
 		return (NULL);
 	}
 	redir = malloc(sizeof(t_redir));
@@ -59,12 +59,12 @@ void	parse_args(t_list **tkn_lst, t_list **args_lst)
 	}
 }
 
-int	parse_redir(t_list **tkn_lst, t_cmd *cmd, int id)
+int	parse_redir(t_list **tkn_lst, t_cmd *cmd, int id, char *prompt)
 {
 	t_token	*atkn;
 	t_redir	*aredir;
 
-	aredir = new_redirection(tkn_lst, id);
+	aredir = new_redirection(tkn_lst, id, prompt);
 	if (!aredir)
 	{
 		free_command(cmd);
@@ -81,7 +81,7 @@ int	parse_redir(t_list **tkn_lst, t_cmd *cmd, int id)
 	return (1);
 }
 
-int	parse_pipe(t_list **tkn_lst, t_cmd *cmd, int *pipe)
+int	parse_pipe(t_list **tkn_lst, t_cmd *cmd, int *pipe, char *prompt)
 {
 	t_token	*atkn;
 
@@ -89,14 +89,14 @@ int	parse_pipe(t_list **tkn_lst, t_cmd *cmd, int *pipe)
 	del_current_token(tkn_lst);
 	if (!(*tkn_lst))
 	{
-		print_syntax_error("newline", tkn_lst);
+		print_syntax_error("newline", tkn_lst, prompt);
 		free_command(cmd);
 		return (0);
 	}
 	atkn = (*tkn_lst)->content;
 	if (atkn->identifier != WORD)
 	{
-		print_syntax_error(atkn->token, tkn_lst);
+		print_syntax_error(atkn->token, tkn_lst, prompt);
 		free_command(cmd);
 		return (0);
 	}
