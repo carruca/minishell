@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/09 17:44:48 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/12 17:47:35 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,14 +143,13 @@ void	print_command_error(char *cmd, char *prompt)
 	printf("%s: %s: command not found\n", prompt, cmd);
 }
 
-void	find_command(t_cmd *cmd, char *prompt, int *fd)
+void	find_command(t_cmd *cmd, char *prompt)
 {
 	char	**argv;
 	char	*path;
 
 	argv = arglst_to_argv(cmd->args_lst);
 	path = get_exe_path(argv[0]);
-	fd = NULL;
 	if (!path)
 		print_command_error(argv[0], prompt);
 	else
@@ -166,29 +165,46 @@ void	executer_pipeline(t_pip *pipeline, char *prompt)
 	t_list	*head_lst;
 	t_cmd	*acmd;
 	int		fd[2];
+	int		save_std[2];
+	int		fdin;1
+	int		fdout;
+	int		stdin_tmp;
+	int		stdout_tmp;
 
+	stdin_tmp = dup(0);
+	stdout_tmp = dup(1);
 	head_lst = pipeline->cmd_lst;
 	ft_bzero(fd, sizeof(fd));
 	while (pipeline->cmd_lst)
 	{
+		dup2(fdin, 0);
+		close(fdin);
 		acmd = pipeline->cmd_lst->content;
 		if (acmd->pipe)
 		{
 			pipe(fd);
+			fdin = fd[0];
+			fdout = fd[1];
 		}
+		dup2(fdout, 1);
+		close(fdout);
 		if (acmd)
-			find_command(acmd, prompt, fd);
+			find_command(acmd, prompt);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
 	ft_lstclear(&head_lst, free_command);
+	dup2(stdin_tmp, 0);
+	dup2(stdout_tmp, 1);
+	close(stdin_tmp);
+	close(stdout_tmp);
 }
 
 void	executer(t_list *pipeline_lst, char *prompt)
 {
-	t_list	*head;
+	t_list	*head_lst;
 	t_pip	*apipeline;
 
-	head = pipeline_lst;
+	head_lst = pipeline_lst;
 	while (pipeline_lst)
 	{
 		apipeline = pipeline_lst->content;
@@ -196,5 +212,5 @@ void	executer(t_list *pipeline_lst, char *prompt)
 			executer_pipeline(apipeline, prompt);
 		pipeline_lst = pipeline_lst->next;
 	}
-	ft_lstclear(&head, free_pipeline);
+	ft_lstclear(&head_lst, free_pipeline);
 }
