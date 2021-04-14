@@ -164,39 +164,50 @@ void	executer_pipeline(t_pip *pipeline, char *prompt)
 {
 	t_list	*head_lst;
 	t_cmd	*acmd;
-	int		fd[2];
-	int		save_std[2];
-	int		fdin;1
+	t_redir	*aredir;
+	int		fd_pipe[2];
+	int		fd_std_tmp[2];
+	int		fdin;
 	int		fdout;
 	int		stdin_tmp;
 	int		stdout_tmp;
 
-	stdin_tmp = dup(0);
-	stdout_tmp = dup(1);
+	fd_std_tmp[0] = dup(0);
+	fd_std_tmp[1] = dup(1);
 	head_lst = pipeline->cmd_lst;
 	ft_bzero(fd, sizeof(fd));
+	acmd = pipeline->cmd_lst->content;
+	if (acmd->redir_lst)
+	{
+		aredir = acmd->redfir_lst->content;
+		if (aredir->type == LESS)
+		{
+
+		}
+	}
+	dup2(fdin, 0);
+	close(fdin);
 	while (pipeline->cmd_lst)
 	{
-		dup2(fdin, 0);
-		close(fdin);
+		printf("LLega\n");
 		acmd = pipeline->cmd_lst->content;
 		if (acmd->pipe)
 		{
 			pipe(fd);
-			fdin = fd[0];
-			fdout = fd[1];
+			//fdin = fd[0];
+			//fdout = fd[1];
 		}
-		dup2(fdout, 1);
-		close(fdout);
+		//dup2(fdout, 1);
+		///ose(fdout);
 		if (acmd)
 			find_command(acmd, prompt);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
 	ft_lstclear(&head_lst, free_command);
-	dup2(stdin_tmp, 0);
-	dup2(stdout_tmp, 1);
-	close(stdin_tmp);
-	close(stdout_tmp);
+	dup2(fd_std_tmp[0], 0);
+	dup2(fd_std_tmp[1], 1);
+	close(fd_std_tmp[0]);
+	close(fd_std_tmp[1]);
 }
 
 void	executer(t_list *pipeline_lst, char *prompt)
