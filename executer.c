@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/12 17:47:35 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/14 19:55:13 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,41 +164,24 @@ void	executer_pipeline(t_pip *pipeline, char *prompt)
 {
 	t_list	*head_lst;
 	t_cmd	*acmd;
-	t_redir	*aredir;
-	int		fd_pipe[2];
+	int		fd[2];
 	int		fd_std_tmp[2];
-	int		fdin;
-	int		fdout;
-	int		stdin_tmp;
-	int		stdout_tmp;
 
 	fd_std_tmp[0] = dup(0);
 	fd_std_tmp[1] = dup(1);
 	head_lst = pipeline->cmd_lst;
-	ft_bzero(fd, sizeof(fd));
-	acmd = pipeline->cmd_lst->content;
-	if (acmd->redir_lst)
-	{
-		aredir = acmd->redfir_lst->content;
-		if (aredir->type == LESS)
-		{
-
-		}
-	}
-	dup2(fdin, 0);
-	close(fdin);
+	fd[0] = dup(fd_std_tmp[0]);
 	while (pipeline->cmd_lst)
 	{
-		printf("LLega\n");
+		dup2(fd[0], 0);
+		close(fd[0]);
 		acmd = pipeline->cmd_lst->content;
-		if (acmd->pipe)
-		{
+		if (pipeline->cmd_lst->next)
 			pipe(fd);
-			//fdin = fd[0];
-			//fdout = fd[1];
-		}
-		//dup2(fdout, 1);
-		///ose(fdout);
+		else
+			fd[1] = dup(fd_std_tmp[1]);
+		dup2(fd[1], 1);
+		close(fd[1]);
 		if (acmd)
 			find_command(acmd, prompt);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
