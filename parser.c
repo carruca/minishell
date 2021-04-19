@@ -118,9 +118,10 @@ t_list	*parser(char *input, char *prompt)
 	t_list	*tkn_lst;
 
 	tkn_lst = tokenizer(input);
+	if (!tkn_lst)
+		return (NULL);
 	pipeline_lst = parse_pipeline(&tkn_lst, prompt);
 	if (!pipeline_lst)
 		return (NULL);
-//	print_parse_tree(pipeline_lst);
 	return (pipeline_lst);
 }
