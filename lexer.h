@@ -17,12 +17,6 @@
 # include "token.h"
 # include <stdio.h>
 
-typedef struct s_word
-{
-	char	*word;
-	int		flags;
-}			t_word_desc;
-
 t_list	*tokenizer(char *input);
 int		skip_to_delimiter(char *str, char *set, size_t *lenght);
 void	is_quoted(char c, int *quoted);
