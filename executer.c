@@ -160,13 +160,13 @@ void	find_command(t_cmd *cmd, char *prompt)
 	ft_free_tab(argv);
 }
 
-void	save_std_fd(int	*fd)
+void	cpy_std_fd(int	*fd)
 {
 	fd[0] = dup(0);
 	fd[1] = dup(1);
 }
 
-void	restore_std_fd(int *fd)
+void	reset_std_fd(int *fd)
 {
 	dup2(fd[0], 0);
 	dup2(fd[1], 1);
@@ -174,7 +174,7 @@ void	restore_std_fd(int *fd)
 	close(fd[1]);
 }
 
-void	set_fd(int *fd, int id)
+void	set_std_fd(int *fd, int id)
 {
 	dup2(fd[id], id);
 	close(fd[id]);
@@ -183,36 +183,41 @@ void	set_fd(int *fd, int id)
 void	executer_pipeline(t_pip *pipeline, char *prompt)
 {
 	t_list	*head_lst;
+	t_list	*head_redir_lst;
+//	t_list	*redir_aux;
 	t_cmd	*acmd;
 	t_redir	*aredir;
 	int		fd[2];
 	int		fd_std_tmp[2];
 
-	save_std_fd(fd_std_tmp);
+	cpy_std_fd(fd_std_tmp);
 	head_lst = pipeline->cmd_lst;
-	if (pipeline->cmd_lst)
+	while (pipeline->cmd_lst)
 	{
 		acmd = pipeline->cmd_lst->content;
-		if (acmd->redir_lst)
+//		redir_aux = acmd->redir_lst;
+//		if (!redir_aux)
+//			fd[0] = dup(fd_std_tmp[0]);
+/*		while (acmd->redir_lst)
 		{
 			aredir = acmd->redir_lst->content;
 			if (aredir->type == LESS)
 				fd[0] = open(aredir->file, O_RDONLY);
 			else
 				fd[0] = dup(fd_std_tmp[0]);
+			acmd->redir_lst = acmd->redir_lst->next;
 		}
-		else
-			fd[0] = dup(fd_std_tmp[0]);
-	}
-	while (pipeline->cmd_lst)
-	{
-		set_fd(fd, 0);
-		acmd = pipeline->cmd_lst->content;
+		acmd->redir_lst = redir_aux;*/
+//		ft_lstclear(&acmd->redir_lst, free_redir);
+		set_std_fd(fd, 0);
 		if (pipeline->cmd_lst->next)
 			pipe(fd);
 		else
 		{
-			if (acmd->redir_lst)
+			head_redir_lst = acmd->redir_lst;
+			if (!acmd->redir_lst)
+				fd[1] = dup(fd_std_tmp[1]);
+			while (acmd->redir_lst)
 			{
 				aredir = acmd->redir_lst->content;
 				if (aredir->type == GREAT)
@@ -221,17 +226,17 @@ void	executer_pipeline(t_pip *pipeline, char *prompt)
 					fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 				else
 					fd[1] = dup(fd_std_tmp[1]);
+				acmd->redir_lst = acmd->redir_lst->next;
 			}
-			else
-				fd[1] = dup(fd_std_tmp[1]);
+			ft_lstclear(&head_redir_lst, free_redir);
 		}
-		set_fd(fd, 1);
+		set_std_fd(fd, 1);
 		if (acmd)
 			find_command(acmd, prompt);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
 	ft_lstclear(&head_lst, free_command);
-	restore_std_fd(fd_std_tmp);
+	reset_std_fd(fd_std_tmp);
 }
 
 void	executer(t_list *pipeline_lst, char *prompt)
