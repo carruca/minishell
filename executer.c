@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/15 18:34:29 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/19 20:04:42 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,10 @@ void	executer_command(char *path, char **argv)
 
 void	print_command_error(char *cmd, char *prompt)
 {
-	printf("%s: %s: command not found\n", prompt, cmd);
+	ft_putstr_fd(prompt, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
 }
 
 void	find_command(t_cmd *cmd, char *prompt)
@@ -183,53 +186,51 @@ void	set_std_fd(int *fd, int id)
 void	executer_pipeline(t_pip *pipeline, char *prompt)
 {
 	t_list	*head_lst;
-	t_list	*head_redir_lst;
-//	t_list	*redir_aux;
+	t_list	*redir_aux;
 	t_cmd	*acmd;
 	t_redir	*aredir;
 	int		fd[2];
+	int		piped;
 	int		fd_std_tmp[2];
 
 	cpy_std_fd(fd_std_tmp);
+	piped = 0;
 	head_lst = pipeline->cmd_lst;
 	while (pipeline->cmd_lst)
 	{
 		acmd = pipeline->cmd_lst->content;
-//		redir_aux = acmd->redir_lst;
-//		if (!redir_aux)
-//			fd[0] = dup(fd_std_tmp[0]);
-/*		while (acmd->redir_lst)
+		redir_aux = acmd->redir_lst;
+		if (!piped)
+			fd[0] = dup(fd_std_tmp[0]);
+		piped = 0;
+		while (redir_aux)
 		{
-			aredir = acmd->redir_lst->content;
+			aredir = redir_aux->content;
 			if (aredir->type == LESS)
 				fd[0] = open(aredir->file, O_RDONLY);
-			else
-				fd[0] = dup(fd_std_tmp[0]);
-			acmd->redir_lst = acmd->redir_lst->next;
+			redir_aux = redir_aux->next;
 		}
-		acmd->redir_lst = redir_aux;*/
-//		ft_lstclear(&acmd->redir_lst, free_redir);
+		redir_aux = acmd->redir_lst;
 		set_std_fd(fd, 0);
 		if (pipeline->cmd_lst->next)
-			pipe(fd);
-		else
 		{
-			head_redir_lst = acmd->redir_lst;
-			if (!acmd->redir_lst)
-				fd[1] = dup(fd_std_tmp[1]);
-			while (acmd->redir_lst)
-			{
-				aredir = acmd->redir_lst->content;
-				if (aredir->type == GREAT)
-					fd[1] = open(aredir->file, O_CREAT | O_RDWR | O_TRUNC, S_IRWXU);
-				else if (aredir->type == DGREAT)
-					fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-				else
-					fd[1] = dup(fd_std_tmp[1]);
-				acmd->redir_lst = acmd->redir_lst->next;
-			}
-			ft_lstclear(&head_redir_lst, free_redir);
+			pipe(fd);
+			piped = 1;
 		}
+		set_std_fd(fd, 1);
+		redir_aux = acmd->redir_lst;
+		if (!piped)
+			fd[1] = dup(fd_std_tmp[1]);
+		while (acmd->redir_lst)
+		{
+			aredir = acmd->redir_lst->content;
+			if (aredir->type == GREAT)
+				fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+			else if (aredir->type == DGREAT)
+				fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+			acmd->redir_lst = acmd->redir_lst->next;
+		}
+		ft_lstclear(&redir_aux, free_redir);
 		set_std_fd(fd, 1);
 		if (acmd)
 			find_command(acmd, prompt);
