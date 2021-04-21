@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/19 20:04:42 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/21 17:25:29 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,95 @@ void	set_std_fd(int *fd, int id)
 	dup2(fd[id], id);
 	close(fd[id]);
 }
+
+void	set_redir_fd(t_list *redir_lst, int	*fd)
+{
+	t_list	*head_lst;
+	t_redir	*aredir;
+
+	head_lst = redir_lst;
+	while (redir_lst)
+	{
+		aredir = redir_lst->content;
+		if (aredir->type == LESS)
+			fd[0] = open(aredir->file, O_RDONLY);
+		if (aredir->type == GREAT)
+			fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+		else if (aredir->type == DGREAT)
+			fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+		redir_lst = redir_lst->next;
+	}
+	ft_lstclear(&head_lst, free_redir);
+}
+
+void	executer_pipeline_2(t_pip *pipeline, char *prompt)
+{
+	t_list	*head_lst;
+//	t_list	*redir_aux;
+	t_cmd	*acmd;
+//	t_redir	*aredir;
+	int		fd[2];
+//	int		aux[2];
+	int		aux_fd[0];
+	int		piped;
+	int		fd_std_tmp[2];
+
+	cpy_std_fd(fd_std_tmp);
+	piped = 0;
+	head_lst = pipeline->cmd_lst;
+	aux_fd[0] = -1;
+	aux_fd[1] = -1;
+	while (pipeline->cmd_lst)
+	{
+		acmd = pipeline->cmd_lst->content;
+		if (!piped)
+			fd[0] = dup(fd_std_tmp[0]);
+		piped = 0;
+		set_redir_fd(acmd->redir_lst, aux_fd);
+		printf("%d %d\n", aux_fd[0], aux_fd[1]);
+	/*	redir_aux = acmd->redir_lst;
+		while (redir_aux)
+		{
+			printf("Entra\n");
+			aredir = redir_aux->content;
+			if (aredir->type == LESS)
+				aux_fd[0] = open(aredir->file, O_RDONLY);
+			if (aredir->type == GREAT)
+				aux_fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+			else if (aredir->type == DGREAT)
+				aux_fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+			redir_aux = redir_aux->next;
+		}*/
+		//ft_lstclear(&acmd->redir_lst, free_redir);
+		if (aux_fd[0] >= 0)
+		{
+			dup2(aux_fd[0], fd[0]);
+			close(aux_fd[0]);
+		}
+		set_std_fd(fd, 0);
+		if (pipeline->cmd_lst->next)
+		{
+			pipe(fd);
+			piped = 1;
+		}
+		set_std_fd(fd, 1);
+		if (!piped)
+			fd[1] = dup(fd_std_tmp[1]);
+		if (aux_fd[1] >= 0)
+		{
+			dup2(aux_fd[1], fd[1]);
+			close(aux_fd[1]);
+		}
+		set_std_fd(fd, 1);
+		if (acmd)
+			find_command(acmd, prompt);
+		printf("Entra\n");
+		pipeline->cmd_lst = pipeline->cmd_lst->next;
+	}
+	ft_lstclear(&head_lst, free_command);
+	reset_std_fd(fd_std_tmp);
+}
+
 
 void	executer_pipeline(t_pip *pipeline, char *prompt)
 {
