@@ -12,7 +12,9 @@ SRC = main.c \
 	  parser_utils.c \
 	  parser_free.c \
 	  parser_print.c \
-	  executer.c
+	  executer.c \
+	  command.c \
+	  fd.c
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)

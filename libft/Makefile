@@ -44,6 +44,7 @@ LSOURCE = ft_memset.c \
 		  ft_strdup.c \
 		  ft_substr.c \
 		  ft_strjoin.c \
+		  ft_strjoin_btwchar.c \
 		  ft_strtrim.c \
 		  ft_strncpy.c \
 		  ft_split.c \
@@ -75,6 +76,7 @@ LSOURCE = ft_memset.c \
 		  ft_lstmap.c \
 		  ft_lstsize.c \
 		  ft_lstfind.c \
+		  ft_lsttoa.c \
 		  ft_strspn.c \
 		  ft_strcspn.c \
 		  ft_strtok.c

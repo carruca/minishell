@@ -16,11 +16,6 @@ char	*read_command_line()
 	return (line);
 }
 
-void	executor()
-{
-	//I/O redirection and execution
-}
-
 void	read_eval_print_loop(t_all *all)
 {
 	char	*cmd_line;

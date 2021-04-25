@@ -15,13 +15,20 @@
 
 # include "minishell.h"
 # include "parser.h"
+# include "fd.h"
+# include "command.h"
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <dirent.h>
 
 void	executer(t_list *pipeline_lst, char *prompt);
+//void	executer_pipeline(t_pip *pipeline, char *prompt, int *std_fd);
+void	set_redir_fd(t_list *redir_lst, int *fd, char *prompt);
+void	print_file_error(char *file, char *prompt);
+//void	find_command(t_cmd *cmd, char *prompt);
 
 #endif

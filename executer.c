@@ -11,36 +11,56 @@
 /* ************************************************************************** */
 
 #include "executer.h"
-#include <stdio.h>
-
-extern char **environ;
-
-char	**arglst_to_argv(t_list *lst)
+#include "parser.h"
+/*
+char	**ft_lsttoa(t_list *lst)
 {
-	char	**argv;
-	int		argc;
+	char	**new;
+	int		counter;
 	int		i;
 	
-	argc = ft_lstsize(lst);
-	argv = ft_calloc(argc + 1, sizeof(char *));
-	if (!argv)
+	counter = ft_lstsize(lst);
+	new = ft_calloc(counter + 1, sizeof(char *));
+	if (!new)
 		return (NULL);
 	i = 0;
-	while (i < argc)
+	while (i < counter)
 	{
-		argv[i] = ft_strdup((char *)lst->content);
-		if (!argv[i])
+		new[i] = ft_strdup((char *)lst->content);
+		if (!new[i])
 		{
-			ft_free_tab(argv);
+			ft_free_tab(new);
 			return (NULL);
 		}
 		lst = lst->next;
 		i++;
 	}
-	argv[i] = NULL;
-	return (argv);
+	new[i] = NULL;
+	return (new);
 }
+*/
+/*
+char	*ft_strjoin_btwchar(char *s1, char *s2, char c)
+{
+	char	*dst;
+	int		s1_len;
+	int		s2_len;
 
+	if (!s1 || !s2)
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	dst = malloc(sizeof(char) * (s1_len + s2_len + 2));
+	if (!dst)
+		return (NULL);
+	ft_strlcpy(dst, s1, s1_len + 1);
+	dst[s1_len] = c;
+	ft_strlcpy(dst + s1_len + 1, s2, s2_len + 1);
+	dst[s1_len + s2_len + 1] = '\0';
+	return (dst);
+}
+*/
+/*
 void	print_argv(char **argv)
 {
 	int	i;
@@ -52,7 +72,8 @@ void	print_argv(char **argv)
 		i++;
 	}
 }
-
+*/
+/*
 int		search_directory(char *path, char *name)
 {
 	DIR				*dirp;
@@ -74,26 +95,6 @@ int		search_directory(char *path, char *name)
 	}
 	closedir(dirp);
 	return (0);
-}
-
-char	*ft_strjoin_btwchar(char *s1, char *s2, char c)
-{
-	char	*dst;
-	int		s1_len;
-	int		s2_len;
-
-	if (!s1 || !s2)
-		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	dst = malloc(sizeof(char) * (s1_len + s2_len + 2));
-	if (!dst)
-		return (NULL);
-	ft_strlcpy(dst, s1, s1_len + 1);
-	dst[s1_len] = c;
-	ft_strlcpy(dst + s1_len + 1, s2, s2_len + 1);
-	dst[s1_len + s2_len + 1] = '\0';
-	return (dst);
 }
 
 char	*get_exe_path(char *name)
@@ -145,13 +146,13 @@ void	print_command_error(char *cmd, char *prompt)
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
-
+*/
 void	find_command(t_cmd *cmd, char *prompt)
 {
 	char	**argv;
 	char	*path;
 
-	argv = arglst_to_argv(cmd->args_lst);
+	argv = ft_lsttoa(cmd->args_lst);
 	path = get_exe_path(argv[0]);
 	if (!path)
 		print_command_error(argv[0], prompt);
@@ -162,7 +163,7 @@ void	find_command(t_cmd *cmd, char *prompt)
 	}
 	ft_free_tab(argv);
 }
-
+/*
 void	cpy_std_fd(int	*fd)
 {
 	fd[0] = dup(0);
@@ -177,12 +178,12 @@ void	reset_std_fd(int *fd)
 	close(fd[1]);
 }
 
-void	set_std_fd(int *fd, int id)
+void	set_fd(int *fd, int id)
 {
 	dup2(fd[id], id);
 	close(fd[id]);
 }
-
+*/
 void	print_file_error(char *file, char *prompt)
 {
 	ft_putstr_fd(prompt, 2);
@@ -193,12 +194,11 @@ void	print_file_error(char *file, char *prompt)
 	ft_putstr_fd("\n", 2);
 }
 
-int	set_redir_fd(t_list *redir_lst, int	*fd, char *prompt)
+void	set_redir_fd(t_list *redir_lst, int	*fd, char *prompt)
 {
-	t_redir	*aredir;
+	t_redir		*aredir;
 
-	fd[0] = 0;
-	fd[1] = 1;
+	ft_bzero(fd, sizeof(fd));
 	while (redir_lst)
 	{
 		aredir = redir_lst->content;
@@ -208,84 +208,77 @@ int	set_redir_fd(t_list *redir_lst, int	*fd, char *prompt)
 			fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
 		else if (aredir->type == DGREAT)
 			fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+		if (fd[0] == -1 || fd[1] == -1)
+		{
+			print_file_error(aredir->file, prompt);
+			break ;
+		}
 		redir_lst = redir_lst->next;
 	}
-	if (fd[0] == -1 || fd[1] == -1)
+}
+/*
+void	set_std_fd(int *fd, int *redir_fd, int *std_fd, int *piped, int id)
+{
+	if (*piped == 0)
+		fd[id] = dup(std_fd[id]);
+	if (redir_fd[id] > 2)
 	{
-		print_file_error(aredir->file, prompt);
-		return (0);
+		dup2(redir_fd[id], fd[id]);
+		close(redir_fd[id]);
 	}
-	return (1);
+	set_fd(fd, id);
 }
 
-void	executer_pipeline_2(t_pip *pipeline, char *prompt)
+void	set_pipe(int *fd, int *piped)
+{
+	pipe(fd);
+	set_fd(fd, 1);
+	*piped = 1;
+}
+*/
+void	executer_pipeline(t_pip *pipeline, char *prompt, int *std_fd)
 {
 	t_list	*head_lst;
-//	t_list	*redir_aux;
 	t_cmd	*acmd;
-//	t_redir	*aredir;
 	int		fd[2];
-//	int		aux[2];
-	int		aux_fd[2];
+	int		redir_fd[2];
 	int		piped;
-	int		fd_std_tmp[2];
 
-	cpy_std_fd(fd_std_tmp);
 	piped = 0;
 	head_lst = pipeline->cmd_lst;
-//	aux_fd[0] = 0;
-//	aux_fd[1] = 0;
 	while (pipeline->cmd_lst)
 	{
 		acmd = pipeline->cmd_lst->content;
-		if (!piped)
-			fd[0] = dup(fd_std_tmp[0]);
+		set_redir_fd(acmd->redir_lst, redir_fd, prompt);
+		set_std_fd(fd, redir_fd, std_fd, &piped, 0);
 		piped = 0;
-		if (!set_redir_fd(acmd->redir_lst, aux_fd, prompt))
-		{
-			while(pipeline->cmd_lst)
-				pipeline->cmd_lst = pipeline->cmd_lst->next;
-		//	ft_lstclear(&acmd->redir_lst, free_redir);
-			break ;
-		}
-/*		redir_aux = acmd->redir_lst;
-		while (redir_aux)
-		{
-			aredir = redir_aux->content;
-			if (aredir->type == LESS)
-				aux_fd[0] = open(aredir->file, O_RDONLY);
-			if (aredir->type == GREAT)
-				aux_fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
-			else if (aredir->type == DGREAT)
-				aux_fd[1] = open(aredir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
-			redir_aux = redir_aux->next;
-		}*/
-		if (aux_fd[0] >= 0)
-		{
-			dup2(aux_fd[0], fd[0]);
-			close(aux_fd[0]);
-		}
-		set_std_fd(fd, 0);
 		if (pipeline->cmd_lst->next)
-		{
-			pipe(fd);
-			piped = 1;
-			set_std_fd(fd, 1);
-		}
-		if (!piped)
-			fd[1] = dup(fd_std_tmp[1]);
-		if (aux_fd[1] >= 0)
-		{
-			dup2(aux_fd[1], fd[1]);
-			close(aux_fd[1]);
-		}
-		set_std_fd(fd, 1);
-		if (acmd)
+			set_pipe(fd, &piped);
+		set_std_fd(fd, redir_fd, std_fd, &piped, 1);
+		if (acmd->args_lst && redir_fd[0] != -1 && redir_fd[1] != -1)
 			find_command(acmd, prompt);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
 	ft_lstclear(&head_lst, free_command);
-	reset_std_fd(fd_std_tmp);
+}
+
+void	executer(t_list *pipeline_lst, char *prompt)
+{
+	t_list	*alst;
+	t_pip	*apipeline;
+	int		std_fd[2];
+
+	alst = pipeline_lst;
+	while (alst)
+	{
+		cpy_std_fd(std_fd);
+		apipeline = alst->content;
+		if (apipeline)
+			executer_pipeline(apipeline, prompt, std_fd);
+		reset_std_fd(std_fd);
+		alst = alst->next;
+	}
+	ft_lstclear(&pipeline_lst, free_pipeline);
 }
 
 /*
@@ -345,19 +338,3 @@ void	executer_pipeline(t_pip *pipeline, char *prompt)
 	ft_lstclear(&head_lst, free_command);
 	reset_std_fd(fd_std_tmp);
 }*/
-
-void	executer(t_list *pipeline_lst, char *prompt)
-{
-	t_list	*alst;
-	t_pip	*apipeline;
-
-	alst = pipeline_lst;
-	while (alst)
-	{
-		apipeline = alst->content;
-		if (apipeline)
-			executer_pipeline_2(apipeline, prompt);
-		alst = alst->next;
-	}
-	ft_lstclear(&pipeline_lst, free_pipeline);
-}
