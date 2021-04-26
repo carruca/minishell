@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 16:37:06 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/06 15:31:49 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/26 15:08:12 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 # define PARSER_H
 
 # include "minishell.h"
-# include "lexer.h"
-# include "token.h"
-# include "parser_print.h"
-# include <stdio.h>
 
 typedef struct s_redirection
 {

@@ -6,12 +6,13 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/22 21:47:48 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/26 19:39:56 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 #include "parser.h"
+#include "token.h"
 /*
 char	**ft_lsttoa(t_list *lst)
 {
@@ -184,6 +185,7 @@ void	set_fd(int *fd, int id)
 	close(fd[id]);
 }
 */
+
 void	print_file_error(char *file, char *prompt)
 {
 	ft_putstr_fd(prompt, 2);
@@ -236,26 +238,23 @@ void	set_pipe(int *fd, int *piped)
 	*piped = 1;
 }
 */
-void	executer_pipeline(t_pip *pipeline, char *prompt, int *std_fd)
+
+void	executer_pipeline(t_pip *pipeline, char *prompt, t_fd *fd)
 {
 	t_list	*head_lst;
 	t_cmd	*acmd;
-	int		fd[2];
-	int		redir_fd[2];
-	int		piped;
 
-	piped = 0;
 	head_lst = pipeline->cmd_lst;
 	while (pipeline->cmd_lst)
 	{
 		acmd = pipeline->cmd_lst->content;
-		set_redir_fd(acmd->redir_lst, redir_fd, prompt);
-		set_std_fd(fd, redir_fd, std_fd, &piped, 0);
-		piped = 0;
+		set_redir_fd(acmd->redir_lst, fd->redir_fd, prompt);
+		set_std_fd(fd, 0);
+		fd->piped = 0;
 		if (pipeline->cmd_lst->next)
-			set_pipe(fd, &piped);
-		set_std_fd(fd, redir_fd, std_fd, &piped, 1);
-		if (acmd->args_lst && redir_fd[0] != -1 && redir_fd[1] != -1)
+			set_pipe(fd->fd, &fd->piped);
+		set_std_fd(fd, 1);
+		if (acmd->args_lst && fd->redir_fd[0] != -1 && fd->redir_fd[1] != -1)
 			find_command(acmd, prompt);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
@@ -266,21 +265,21 @@ void	executer(t_list *pipeline_lst, char *prompt)
 {
 	t_list	*alst;
 	t_pip	*apipeline;
-	int		std_fd[2];
+	t_fd	fd;
 
 	alst = pipeline_lst;
+	ft_bzero(&fd, sizeof(fd));
 	while (alst)
 	{
-		cpy_std_fd(std_fd);
+		cpy_std_fd(fd.std_fd);
 		apipeline = alst->content;
 		if (apipeline)
-			executer_pipeline(apipeline, prompt, std_fd);
-		reset_std_fd(std_fd);
+			executer_pipeline(apipeline, prompt, &fd);
+		reset_std_fd(fd.std_fd);
 		alst = alst->next;
 	}
 	ft_lstclear(&pipeline_lst, free_pipeline);
 }
-
 /*
 void	executer_pipeline(t_pip *pipeline, char *prompt)
 {

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:25:10 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 13:25:12 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/26 13:27:50 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**ft_lsttoa(t_list *lst)
 	char	**new;
 	int		counter;
 	int		i;
-	
+
 	counter = ft_lstsize(lst);
 	new = ft_calloc(counter + 1, sizeof(char *));
 	if (!new)

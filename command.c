@@ -6,15 +6,16 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:11:16 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 13:11:23 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/26 18:36:41 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "command.h"
+#include "minishell.h"
 
-extern char **environ;
+extern char	**environ;
 
-int		search_directory(char *path, char *name)
+int	search_directory(char *path, char *name)
 {
 	DIR				*dirp;
 	struct dirent	*dp;
@@ -39,14 +40,17 @@ int		search_directory(char *path, char *name)
 
 char	*get_exe_path(char *name)
 {
-	char	*env_path;
-	char	*dir_path;
-	char	*exe_path;
+	char		*env_path;
+	char		*dir_path;
+	char		*exe_path;
+	struct stat	buf;
 
-	if (!name)
-		return (NULL);
 	if (ft_strchr(name, '/'))
+	{
+		if (stat(name, &buf) == -1)
+			return (NULL);
 		return (ft_strdup(name));
+	}
 	env_path = ft_strdup(getenv("PATH"));
 	dir_path = ft_strtok(env_path, ":");
 	while (dir_path != NULL)
@@ -67,17 +71,15 @@ int	executer_command(char *path, char **argv)
 {
 	int		status;
 	pid_t	child_pid;
-	int		ret;
 
-	ret = 0;
 	child_pid = fork();
 	if (child_pid < 0)
 		return (0);
 	else if (child_pid == 0)
 	{
-		ret = execve(path, argv, environ);
-		if (ret == -1)
-			ft_putstr_fd(strerror(errno), 2);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		execve(path, argv, environ);
 		exit(0);
 	}
 	waitpid(child_pid, &status, 0);

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/09 17:27:57 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/26 15:12:04 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 # define MINISHELL_H
 
 # include "./libft/libft.h"
-# include "lexer.h"
-# include "token.h"
-# include "parser.h"
-# include "executer.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -25,14 +21,14 @@
 # include <errno.h>
 # include <limits.h>
 
-typedef struct s_all
+typedef struct s_shell
 {
 	char	*prompt;
 	t_list	*tree_lst;
-}			t_all;
+}			t_shell;
 
-void	print_prompt();
-char	*read_command_line();
-void	read_eval_print_loop();
+void	print_prompt(char *prompt);
+char	*read_command_line(void);
+void	read_eval_print_loop(t_shell *sh);
 
 #endif

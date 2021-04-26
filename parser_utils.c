@@ -6,10 +6,11 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:32:38 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/05 17:48:52 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/26 15:01:28 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "token.h"
 #include "parser.h"
 
 void	print_syntax_error(char *token, t_list **tkn_lst, char *prompt)

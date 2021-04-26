@@ -28,7 +28,7 @@ RM = rm -rf
 all: $(NAME) $(LNAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(WFLAGS) $(INC) $(LIBFT) $(OBJ) -o $(NAME)
+	$(CC) $(OBJ) $(WFLAGS) $(INC) -o $(NAME) $(LIBFT)
 
 %.o: %.c $(LNAME)
 	$(CC) $(WFLAGS) -c -o $@ $<
