@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:11:16 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 18:36:41 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:35:22 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,29 @@ int	search_directory(char *path, char *name)
 
 char	*get_exe_path(char *name)
 {
-	char		*env_path;
-	char		*dir_path;
-	char		*exe_path;
+	t_path		path;
 	struct stat	buf;
 
+	ft_bzero(&path, sizeof(t_path));
 	if (ft_strchr(name, '/'))
 	{
 		if (stat(name, &buf) == -1)
 			return (NULL);
 		return (ft_strdup(name));
 	}
-	env_path = ft_strdup(getenv("PATH"));
-	dir_path = ft_strtok(env_path, ":");
-	while (dir_path != NULL)
+	path.env = ft_strdup(getenv("PATH"));
+	path.dir = ft_strtok(path.env, ":");
+	while (path.dir != NULL)
 	{
-		if (search_directory(dir_path, name))
+		if (search_directory(path.dir, name))
 		{
-			exe_path = ft_strjoin_btwchar(dir_path, name, '/');
-			free(env_path);
-			return (exe_path);
+			path.exe = ft_strjoin_btwchar(path.dir, name, '/');
+			free(path.env);
+			return (path.exe);
 		}
-		dir_path = ft_strtok(NULL, ":");
+		path.dir = ft_strtok(NULL, ":");
 	}
-	free(env_path);
+	free(path.env);
 	return (NULL);
 }
 

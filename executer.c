@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 19:39:56 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/27 14:24:59 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ void	executer(t_list *pipeline_lst, char *prompt)
 	t_fd	fd;
 
 	alst = pipeline_lst;
-	ft_bzero(&fd, sizeof(fd));
+	ft_bzero(&fd, sizeof(t_fd));
 	while (alst)
 	{
 		cpy_std_fd(fd.std_fd);
