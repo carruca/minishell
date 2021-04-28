@@ -54,8 +54,8 @@ int	main(int argc, char **argv)
 {
 	t_shell	sh;
 
-	signal(SIGINT, sig_handler);
-	signal(SIGQUIT, sig_handler);
+//	signal(SIGINT, sig_handler);
+//	signal(SIGQUIT, sig_handler);
 	ft_bzero(&sh, sizeof(sh));
 	sh.prompt = ft_strrchr(argv[0], '/') + 1;
 	if (argc == 1)
