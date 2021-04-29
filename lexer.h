@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:42:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/24 13:59:34 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/29 16:24:54 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ typedef struct s_lex
 {
 	int	start;
 	int	len;
-	int	off;
+	int	i;
 }		t_lex;
 
 t_list	*tokenizer(char *input);
-int		skip_to_delimiter(char *str, char *set, size_t *lenght);
+int		skip_to_delimiter(char *str, char *set, int *len);
 void	is_quoted(char c, int *quoted);
 
 #endif

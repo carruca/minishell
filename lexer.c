@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:58:27 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/05 17:51:30 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/04/29 16:21:36 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	is_quoted(char c, int *quoted)
 		*quoted ^= 0x02;
 }
 
-int	skip_to_delimiter(char *str, char *set, size_t *len)
+int	skip_to_delimiter(char *str, char *set, int *len)
 {
 	int		i;
 	int		quoted;
@@ -49,34 +49,22 @@ int	skip_to_delimiter(char *str, char *set, size_t *len)
 
 t_list	*tokenizer(char *input)
 {
-	t_list		*tkn_lst;
-	int			start;
-	size_t		len;
-	int			i;
+	t_list	*tkn_lst;
+	t_lex	lex;
 
-	start = 0;
-	len = 0;
-	i = 0;
 	tkn_lst = NULL;
-	while (input[start] != '\0')
+	ft_bzero(&lex, sizeof(t_lex));
+	while (input[lex.start] != '\0')
 	{
-		i = skip_to_delimiter(input + start, " ><|;\t", &len);
-		if (len != 0)
+		lex.i = skip_to_delimiter(input + lex.start, " ><|;\t", &lex.len);
+		if (lex.len != 0)
 		{
 			ft_lstadd_back(&tkn_lst,
-				ft_lstnew(new_token(ft_substr(input, start, len))));
+				ft_lstnew(new_token(ft_substr(input, lex.start, lex.len))));
 			if (!tkn_lst->content)
 				return (NULL);
 		}
-		start += i;
+		lex.start += lex.i;
 	}
 	return (tkn_lst);
-}
-
-t_list	*tokenizer(char *input)
-{
-	t_list	*tkn_lst;
-	t_token	*tkn;
-	t_lex	lex;
-
 }
