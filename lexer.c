@@ -30,7 +30,7 @@ int	skip_to_delimiter(char *str, char *set, size_t *len)
 	i = 0;
 	*len = 0;
 	quoted = 0;
-	while (str[i] != '\0' && *str)
+	while (str)
 	{
 		is_quoted(str[i], &quoted);
 		if (ft_strchr(set, str[i]) && !quoted)
@@ -71,4 +71,12 @@ t_list	*tokenizer(char *input)
 		start += i;
 	}
 	return (tkn_lst);
+}
+
+t_list	*tokenizer(char *input)
+{
+	t_list	*tkn_lst;
+	t_token	*tkn;
+	t_lex	lex;
+
 }

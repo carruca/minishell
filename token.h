@@ -17,12 +17,14 @@
 # include "lexer.h"
 # include <stdio.h>
 
-# define WORD	0x01
-# define LESS	0x02
-# define GREAT	0x04
-# define DGREAT	0x08
-# define PIPE	0x10
-# define SCOLON	0x20
+# define WORD	0x0001
+# define LESS	0x0002
+# define GREAT	0x0004
+# define DGREAT	0x0008
+# define PIPE	0x0010
+# define SCOLON	0x0020
+# define EXPAN	0x0040
+# define TOGET	0x0080
 
 typedef struct s_token
 {

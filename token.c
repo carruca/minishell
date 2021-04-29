@@ -61,11 +61,11 @@ void	del_current_token(t_list **tkn_lst)
 	ft_lstdelone(*tkn_lst, free_token);
 	*tkn_lst = alst;
 }
-
+/*
 void	print_token(void *tkn)
 {
 	t_token	*tmp;
 
 	tmp = tkn;
 	printf("token	= $%s$\n", tmp->token);
-}
+}*/

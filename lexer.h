@@ -17,6 +17,13 @@
 # include "token.h"
 # include <stdio.h>
 
+typedef struct s_lex
+{
+	int	start;
+	int	len;
+	int	off;
+}		t_lex;
+
 t_list	*tokenizer(char *input);
 int		skip_to_delimiter(char *str, char *set, size_t *lenght);
 void	is_quoted(char c, int *quoted);
