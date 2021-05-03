@@ -14,7 +14,8 @@ SRC = main.c \
 	  parser_print.c \
 	  executer.c \
 	  command.c \
-	  fd.c
+	  fd.c \
+	  quoted.c
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)

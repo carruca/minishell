@@ -6,13 +6,14 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/27 14:24:59 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/03 16:19:18 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executer.h"
 #include "parser.h"
 #include "token.h"
+#include "quoted.h"
 /*
 char	**ft_lsttoa(t_list *lst)
 {
@@ -153,6 +154,7 @@ void	find_command(t_cmd *cmd, char *prompt)
 	char	**argv;
 	char	*path;
 
+	args_have_quotes(cmd->args_lst);
 	argv = ft_lsttoa(cmd->args_lst);
 	path = get_exe_path(argv[0]);
 	if (!path)
@@ -196,7 +198,7 @@ void	print_file_error(char *file, char *prompt)
 	ft_putstr_fd("\n", 2);
 }
 
-void	set_redir_fd(t_list *redir_lst, int	*fd, char *prompt)
+void	set_redir_fd(t_list *redir_lst, int *fd, char *prompt)
 {
 	t_redir		*aredir;
 
@@ -204,6 +206,7 @@ void	set_redir_fd(t_list *redir_lst, int	*fd, char *prompt)
 	while (redir_lst)
 	{
 		aredir = redir_lst->content;
+		redir_file_have_quotes(&aredir->file);
 		if (aredir->type == LESS)
 			fd[0] = open(aredir->file, O_RDONLY);
 		else if (aredir->type == GREAT)
@@ -248,6 +251,7 @@ void	executer_pipeline(t_pip *pipeline, char *prompt, t_fd *fd)
 	while (pipeline->cmd_lst)
 	{
 		acmd = pipeline->cmd_lst->content;
+	//	redir_have_quotes(acmd->redir_lst);
 		set_redir_fd(acmd->redir_lst, fd->redir_fd, prompt);
 		set_std_fd(fd, 0);
 		fd->piped = 0;
