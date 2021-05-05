@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/09 14:58:27 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/29 16:21:36 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/05 12:34:18 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	skip_to_delimiter(char *str, char *set, int *len)
 	i = 0;
 	*len = 0;
 	quoted = 0;
-	while (str)
+	while (str[i] != '\0')
 	{
 		is_quoted(str[i], &quoted);
 		if (ft_strchr(set, str[i]) && !quoted)
