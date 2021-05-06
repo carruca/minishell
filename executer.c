@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/03 16:19:18 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/06 15:38:55 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,26 @@ void	print_command_error(char *cmd, char *prompt)
 	ft_putstr_fd(": command not found\n", 2);
 }
 */
+
+void	print_directory_error(char *dir_name, char *prompt)
+{
+	ft_putstr_fd(prompt, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(dir_name, 2);
+	ft_putstr_fd(": is a directory\n", 2);
+}
+
+int		is_directory(char *path)
+{
+	DIR	*dirp;
+
+	dirp = opendir(path);
+	if (!dirp)
+		return (0);
+	closedir(dirp);
+	return (1);
+}
+
 void	find_command(t_cmd *cmd, char *prompt)
 {
 	char	**argv;
@@ -158,12 +178,16 @@ void	find_command(t_cmd *cmd, char *prompt)
 	argv = ft_lsttoa(cmd->args_lst);
 	path = get_exe_path(argv[0]);
 	if (!path)
-		print_command_error(argv[0], prompt);
-	else
 	{
-		executer_command(path, argv);
-		free(path);
+		if (argv[0][0] != '\0')
+			print_command_error(argv[0], prompt);
 	}
+	else if (is_directory(path))
+		print_directory_error(argv[0], prompt);
+	else
+		executer_command(path, argv);
+	if (path)
+		free(path);
 	ft_free_tab(argv);
 }
 /*

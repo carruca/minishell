@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 15:06:58 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/05 17:10:30 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/06 14:48:34 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	count_env(char *name)
    	return (ft_strlen(envp));
 }
 
-char	*find_env_name(char *str, int *i)
+char	*get_env_name(char *str, int *i)
 {
 	char	*envp;
 	int		envc;
@@ -71,7 +71,7 @@ void	count_expander(char *str, int *i, int *counter)
 	char	*envp;
 
 	(*i)++;
-	envp = find_env_name(str, i);
+	envp = get_env_name(str, i);
 //	printf("envp = %s\n", envp);
 	*counter += count_env(envp);
 	free(envp);
@@ -125,7 +125,7 @@ void	copy_expander(char *dst, char *src, int *i, int *j)
 	char	*envp;
 
 	(*i)++;
-	envp = find_env_name(src, i);
+	envp = get_env_name(src, i);
 	copy_env(dst, envp, j);
 	free(envp);
 //	(*i)++;
