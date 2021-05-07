@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:15:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/08 16:58:17 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/07 13:06:30 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int			ft_is_valid_file(char *path);
 t_list		*ft_lstnew(void *content);
 void		ft_lstadd_front(t_list **lst, t_list *new);
 int			ft_lstsize(t_list *lst);
+int			ft_lstsize_if(t_list *lst, int (*cmp)());
 t_list		*ft_lstlast(t_list *lst);
 void		ft_lstadd_back(t_list **lst, t_list *new);
 void		ft_lstdelone(t_list *lst, void (*del)(void *));
@@ -93,7 +94,7 @@ void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list		*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *));
-char		**ft_lsttoa(t_list *lst);
+char		**ft_lsttoa_if(t_list *lst, int (*cmp)());
 size_t		ft_strspn(const char *s, const char *charset);
 size_t		ft_strcspn(const char *s, const char *charset);
 char		*ft_strtok(char *str, const char *sep);

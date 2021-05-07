@@ -6,7 +6,7 @@
 #    By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/11/07 17:05:33 by tsierra-          #+#    #+#              #
-#    Updated: 2021/04/09 17:45:55 by tsierra-         ###   ########.fr        #
+#    Updated: 2021/05/07 13:03:11 by tsierra-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,8 +75,9 @@ LSOURCE = ft_memset.c \
 		  ft_lstlast.c \
 		  ft_lstmap.c \
 		  ft_lstsize.c \
+		  ft_lstsize_if.c \
 		  ft_lstfind.c \
-		  ft_lsttoa.c \
+		  ft_lsttoa_if.c \
 		  ft_strspn.c \
 		  ft_strcspn.c \
 		  ft_strtok.c

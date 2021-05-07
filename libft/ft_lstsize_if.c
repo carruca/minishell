@@ -1,19 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quoted.h                                           :+:      :+:    :+:   */
+/*   ft_lstsize_if.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/03 15:06:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/07 13:14:12 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/05/07 12:39:32 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/05/07 13:01:49 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef QUOTED_H
-# define QUOTED_H
+#include "libft.h"
 
-void	args_have_quotes(t_list *lst);
-int		redir_file_have_quotes(char **str, char *prompt);
+int	ft_lstsize_if(t_list *lst, int (*cmp)())
+{
+	int	size;
 
-#endif
+	if (!lst)
+		return (0);
+	size = 0;
+	while (lst)
+	{
+		if (cmp(lst->content))
+			size++;
+		lst = lst->next;
+	}
+	return (size);
+}

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/06 15:38:55 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/07 15:09:53 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,24 @@ int		is_directory(char *path)
 	return (1);
 }
 
+int		is_not_empty(char *str)
+{
+	return (str[0] != '\0');
+}
+
 void	find_command(t_cmd *cmd, char *prompt)
 {
 	char	**argv;
 	char	*path;
 
 	args_have_quotes(cmd->args_lst);
-	argv = ft_lsttoa(cmd->args_lst);
-	path = get_exe_path(argv[0]);
+	argv = ft_lsttoa_if(cmd->args_lst, is_not_empty);
+	path = NULL;
+	if (argv[0] != NULL)
+		path = get_exe_path(argv[0]);
 	if (!path)
 	{
-		if (*argv[0] != '\0')
+		if (argv[0] && *argv[0] != '\0')
 			print_command_error(argv[0], prompt);
 	}
 	else if (is_directory(path))

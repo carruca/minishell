@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 15:06:58 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/06 14:48:34 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/07 14:55:35 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ int	redir_file_have_quotes(char **str, char *prompt)
 	return (1);
 }
 
-int	args_have_quotes(t_list *lst)
+void	args_have_quotes(t_list *lst)
 {
 	char	*new;
 	char	*str;
@@ -210,11 +210,8 @@ int	args_have_quotes(t_list *lst)
 		if (ft_strchr(str, '\'') || ft_strchr(str, '\"') || ft_strchr(str, '$'))
 		{
 			new = strtrim_quotes(str);
-			if (new[0] == '\0')
-				printf("Entra\n");
 			change_content(lst, new);
 		}
 		lst = lst->next;
 	}
-	return (1);
 }
