@@ -13,8 +13,7 @@
 #ifndef QUOTED_H
 # define QUOTED_H
 
-void	args_have_quotes(t_list *lst);
-void	redir_have_quotes(t_list *lst);
-void	redir_file_have_quotes(char **str);
+int		args_have_quotes(t_list *lst);
+int		redir_file_have_quotes(char **str, char *prompt);
 
 #endif

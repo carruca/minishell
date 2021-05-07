@@ -14,141 +14,6 @@
 #include "parser.h"
 #include "token.h"
 #include "quoted.h"
-/*
-char	**ft_lsttoa(t_list *lst)
-{
-	char	**new;
-	int		counter;
-	int		i;
-	
-	counter = ft_lstsize(lst);
-	new = ft_calloc(counter + 1, sizeof(char *));
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (i < counter)
-	{
-		new[i] = ft_strdup((char *)lst->content);
-		if (!new[i])
-		{
-			ft_free_tab(new);
-			return (NULL);
-		}
-		lst = lst->next;
-		i++;
-	}
-	new[i] = NULL;
-	return (new);
-}
-*/
-/*
-char	*ft_strjoin_btwchar(char *s1, char *s2, char c)
-{
-	char	*dst;
-	int		s1_len;
-	int		s2_len;
-
-	if (!s1 || !s2)
-		return (NULL);
-	s1_len = ft_strlen(s1);
-	s2_len = ft_strlen(s2);
-	dst = malloc(sizeof(char) * (s1_len + s2_len + 2));
-	if (!dst)
-		return (NULL);
-	ft_strlcpy(dst, s1, s1_len + 1);
-	dst[s1_len] = c;
-	ft_strlcpy(dst + s1_len + 1, s2, s2_len + 1);
-	dst[s1_len + s2_len + 1] = '\0';
-	return (dst);
-}
-*/
-/*
-void	print_argv(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[i] != NULL)
-	{
-		printf("argv[%d] = %s\n", i, argv[i]);
-		i++;
-	}
-}
-*/
-/*
-int		search_directory(char *path, char *name)
-{
-	DIR				*dirp;
-	struct dirent	*dp;
-
-	dirp = opendir(path);
-	if (!dirp)
-		return (0);
-	while (1)
-	{
-		dp = readdir(dirp);
-		if (!dp)
-			break ;
-		if (!ft_strcmp(dp->d_name, name))
-		{
-			closedir(dirp);
-			return (1);
-		}
-	}
-	closedir(dirp);
-	return (0);
-}
-
-char	*get_exe_path(char *name)
-{
-	char	*env_path;
-	char	*dir_path;
-	char	*exe_path;
-
-	if (!name)
-		return (NULL);
-	if (ft_strchr(name, '/'))
-		return (ft_strdup(name));
-	env_path = ft_strdup(getenv("PATH"));
-	dir_path = ft_strtok(env_path, ":");
-	while (dir_path != NULL)
-	{
-		if (search_directory(dir_path, name))
-		{
-			exe_path = ft_strjoin_btwchar(dir_path, name, '/');
-			free(env_path);
-			return (exe_path);
-		}
-		dir_path = ft_strtok(NULL, ":");
-	}
-	free(env_path);
-	return (NULL);
-}
-
-void	executer_command(char *path, char **argv)
-{
-	int		status;
-	pid_t	child_pid;
-
-	child_pid = fork();
-	if (child_pid < 0)
-		return ;
-	else if (child_pid == 0)
-	{
-		execve(path, argv, environ);
-		exit(0);
-	}
-	waitpid(child_pid, &status, 0);
-}
-
-void	print_command_error(char *cmd, char *prompt)
-{
-	ft_putstr_fd(prompt, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-}
-*/
 
 void	print_directory_error(char *dir_name, char *prompt)
 {
@@ -179,7 +44,7 @@ void	find_command(t_cmd *cmd, char *prompt)
 	path = get_exe_path(argv[0]);
 	if (!path)
 	{
-		if (argv[0][0] != '\0')
+		if (*argv[0] != '\0')
 			print_command_error(argv[0], prompt);
 	}
 	else if (is_directory(path))
@@ -190,27 +55,6 @@ void	find_command(t_cmd *cmd, char *prompt)
 		free(path);
 	ft_free_tab(argv);
 }
-/*
-void	cpy_std_fd(int	*fd)
-{
-	fd[0] = dup(0);
-	fd[1] = dup(1);
-}
-
-void	reset_std_fd(int *fd)
-{
-	dup2(fd[0], 0);
-	dup2(fd[1], 1);
-	close(fd[0]);
-	close(fd[1]);
-}
-
-void	set_fd(int *fd, int id)
-{
-	dup2(fd[id], id);
-	close(fd[id]);
-}
-*/
 
 void	print_file_error(char *file, char *prompt)
 {
@@ -230,7 +74,11 @@ void	set_redir_fd(t_list *redir_lst, int *fd, char *prompt)
 	while (redir_lst)
 	{
 		aredir = redir_lst->content;
-		redir_file_have_quotes(&aredir->file);
+		if(!redir_file_have_quotes(&aredir->file, prompt))
+		{
+			fd[0] = -1;
+			break;
+		}
 		if (aredir->type == LESS)
 			fd[0] = open(aredir->file, O_RDONLY);
 		else if (aredir->type == GREAT)
@@ -245,26 +93,6 @@ void	set_redir_fd(t_list *redir_lst, int *fd, char *prompt)
 		redir_lst = redir_lst->next;
 	}
 }
-/*
-void	set_std_fd(int *fd, int *redir_fd, int *std_fd, int *piped, int id)
-{
-	if (*piped == 0)
-		fd[id] = dup(std_fd[id]);
-	if (redir_fd[id] > 2)
-	{
-		dup2(redir_fd[id], fd[id]);
-		close(redir_fd[id]);
-	}
-	set_fd(fd, id);
-}
-
-void	set_pipe(int *fd, int *piped)
-{
-	pipe(fd);
-	set_fd(fd, 1);
-	*piped = 1;
-}
-*/
 
 void	executer_pipeline(t_pip *pipeline, char *prompt, t_fd *fd)
 {
@@ -275,7 +103,6 @@ void	executer_pipeline(t_pip *pipeline, char *prompt, t_fd *fd)
 	while (pipeline->cmd_lst)
 	{
 		acmd = pipeline->cmd_lst->content;
-	//	redir_have_quotes(acmd->redir_lst);
 		set_redir_fd(acmd->redir_lst, fd->redir_fd, prompt);
 		set_std_fd(fd, 0);
 		fd->piped = 0;
