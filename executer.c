@@ -62,16 +62,16 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 	if (argv[0] != NULL)
 		path = get_exe_path(argv[0], sh);
 	if (!path && argv[0] && *argv[0])
-		print_error(sh, argv[0], "command not found", 126);
+		print_error(sh, argv[0], "command not found", 127);
 	else if (is_directory(path))
-		print_error(sh, argv[0], "is a directory", 127);
+		print_error(sh, argv[0], "is a directory", 126);
 	else
 		sh->status = executer_command(path, argv);
 	if (path)
 		free(path);
 	ft_free_tab(argv);
 }
-
+/*
 void	print_file_error(char *file, char *prompt)
 {
 	ft_putstr_fd(prompt, 2);
@@ -80,7 +80,7 @@ void	print_file_error(char *file, char *prompt)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
-}
+}*/
 
 int	set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh)
 {

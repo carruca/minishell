@@ -52,9 +52,7 @@ char	*ft_itoa(int n)
 	}
 	while (len > i)
 	{
-		printf("len = [%zu]\n", len);
-		str[len--] = '0' + (n % 10);
-		printf("str = [%s]\nn = [%d]\n", str, n);
+		str[--len] = '0' + (n % 10);
 		n /= 10;
 	}
 	return (str);
