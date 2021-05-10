@@ -82,7 +82,7 @@ static int	count_without_quotes(char *str)
 	counter = 0;
 	while (str[i])
 	{
-		if (str[i] == '\'' || str[i] == '\"')
+		while (str[i] == '\'' || str[i] == '\"')
 			is_quoted_2(str[i], &quoted, &i);
 		if (str[i] && str[i] == '$' && (quoted == 0 || quoted == 0x01))
 			count_expander(str, &i, &counter);
@@ -133,11 +133,11 @@ static void	copy_without_quotes(char *dst, char *src)
 	quoted = 0;
 	while (src[i])
 	{
-		if (src[i] == '\'' || src[i] == '\"')
+		while (src[i] == '\'' || src[i] == '\"')
 			is_quoted_2(src[i], &quoted, &i);
 		if (src[i] == '$' && (quoted == 0 || quoted == 0x01))
 			copy_expander(dst, src, &i, &j);
-		else if ((quoted || (src[i] != '\'' && src[i] != '\"')) && src[i])
+		else if (src[i] && (quoted || (src[i] != '\'' && src[i] != '\"')))
 		{
 			dst[j] = src[i];
 			i++;
@@ -199,19 +199,24 @@ int	redir_file_have_quotes(char **str, char *prompt)
 	return (1);
 }
 
-void	args_have_quotes(t_list *lst)
+int	args_have_quotes(t_list *lst)
 {
 	char	*new;
 	char	*str;
+	char	quoted;
 
+	quoted = 0;
 	while (lst)
 	{
 		str = lst->content;
 		if (ft_strchr(str, '\'') || ft_strchr(str, '\"') || ft_strchr(str, '$'))
 		{
+			if (ft_strchr(str, '\'') || ft_strchr(str, '\"'))
+				quoted = 1;
 			new = strtrim_quotes(str);
 			change_content(lst, new);
 		}
 		lst = lst->next;
 	}
+	return (quoted);
 }

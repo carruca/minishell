@@ -24,7 +24,8 @@
 typedef struct s_shell
 {
 	char	*prompt;
-	t_list	*tree_lst;
+	t_list	*pipeline_lst;
+	int		status;
 }			t_shell;
 
 void	print_prompt(char *prompt);

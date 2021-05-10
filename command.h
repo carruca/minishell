@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <signal.h>
+# include "minishell.h"
 
 typedef struct s_path
 {

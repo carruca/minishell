@@ -27,9 +27,10 @@ void	read_eval_print_loop(t_shell *sh)
 	{
 		print_prompt(sh->prompt);
 		cmd_line = read_command_line();
-		sh->tree_lst = parser(cmd_line, sh->prompt);
-		if (sh->tree_lst)
-			executer(sh->tree_lst, sh->prompt);
+		sh->pipeline_lst = parser(cmd_line, sh->prompt);
+		if (sh->pipeline_lst)
+			executer(sh);
+		printf("exit_status = %d\n", sh->status);
 		if (!ft_strcmp(cmd_line, "exit"))
 		{
 			free(cmd_line);

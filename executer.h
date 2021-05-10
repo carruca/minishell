@@ -25,10 +25,10 @@
 # include <stdlib.h>
 # include <dirent.h>
 
-void	executer(t_list *pipeline_lst, char *prompt);
-void	executer_pipeline(t_pip *pipeline, char *prompt, t_fd *fd);
+void	executer(t_shell *sh);
+void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_fd *fd);
 void	set_redir_fd(t_list *redir_lst, int *fd, char *prompt);
 void	print_file_error(char *file, char *prompt);
-void	find_command(t_cmd *cmd, char *prompt);
+void	find_command(t_cmd *cmd, t_shell *sh);
 
 #endif

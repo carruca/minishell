@@ -15,6 +15,12 @@
 
 # include "minishell.h"
 
+typedef struct s_word
+{
+	char	*str;
+	int		flags;
+}			t_word;
+
 typedef struct s_redirection
 {
 	char	*file;
