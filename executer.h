@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:49:33 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/03 16:19:49 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/10 14:45:50 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 void	executer(t_shell *sh);
 void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_fd *fd);
-void	set_redir_fd(t_list *redir_lst, int *fd, char *prompt);
+int		set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh);
 void	print_file_error(char *file, char *prompt);
 void	find_command(t_cmd *cmd, t_shell *sh);
 

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:11:16 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/07 15:03:44 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/10 16:19:47 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	search_directory(char *path, char *name)
 	return (0);
 }
 
-char	*get_exe_path(char *name)
+char	*get_exe_path(char *name, t_shell *sh)
 {
 	t_path		path;
 	struct stat	buf;
@@ -50,6 +50,7 @@ char	*get_exe_path(char *name)
 			return (NULL);
 		return (ft_strdup(name));
 	}
+	sh->status = sh->status;
 	path.env = ft_strdup(getenv("PATH"));
 	path.dir = ft_strtok(path.env, ":");
 	while (path.dir != NULL)
@@ -86,11 +87,12 @@ int	executer_command(char *path, char **argv)
 		return (WEXITSTATUS(status));
 	return (status);
 }
-
-void	print_command_error(char *cmd, char *prompt)
+/*
+void	print_command_error(char *cmd, char *prompt, int *status)
 {
 	ft_putstr_fd(prompt, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": command not found\n", 2);
-}
+	*status = 126;
+}*/
