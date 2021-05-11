@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/05 17:32:38 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 15:01:28 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/11 16:07:12 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_redir	*new_redirection(t_list **tkn_lst, int type, char *prompt)
 		return (NULL);
 	redir->file = ft_strdup(atkn->token);
 	redir->type = type;
+	del_current_token(tkn_lst);
 	return (redir);
 }
 
@@ -65,7 +66,7 @@ void	parse_args(t_list **tkn_lst, t_list **args_lst)
 
 int	parse_redir(t_list **tkn_lst, t_cmd *cmd, int id, char *prompt)
 {
-	t_token	*atkn;
+//	t_token	*atkn;
 	t_redir	*aredir;
 
 	aredir = new_redirection(tkn_lst, id, prompt);
@@ -75,13 +76,13 @@ int	parse_redir(t_list **tkn_lst, t_cmd *cmd, int id, char *prompt)
 		return (0);
 	}
 	ft_lstadd_back(&cmd->redir_lst, ft_lstnew(aredir));
-	atkn = (*tkn_lst)->content;
-	while (*tkn_lst && atkn->identifier == WORD)
+//	atkn = (*tkn_lst)->content;
+/*	while (*tkn_lst && atkn->identifier == WORD)
 	{
 		del_current_token(tkn_lst);
 		if (*tkn_lst)
 			atkn = (*tkn_lst)->content;
-	}
+	}*/
 	return (1);
 }
 
