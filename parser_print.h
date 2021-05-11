@@ -14,8 +14,8 @@
 # define PARSER_PRINT_H
 
 # include "minishell.h"
-# include "lexer.h"
-# include <stdio.h>
+//# include "lexer.h"
+//# include <stdio.h>
 
 void	print_parse_tree(t_list *pipeline_lst);
 void	print_pipeline(void *pipeline);

@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
 #include "lexer.h"
 #include "token.h"
+*/
 
 void	is_quoted(char c, int *quoted)
 {

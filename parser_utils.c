@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+/*
 #include "token.h"
 #include "parser.h"
+*/
 
 void	print_syntax_error(char *token, t_list **tkn_lst, char *prompt)
 {

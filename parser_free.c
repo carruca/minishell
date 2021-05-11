@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+/*
 #include "parser.h"
 #include <stdlib.h>
+*/
 
 void	free_redir(void *redir)
 {

@@ -11,8 +11,10 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
 #include "lexer.h"
 #include "token.h"
+*/
 
 int	id_token(char *str)
 {

@@ -10,9 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "parser.h"
+#include "minishell.h"
+/*
+#include "parser.h"
 #include "fd.h"
 #include "executer.h"
+*/
 
 void	set_fd(int *fd, int id)
 {

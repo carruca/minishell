@@ -1,7 +1,8 @@
 #include "minishell.h"
+/*
 #include "parser.h"
 #include "executer.h"
-
+*/
 void	print_prompt(char *prompt)
 {
 	ft_putstr_fd(prompt, 1);

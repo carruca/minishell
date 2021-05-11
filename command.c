@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "command.h"
+//#include "command.h"
 #include "minishell.h"
 
 extern char	**environ;

@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+/*
 #include "parser.h"
 #include "lexer.h"
+*/
 
 t_cmd	*new_simple_command(t_list **tkn_lst, char *prompt)
 {

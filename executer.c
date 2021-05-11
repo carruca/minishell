@@ -10,10 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+/*
 #include "executer.h"
 #include "parser.h"
 #include "token.h"
 #include "quoted.h"
+*/
 
 void	print_error(t_shell *sh, char *str, char *msg, int	status)
 {

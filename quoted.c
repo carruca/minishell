@@ -11,10 +11,11 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+/*
 #include "quoted.h"
 #include "parser.h"
 #include "executer.h"
-
+*/
 static void	is_quoted_2(char c, int *quoted, int *i)
 {
 	if (c == '\"' && (*quoted == 0 || *quoted == 0x01))
