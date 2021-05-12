@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/10 14:18:28 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/12 18:18:03 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ typedef struct s_token
 	char	*token;
 	int		identifier;
 }			t_token;
+
+/*		buildin			*/
+
+int	check_buildin(t_shell *sh, int argc, char **argv);
 
 /*		token			*/
 

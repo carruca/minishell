@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/10 16:18:53 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/12 18:23:27 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 		print_error(sh, argv[0], "command not found", 127);
 	else if (is_directory(path))
 		print_error(sh, argv[0], "is a directory", 126);
-	else
+	else if (!check_buildin(sh, ft_lstsize_if(cmd->args_lst, is_not_empty), argv))
 		sh->status = executer_command(path, argv);
 	if (path)
 		free(path);

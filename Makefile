@@ -15,24 +15,26 @@ SRC = main.c \
 	  executer.c \
 	  command.c \
 	  fd.c \
-	  quoted.c
+	  quoted.c \
+	  buildin_cd.c
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)
 LIBFT = -L $(LIBFT_DIR) -lft
 
 CC = gcc
-WFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror $(INC) -O0
+LDFLAGS = #-g3 -fsanitize=address
 MAKE = make
 RM = rm -rf
 
 all: $(NAME) $(LNAME)
 
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) $(WFLAGS) $(INC) -o $(NAME) $(LIBFT)
+$(NAME): $(OBJ) $(LNAME)
+	$(CC) $(OBJ) $(LDFLAGS) -o $(NAME) $(LIBFT)
 
-%.o: %.c $(LNAME)
-	$(CC) $(WFLAGS) -c -o $@ $<
+#%.o: %.c $(LNAME)
+#	$(CC) $(WFLAGS) -c -o $@ $<
 
 $(LNAME): 
 	$(MAKE) -C $(LIBFT_DIR)

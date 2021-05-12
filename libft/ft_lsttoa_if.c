@@ -6,12 +6,11 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:25:10 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/07 13:23:28 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/12 17:12:14 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 char	**ft_lsttoa_if(t_list *lst, int (*cmp)())
 {
