@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static int	ft_word_count(char const *s, char c)
 {
@@ -38,11 +39,8 @@ static int	ft_strnlen(char const *s, char c)
 	int	count;
 
 	count = 0;
-	while (*s != c)
-	{
+	while (s[count] != c && s[count] != '\0')
 		count++;
-		s++;
-	}
 	return (count);
 }
 
