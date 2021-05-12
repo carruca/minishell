@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_lstfind.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 12:06:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 13:28:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/03/08 13:17:58 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/03/08 13:19:54 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+t_list	*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *))
 {
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	if (needle[i] == '\0')
-		return ((char *)haystack);
-	while (haystack[i] != '\0' && i < len)
+	if (lst && cmp)
 	{
-		j = 0;
-		while (needle[j] == haystack[i + j] && i + j < len)
+		while (lst)
 		{
-			if (needle[j + 1] == '\0')
-				return ((char *)haystack + i);
-			j++;
+			if (!cmp(content, lst->content))
+				return (lst);
+			lst = lst->next;
 		}
-		i++;
 	}
 	return (NULL);
 }

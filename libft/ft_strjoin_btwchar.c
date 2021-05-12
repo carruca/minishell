@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin_btwchar.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 12:06:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 13:28:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/04/26 13:25:00 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/04/26 13:25:02 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strjoin_btwchar(char const *s1, char const *s2, char c)
 {
-	size_t	i;
-	size_t	j;
+	char	*dst;
+	int		s1_len;
+	int		s2_len;
 
-	i = 0;
-	if (needle[i] == '\0')
-		return ((char *)haystack);
-	while (haystack[i] != '\0' && i < len)
-	{
-		j = 0;
-		while (needle[j] == haystack[i + j] && i + j < len)
-		{
-			if (needle[j + 1] == '\0')
-				return ((char *)haystack + i);
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
+	if (!s1 || !s2)
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	dst = malloc(sizeof(char) * (s1_len + s2_len + 2));
+	if (!dst)
+		return (NULL);
+	ft_strlcpy(dst, s1, s1_len + 1);
+	dst[s1_len] = c;
+	ft_strlcpy(dst + s1_len + 1, s2, s2_len + 1);
+	dst[s1_len + s2_len + 1] = '\0';
+	return (dst);
 }

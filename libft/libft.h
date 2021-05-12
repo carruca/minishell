@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:15:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/03/04 17:24:31 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/05 11:23:26 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 8192
 # endif
 
 # ifndef FD_SIZE
@@ -53,6 +53,7 @@ int			ft_tolower(int c);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+char		*ft_strcpy(char *dest, char *src);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t		ft_strlcat(char *dst, const char *src, size_t dstsize);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
@@ -61,6 +62,7 @@ void		*ft_calloc(size_t count, size_t size);
 char		*ft_strdup(const char *s1);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strjoin_btwchar(char const *s1, char const *s2, char c);
 char		*ft_strtrim(char const *s1, char const *set);
 char		*ft_strncpy(char *dest, const char *src, size_t len);
 char		**ft_split(char const *s, char c);
@@ -74,7 +76,7 @@ void		ft_putnbr_fd(int n, int fd);
 int			get_next_line(int fd, char **line);
 size_t		ft_nbrlen(long int nbr);
 int			ft_strcmp(const char *s1, const char *s2);
-void		free_2d(char **ptr);
+void		ft_free_tab(char **ptr);
 int			ft_is_str_digit(char *str);
 int			ft_file_format_cmp(char *str, char *format);
 int			ft_count_char_in_str(char *str, char c);
@@ -91,5 +93,10 @@ void		ft_lstdelone(t_list *lst, void (*del)(void *));
 void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_list		*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *));
+char		**ft_lsttoa(t_list *lst);
+size_t		ft_strspn(const char *s, const char *charset);
+size_t		ft_strcspn(const char *s, const char *charset);
+char		*ft_strtok(char *str, const char *sep);
 
 #endif

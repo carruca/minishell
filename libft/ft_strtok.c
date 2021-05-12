@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 12:06:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 13:28:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/03/08 13:53:28 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/03/08 16:30:49 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	*ft_strtok(char *str, const char *sep)
 {
-	size_t	i;
-	size_t	j;
+	static char	*ptr;
 
-	i = 0;
-	if (needle[i] == '\0')
-		return ((char *)haystack);
-	while (haystack[i] != '\0' && i < len)
+	if (str)
+		ptr = str;
+	else if (!ptr)
+		return (NULL);
+	str = ptr + ft_strspn(ptr, sep);
+	ptr = str + ft_strcspn(str, sep);
+	if (ptr == str)
 	{
-		j = 0;
-		while (needle[j] == haystack[i + j] && i + j < len)
-		{
-			if (needle[j + 1] == '\0')
-				return ((char *)haystack + i);
-			j++;
-		}
-		i++;
+		ptr = NULL;
+		return (ptr);
 	}
-	return (NULL);
+	if (*ptr)
+		*ptr++ = '\0';
+	return (str);
 }

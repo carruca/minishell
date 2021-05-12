@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   ft_lsttoa.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/19 12:06:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 13:28:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/04/26 13:25:10 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/04/26 13:27:50 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+char	**ft_lsttoa(t_list *lst)
 {
-	size_t	i;
-	size_t	j;
+	char	**new;
+	int		counter;
+	int		i;
 
+	counter = ft_lstsize(lst);
+	new = ft_calloc(counter + 1, sizeof(char *));
+	if (!new)
+		return (NULL);
 	i = 0;
-	if (needle[i] == '\0')
-		return ((char *)haystack);
-	while (haystack[i] != '\0' && i < len)
+	while (i < counter)
 	{
-		j = 0;
-		while (needle[j] == haystack[i + j] && i + j < len)
+		new[i] = ft_strdup((char *)lst->content);
+		if (!new[i])
 		{
-			if (needle[j + 1] == '\0')
-				return ((char *)haystack + i);
-			j++;
+			ft_free_tab(new);
+			return (NULL);
 		}
+		lst = lst->next;
 		i++;
 	}
-	return (NULL);
+	new[i] = NULL;
+	return (new);
 }
