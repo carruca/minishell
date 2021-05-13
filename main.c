@@ -13,17 +13,14 @@ void	init_environ(t_env *_env)
 
 void	free_lista(t_env *_env)
 {
-	t_line	*line;
+	t_lista *node;
 
-	while (_env->cli->next)
+	while (_env->cli)
 	{
-		line = _env->cli->content;
-		if (line->origin_line)
-			free(line->origin_line);
-		if (line->clone_line)
-			free(line->clone_line);
-		free(line);
+		node = _env->cli;
+		free_node(_env->cli);
 		_env->cli = _env->cli->next;
+		free(node);
 	}
 }
 
@@ -60,7 +57,7 @@ int	main(int argc, char *argv[], char **env)
 		if (!ft_strcmp(cmd, "exit"))
 		{
 			free_lista(&_env);
-			system("leaks minishell");
+			//system("leaks minishell");
 			exit(0);
 		}
 	}

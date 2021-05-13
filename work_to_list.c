@@ -42,7 +42,7 @@ int	work_to_list(t_env *_env, char *cmd)
 		cmdline = ft_split(cmd, ' ');
 		while (cmdline[len])
 			len++;
-		if (!ft_strcmp(cmdline[0], "./minishell") || !ft_strcmp(cmdline[0], "bash"))
+		if (cmdline[0] && (!ft_strcmp(cmdline[0], "./minishell") || !ft_strcmp(cmdline[0], "bash")))
 			set_shelllvl(_env);
 		execute_builtin(len, cmdline, _env);     //    <---- esta llamada a la funcion es la que tenemos que meter en un punto del parseo
 		while (_env->env_lst && _env->env_lst->prev != NULL)	  // lo demas no sirve mas que para pruebas.

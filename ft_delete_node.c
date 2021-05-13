@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	set_env_delete(char *str, t_lista *lst)
+int	set_env_delete(t_lista *lst, char *str)
 {
 	t_var	*var;
 	t_lista	*aux;
@@ -16,6 +16,7 @@ int	set_env_delete(char *str, t_lista *lst)
 				lst->prev->next = lst->next;
 				lst->next->prev = lst->prev;
 				free_node(aux);
+				free(aux);
 			}
 			return (1);
 		}
@@ -28,7 +29,7 @@ int	ft_delete_node(t_lista *lst, char **str)
 {
 	while (*str)
 	{
-		set_env_delete(*str, lst);
+		set_env_delete(lst, *str);
 		str++;
 	}
 	return (1);

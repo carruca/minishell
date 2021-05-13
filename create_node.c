@@ -40,6 +40,7 @@ void	create_node(t_env *_env)
 	{
 		line->origin_line = ft_strdup(_env->cmd_buff);
 		line->clone_line = NULL;
+		free(content->clone_line);
 		content->clone_line = NULL;
 	}
 	new = ft_lst_new_lst(line);

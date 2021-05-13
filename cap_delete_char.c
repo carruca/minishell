@@ -1,22 +1,30 @@
 #include "minishell.h"
 
-void	cap_delete_char(t_env *lst_env)
+void	cap_delete_char(t_env *_env)
 {
 	t_line	*line;
+	char	*tmp;
 
-	line = lst_env->cli->content;
-	if (lst_env->cli_bufflen > 0)
+	tmp = NULL;
+	line = _env->cli->content;
+	if (_env->len_cursor)
 	{
 		tputs(cursor_left, 1, ft_putchar);
 		tputs(tgetstr("dm", 0), 1, ft_putchar);
 		tputs(tgetstr("dc", 0), 1, ft_putchar);
 		tputs(tgetstr("ed", 0), 1, ft_putchar);
-		lst_env->cmd_cursor--;
-		lst_env->cli_bufflen--;
-		lst_env->len_cursor--;
-		*lst_env->cmd_cursor = '\0';
+		_env->cmd_cursor--;
+		_env->cli_bufflen--;
+		_env->len_cursor--;
+		*_env->cmd_cursor = '\0';
 		if (*(line->origin_line))
-			line->clone_line = ft_strdup(lst_env->cmd_buff);
+		{
+			if (line->clone_line != NULL)
+				tmp = line->clone_line;
+			line->clone_line = ft_strdup(_env->cmd_buff);
+			if (tmp)
+				free(tmp);
+		}
 	}
 	else
 		tputs(tgetstr("te", 0), 1, ft_putchar);

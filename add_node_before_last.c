@@ -20,7 +20,7 @@ void	add_node_before_last(t_lista *lst, char **str)
 			{
 				while (aux->next != NULL)
 					aux = aux->next;
-				lista = ft_lst_new_lst(array_to_var(*str));
+				lista = ft_lst_new_lst(var);
 				lista->next = aux;
 				lista->prev = aux->prev;
 				aux->prev->next = lista;

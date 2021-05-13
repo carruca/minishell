@@ -8,5 +8,4 @@ void	free_node(t_lista *node)
 	free(line->origin_line);
 	free(line->clone_line);
 	free(line);
-	free(node);
 }
