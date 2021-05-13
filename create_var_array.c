@@ -15,7 +15,7 @@ t_var	*array_to_var(char *str)
 	while (str[index] != '=')
 		index++;
 	new_var->name = ft_substr(str, 0, index);
-	new_var->value = ft_substr(str, index + 1, ft_strlen(&str[index + 1]));
+	new_var->value = ft_substr(str, ++index, ft_strlen(&str[index]));
 	return (new_var);
 }
 

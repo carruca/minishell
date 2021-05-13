@@ -4,9 +4,6 @@ t_var	*change_value(char *str, t_var *var)
 {
 	char	*tmp;
 
-	while (*str != '=')
-		str++;
-	str++;
 	if (ft_strcmp(var->value, str))
 	{
 		tmp = var->value;
@@ -39,18 +36,18 @@ int	search_env_name(char *str, t_var *var)
 
 /*	recibe una cadena y una lista
 	si encuentra la cadena en el elemento nombre de content
-	devuelve un puntero al nodo de lo contrario devuelve null*/
+	devuelve un 1 si lo encuentra sino devuelve un 0*/
 
-int	set_env(char *str, t_lista *lst)
+int	set_env(t_lista *lst, char *name, char *new_value)
 {
 	t_var	*var;
 
 	while (lst)
 	{
 		var = lst->content;
-		if (search_env_name(str, var) == 0)
+		if (search_env_name(name, var) == 0)
 		{
-			var = change_value(str, var);
+			var = change_value(new_value, var);
 			return (1);
 		}
 		lst = lst->next;

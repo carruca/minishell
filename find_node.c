@@ -2,7 +2,7 @@
 
 /*	recibe una cadena y una lista
 	si encuentra la cadena en el elemento nombre de content
-	devuelve un puntero al nodo de lo contrario devuelve null*/
+	devuelve el valor que es una cadena de lo contrario devuelve null*/
 
 char	*find_node(char *str, t_lista *lst)
 {

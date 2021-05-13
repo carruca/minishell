@@ -67,8 +67,8 @@ void	print_export(t_lista *env)
 int	set_export(int argc, char **cmdline, t_env *_env)
 {
 	if (argc > 1)
-		add_node_before_last(_env->lst, &*(++cmdline));
+		add_node_before_last(_env->env_lst, &*(++cmdline));
 	else
-		print_export(_env->lst);
+		print_export(_env->env_lst);
 	return (1);
 }
