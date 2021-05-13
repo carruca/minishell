@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+
+
 //funcion para encontrar los comandos
 //esta función es solo para hacer pruebas
 
