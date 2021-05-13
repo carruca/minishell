@@ -14,8 +14,8 @@ int	work_to_list(t_env *_env, char *cmd)
 		cmdline = ft_split(cmd, ' ');
 		while (cmdline[len])
 			len++;
-		execute_builtin(len, cmdline, _env);
-		while (_env->lst && _env->lst->prev != NULL)
+		execute_builtin(len, cmdline, _env);     //    <---- esta llamada a la funcion es la que tenemos que meter en un punto del parseo
+		while (_env->lst && _env->lst->prev != NULL)	  // lo demas no sirve mas que para pruebas.
 			_env->lst = _env->lst->prev;
 		ft_free_tab(cmdline);
 	}

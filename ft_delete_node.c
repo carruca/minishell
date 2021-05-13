@@ -31,5 +31,5 @@ int	ft_delete_node(t_lista *lst, char **str)
 		set_env_delete(*str, lst);
 		str++;
 	}
-	return (0);
+	return (1);
 }

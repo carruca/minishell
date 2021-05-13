@@ -70,7 +70,7 @@ char	*next_line_key(t_env *_env);
 t_var	*array_to_var(char *str);
 t_lista	*ft_lst_new_lst(void *content);
 void	imprimir_content(void *cabeza);
-void	imprimir_tabla(char **array);
+int		imprimir_tabla(char **array);
 void	imprimir_lista(t_lista *cabeza);
 
 #endif

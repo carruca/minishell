@@ -4,15 +4,15 @@
 // si lo encuentra devuelve 0 de lo contrario devuelve 1
 // --> esta función es solo para hacer pruebas
 
-int	find_builtin(char *cmd, char *builtin)
-{
-	while (*builtin)
-	{
-		if (*cmd++ != *builtin++)
-			return (1);
-	}
-	return (0);
-}
+// int	find_builtin(char *cmd, char *builtin)
+// {
+// 	while (*builtin)
+// 	{
+// 		if (*cmd++ != *builtin++)
+// 			return (1);
+// 	}
+// 	return (0);
+// }
 
 // recibe un string y una lista
 // imprime en funcion de si encuetra $ o no
@@ -41,26 +41,26 @@ void	print_echo(char **cmd)
 int	execute_builtin(int argc, char **cmdline, t_env *_env)
 {
 	char	cwd[2048];
-	int		i;
 
-	i = 0;
 	if (*cmdline)
 	{
-		if (!find_builtin(*cmdline, "pwd"))
+		if (!ft_strcmp(*cmdline, "pwd"))
 		{
 			getcwd(cwd, sizeof(cwd));
 			printf("%s\n", cwd);
+			return (1);
 		}
-		else if (!find_builtin(*cmdline, "env"))
-			imprimir_tabla(var_to_array(_env->lst));
-		else if (!find_builtin(*cmdline, "export"))
-			set_export(argc, cmdline, _env);
-		else if (!find_builtin(*cmdline, "unset"))
-			ft_delete_node(_env->lst, &*(++cmdline));
-		else if (!find_builtin(*cmdline, "echo"))
+		else if (!ft_strcmp(*cmdline, "env"))
+			return(imprimir_tabla(var_to_array(_env->lst)));
+		else if (!ft_strcmp(*cmdline, "export"))
+			return(set_export(argc, cmdline, _env));
+		else if (!ft_strcmp(*cmdline, "unset"))
+			return(ft_delete_node(_env->lst, &*(++cmdline)));
+		else if (!ft_strcmp(*cmdline, "echo"))
 		{
 			cmdline++;
 			print_echo(cmdline);
+			return (1);
 		}
 	}
 	return (0);

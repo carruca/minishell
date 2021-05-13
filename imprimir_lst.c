@@ -14,7 +14,7 @@ void	imprimir_lista(t_lista *lst)
 	ft_lst_iter_lst(lst, imprimir_content);
 }
 
-void	imprimir_tabla(char **array)
+int	imprimir_tabla(char **array)
 {
 	int	i;
 
@@ -25,4 +25,5 @@ void	imprimir_tabla(char **array)
 		i++;
 	}
 	ft_free_tab(array);
+	return (1);
 }
