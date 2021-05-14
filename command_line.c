@@ -45,7 +45,8 @@ int	*read_cmdline(char **cmd, t_env *_env)
 			cap_delete_char(_env);
 		else if (_env->str == NL_KEY)
 		{
-			if (*_env->cmd_buff)
+			t_line *line = _env->cli->content;
+			if (*_env->cmd_buff  || line->origin_line)
 			{
 				*cmd = next_line_key(_env);
 				break ;

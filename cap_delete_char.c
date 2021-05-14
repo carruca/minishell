@@ -27,5 +27,9 @@ void	cap_delete_char(t_env *_env)
 		}
 	}
 	else
+	{
+		free(line->clone_line);
+		line->clone_line = NULL;
 		tputs(tgetstr("te", 0), 1, ft_putchar);
+	}
 }

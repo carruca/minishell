@@ -8,7 +8,7 @@ void	find_history(t_env *_env)
 	tputs(restore_cursor, 1, ft_putchar);
 	tputs(tgetstr("ed", 0), 1, ft_putchar);
 	tputs(tgetstr("ce", 0), 1, ft_putchar);
-	if (line->clone_line)
+	if (line->clone_line && ft_strcmp(line->clone_line, ""))
 	{
 		ft_strcpy(_env->cmd_buff, line->clone_line);
 		_env->cli_bufflen = ft_strlen(line->clone_line);
