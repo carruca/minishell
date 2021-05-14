@@ -16,8 +16,9 @@ SRC = main.c \
 	  command.c \
 	  fd.c \
 	  quoted.c \
-	  cd.c \
-	  exit.c
+	  builtins/check_builtin.c \
+	  builtins/cd.c \
+	  builtins/exit.c
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)

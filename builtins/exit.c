@@ -6,11 +6,11 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:08:34 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/14 14:10:47 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/14 16:05:41 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	builtin_exit(t_shell *sh, int argc, char **argv)
 {
@@ -22,7 +22,7 @@ int	builtin_exit(t_shell *sh, int argc, char **argv)
 	if (argc > 1)
 	{
 		status = ft_atoi(argv[1]);
-		if (status <= 0)
+		if (status == -1)
 		{
 			print_builtin_error(sh, argv, "numeric argument required", 1);
 			status = 2;
