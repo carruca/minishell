@@ -12,11 +12,13 @@
 
 #include "minishell.h"
 
-void	print_buildin_error(t_shell *sh, char *buildin, char *str, int status)
+extern char	**environ;
+
+void	print_builtin_error(t_shell *sh, char *builtin, char *str, int status)
 {
 	ft_putstr_fd(sh->prompt, 2);
 	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(buildin, 2);
+	ft_putstr_fd(builtin, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": ", 2);
@@ -25,31 +27,49 @@ void	print_buildin_error(t_shell *sh, char *buildin, char *str, int status)
 	sh->status = status;
 }
 
-int	buildin_cd(t_shell *sh, int	argc, char **argv)
+int	builtin_exit(t_shell *sh, int argc, char **argv)
+{
+	int	status;
+
+	(void)sh;
+	status = 0;
+	if (argc > 1)
+	{
+		status = ft_atoi(argv[1]);
+	}
+	ft_putstr_fd(argv[0], 1);
+	ft_putstr_fd("\n", 1);
+	exit(status);
+
+}
+
+int	builtin_cd(t_shell *sh, int	argc, char **argv)
 {
 	int		ret;
-	char	*old_wd;
-	char	*new_wc;
+	char	*pwc;
+	char	*oldpwd;
 
-	old_wd = getenv("PWD");
+	oldpwd = getenv("PWD");
 	if (argc == 1)
-		new_wc = getenv("HOME");
+		pwc = getenv("HOME");
 	else
-		new_wc = argv[1];
-	ret = chdir(new_wc);
-	if (!ret)
-		printf("%s\n", new_wc);
+		pwc = argv[1];
+	ret = chdir(pwc);
+	if (ret < 0)
+		print_builtin_error(sh, argv[0], argv[1], 1);
 	else
-		print_buildin_error(sh, argv[0], argv[1], 1);
+		sh->status = 0;
 	return (1);
 }
 
-int	check_buildin(t_shell *sh, int argc, char **argv)
+int	check_builtin(t_shell *sh, int argc, char **argv)
 {
 	int ret;
 
 	ret = 0;
-	if (argv && !ft_strcmp(argv[0], "cd"))
-		ret = buildin_cd(sh, argc, argv);
+	if (argc && !ft_strcmp(argv[0], "cd"))
+		ret = builtin_cd(sh, argc, argv);
+	if (argc && !ft_strcmp(argv[0], "exit"))
+		ret = builtin_exit(sh, argc, argv);
 	return (ret);
 }

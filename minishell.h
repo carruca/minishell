@@ -96,9 +96,9 @@ typedef struct s_token
 	int		identifier;
 }			t_token;
 
-/*		buildin			*/
+/*		builtin			*/
 
-int	check_buildin(t_shell *sh, int argc, char **argv);
+int	check_builtin(t_shell *sh, int argc, char **argv);
 
 /*		token			*/
 

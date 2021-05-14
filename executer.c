@@ -56,19 +56,21 @@ int		is_not_empty(char *str)
 
 void	find_command(t_cmd *cmd, t_shell *sh)
 {
+	int		argc;
 	char	**argv;
 	char	*path;
 
 	args_have_quotes(cmd->args_lst, sh);
+	argc = ft_lstsize_if(cmd->args_lst, is_not_empty);
 	argv = ft_lsttoa_if(cmd->args_lst, is_not_empty);
 	path = NULL;
-	if (argv[0] != NULL)
+	if (argc > 0 && !check_builtin(sh, argc, argv))
 		path = get_exe_path(argv[0], sh);
 	if (!path && argv[0] && *argv[0])
 		print_error(sh, argv[0], "command not found", 127);
 	else if (is_directory(path))
 		print_error(sh, argv[0], "is a directory", 126);
-	else if (!check_buildin(sh, ft_lstsize_if(cmd->args_lst, is_not_empty), argv))
+	else
 		sh->status = executer_command(path, argv);
 	if (path)
 		free(path);
