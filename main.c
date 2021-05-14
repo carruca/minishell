@@ -31,12 +31,12 @@ void	read_eval_print_loop(t_shell *sh)
 		sh->pipeline_lst = parser(cmd_line, sh->prompt);
 		if (sh->pipeline_lst)
 			executer(sh);
-		if (!ft_strcmp(cmd_line, "exit"))
+/*		if (!ft_strcmp(cmd_line, "exit"))
 		{
 			free(cmd_line);
 			system("leaks minishell");
 			exit(EXIT_SUCCESS);
-		}
+		}*/
 		free(cmd_line);
 	}
 }

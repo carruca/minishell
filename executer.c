@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/12 18:23:27 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/14 13:22:33 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,18 +59,20 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 	int		argc;
 	char	**argv;
 	char	*path;
+	int		builtin;
 
 	args_have_quotes(cmd->args_lst, sh);
 	argc = ft_lstsize_if(cmd->args_lst, is_not_empty);
 	argv = ft_lsttoa_if(cmd->args_lst, is_not_empty);
 	path = NULL;
-	if (argc > 0 && !check_builtin(sh, argc, argv))
+	builtin = check_builtin(sh, argc, argv);
+	if (argc > 0 && !builtin)
 		path = get_exe_path(argv[0], sh);
-	if (!path && argv[0] && *argv[0])
+	if (!path && argv[0] && *argv[0] && !builtin)
 		print_error(sh, argv[0], "command not found", 127);
-	else if (is_directory(path))
+	else if (path && is_directory(path))
 		print_error(sh, argv[0], "is a directory", 126);
-	else
+	else if (!builtin)
 		sh->status = executer_command(path, argv);
 	if (path)
 		free(path);

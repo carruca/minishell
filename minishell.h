@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/12 18:18:03 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/14 14:13:30 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,10 @@ typedef struct s_token
 
 /*		builtin			*/
 
-int	check_builtin(t_shell *sh, int argc, char **argv);
+int		check_builtin(t_shell *sh, int argc, char **argv);
+int		builtin_cd(t_shell *sh, int argc, char **argv);
+int		builtin_exit(t_shell *sh, int argc, char **argv);
+void	print_builtin_error(t_shell *sh, char **argv, char *str, int status);
 
 /*		token			*/
 
