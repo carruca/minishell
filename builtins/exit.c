@@ -12,11 +12,11 @@
 
 #include "../minishell.h"
 
-int	ft_is_str_int(const char *str)
+int	ft_is_str_longint(const char *str)
 {
-	size_t		i;
-	int			neg;
-	long long	num;
+	size_t	i;
+	int		neg;
+	double	num;
 
 	i = 0;
 	neg = 1;
@@ -33,9 +33,9 @@ int	ft_is_str_int(const char *str)
 	{
 		num = num * 10 + (str[i] - '0');
 		i++;
-		if (num * neg > INT_MAX)
+		if (num * neg > LONG_MAX)
 			return (0);
-		if (num * neg < INT_MIN)
+		if (num * neg < LONG_MIN)
 			return (0);
 	}
 	return (1);
@@ -55,7 +55,7 @@ int	builtin_exit(t_shell *sh, int argc, char **argv)
 	sh->status = 0;
 	if (argc > 1)
 	{
-		if (!ft_is_str_int(argv[1])
+		if (!ft_is_str_longint(argv[1])
 				|| (!ft_is_str_digit(argv[1]) && !ft_isneg(argv[1])))
 			print_builtin_error(sh, argv, "numeric argument required", 255);
 		else if (argc > 2)
