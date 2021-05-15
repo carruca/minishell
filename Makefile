@@ -16,7 +16,7 @@ SRC = main.c \
 	  command.c \
 	  fd.c \
 	  quoted.c \
-	  builtins/check_builtin.c \
+	  builtins/check.c \
 	  builtins/cd.c \
 	  builtins/exit.c
 
@@ -47,7 +47,7 @@ clean:
 	$(RM) tag
 
 tag:
-	ctags $(SRC)
+	ctags $(SRC) $(LIBFT_DIR)*.c
 
 fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean

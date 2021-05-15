@@ -12,27 +12,56 @@
 
 #include "../minishell.h"
 
+int	ft_is_str_int(const char *str)
+{
+	size_t		i;
+	int			neg;
+	long long	num;
+
+	i = 0;
+	neg = 1;
+	num = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == ' ')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+	{
+		if (str[i] == '-')
+			neg = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		num = num * 10 + (str[i] - '0');
+		i++;
+		if (num * neg > INT_MAX)
+			return (0);
+		if (num * neg < INT_MIN)
+			return (0);
+	}
+	return (1);
+}
+
+int	ft_isneg(const char *s)
+{
+	if (s[0] == '-' && ft_isdigit(s[1]))
+		return (1);
+	return (0);
+}
+
 int	builtin_exit(t_shell *sh, int argc, char **argv)
 {
-	int	status;
-
-	status = 0;
 	ft_putstr_fd(argv[0], 1);
 	ft_putstr_fd("\n", 1);
+	sh->status = 0;
 	if (argc > 1)
 	{
-		status = ft_atoi(argv[1]);
-		if (status == -1)
-		{
-			print_builtin_error(sh, argv, "numeric argument required", 1);
-			status = 2;
-		}
+		if (!ft_is_str_int(argv[1])
+				|| (!ft_is_str_digit(argv[1]) && !ft_isneg(argv[1])))
+			print_builtin_error(sh, argv, "numeric argument required", 255);
 		else if (argc > 2)
-		{
 			print_builtin_error(sh, argv, "too many arguments", 1);
-			status = 1;
-		}
+		else
+			sh->status = ft_atoi(argv[1]);
 	}
-	system("leaks minishell");
-	exit(status);
+	exit(sh->status);
 }
