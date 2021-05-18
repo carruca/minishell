@@ -27,6 +27,10 @@
 # include <sys/stat.h>
 # include <dirent.h>
 # include <signal.h>
+# include <term.h>
+# include <termios.h>
+# include "env.h"
+# include "builtins.h"
 
 # define WORD	0x0001
 # define LESS	0x0002
@@ -39,17 +43,20 @@
 
 typedef struct s_shell
 {
-	char	*prompt;
-	t_list	*pipeline_lst;
-	int		status;
-}			t_shell;
+	char			*prompt;
+	t_list			*pipeline_lst;
+	struct termios	term;
+	struct termios	my_term;
+	t_env			_env;
+	int				status;
+}					t_shell;
 
 typedef struct s_path
 {
-	char	*env;
-	char	*dir;
-	char	*exe;
-}			t_path;
+	char			*env;
+	char			*dir;
+	char			*exe;
+}					t_path;
 
 typedef struct s_fd
 {
@@ -97,6 +104,9 @@ typedef struct s_token
 }			t_token;
 
 /*		builtin			*/
+
+void	set_shelllvl(t_env *_env);
+int		builtin_echo(t_shell *sh, char **argv);
 
 int		check_builtin(t_shell *sh, int argc, char **argv);
 int		builtin_cd(t_shell *sh, int argc, char **argv);
@@ -158,7 +168,7 @@ void	find_command(t_cmd *cmd, t_shell *sh);
 
 int		search_directory(char *path, char *name);
 char	*get_exe_path(char *name, t_shell *sh);
-int		executer_command(char *path, char **argv);
+int		executer_command(t_shell *sh, char *path, char **argv, char **env);
 void	print_command_error(char *cmd, char *prompt, int *status);
 
 /*		main			*/

@@ -18,11 +18,42 @@ SRC = main.c \
 	  quoted.c \
 	  builtins/check.c \
 	  builtins/cd.c \
-	  builtins/exit.c
+	  builtins/exit.c \
+	  create_var_array.c \
+	  env.c \
+	  free_var.c \
+	  free_node.c \
+	  search_var.c \
+	  work_to_list.c \
+	  set_env.c \
+	  ft_insert_node_fin.c \
+	  ft_lst_new_lst.c \
+	  add_node_before_last.c \
+	  find_history.c \
+	  find_node.c \
+	  ft_delete_node.c \
+	  lst_iter_lst.c \
+	  ft_lst_size_lst.c \
+	  ft_insert_node_ini.c \
+	  export_builtin.c \
+	  command_line.c \
+	  next_line_key.c \
+	  ft_putchar.c \
+	  create_node.c \
+	  cap_key_up.c \
+	  cap_key_right.c\
+	  cap_key_printable.c \
+	  cap_key_left.c \
+	  cap_key_down.c \
+	  ft_strjoin_free.c \
+	  cap_delete_char.c \
+	  execute_builtin.c \
+	  imprimir_lst.c
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)
 LIBFT = -L $(LIBFT_DIR) -lft
+TERMCAP = -ltermcap
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror $(INC) -O0
@@ -30,13 +61,10 @@ LDFLAGS = #-g3 -fsanitize=address
 MAKE = make
 RM = rm -rf
 
-all: $(NAME) $(LNAME)
+all: $(NAME)
 
 $(NAME): $(OBJ) $(LNAME)
-	$(CC) $(OBJ) $(LDFLAGS) -o $(NAME) $(LIBFT)
-
-#%.o: %.c $(LNAME)
-#	$(CC) $(WFLAGS) -c -o $@ $<
+	$(CC) $(OBJ) $(LDFLAGS) -o $(NAME) $(LIBFT) $(TERMCAP)
 
 $(LNAME): 
 	$(MAKE) -C $(LIBFT_DIR)

@@ -13,8 +13,6 @@
 //#include "command.h"
 #include "minishell.h"
 
-extern char	**environ;
-
 int	search_directory(char *path, char *name)
 {
 	DIR				*dirp;
@@ -51,7 +49,10 @@ char	*get_exe_path(char *name, t_shell *sh)
 		return (ft_strdup(name));
 	}
 	sh->status = sh->status;
-	path.env = ft_strdup(getenv("PATH"));
+	path.env = find_node("PATH", sh->_env.env_lst);
+	if (!path.env)
+		return (NULL);
+	path.env = ft_strdup(path.env);
 	path.dir = ft_strtok(path.env, ":");
 	while (path.dir != NULL)
 	{
@@ -67,7 +68,7 @@ char	*get_exe_path(char *name, t_shell *sh)
 	return (NULL);
 }
 
-int	executer_command(char *path, char **argv)
+int	executer_command(t_shell *sh, char *path, char **argv, char **env)
 {
 	int		status;
 	pid_t	child_pid;
@@ -79,10 +80,14 @@ int	executer_command(char *path, char **argv)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		execve(path, argv, environ);
+		execve(path, argv, env);
 		exit(0);
 	}
 	waitpid(child_pid, &status, 0);
+	while (waitpid(-1, NULL, WNOHANG) > 0)
+		;
+	tcsetattr(1, TCSAFLUSH, &sh->my_term);
+	tputs(tgetstr("ks", 0), 1, ft_putchar);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	return (status);

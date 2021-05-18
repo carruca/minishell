@@ -58,6 +58,7 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 {
 	int		argc;
 	char	**argv;
+	char	**env;
 	char	*path;
 	int		builtin;
 
@@ -65,6 +66,7 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 	argc = ft_lstsize_if(cmd->args_lst, is_not_empty);
 	argv = ft_lsttoa_if(cmd->args_lst, is_not_empty);
 	path = NULL;
+	env = var_to_array(sh->_env.env_lst);
 	builtin = check_builtin(sh, argc, argv);
 	if (argc > 0 && !builtin)
 		path = get_exe_path(argv[0], sh);
@@ -73,10 +75,11 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 	else if (path && is_directory(path))
 		print_error(sh, argv[0], "is a directory", 126);
 	else if (!builtin)
-		sh->status = executer_command(path, argv);
+		sh->status = executer_command(sh, path, argv, env);
 	if (path)
 		free(path);
 	ft_free_tab(argv);
+	ft_free_tab(env);
 }
 /*
 void	print_file_error(char *file, char *prompt)

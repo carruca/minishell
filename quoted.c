@@ -39,14 +39,12 @@ int	count_env(char *name, t_shell *sh)
 	if (*name == '?')
 	{
 		envp = ft_itoa(sh->status);
-//		printf("status_exit = $%d$\n", sh->status);
-//		printf("status_exit = $%s$\n", envp);
 		count = ft_strlen(envp);
 		free(envp);
 	}
 	else
 	{
-		envp = getenv(name);
+		envp = find_node(name, sh->_env.env_lst);
 		if (!envp)
 			return (0);
 		count = ft_strlen(envp);
@@ -133,7 +131,7 @@ void	copy_env(char *dst, char *name, int *j, t_shell *sh)
 		freed = 1;
 	}
 	else
-		envp = getenv(name);
+		envp = find_node(name, sh->_env.env_lst);
 	if (!envp)
 		return ;
 	i = 0;
@@ -206,14 +204,6 @@ void	change_content(t_list *lst, void *content)
 	lst->content = content;
 	free(ptr);
 }
-/*
-void	print_redir_error(char *redirect, char *prompt)
-{
-	ft_putstr_fd(prompt, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(redirect, 2);
-	ft_putstr_fd(": ambiguous redirect\n", 2);
-}*/
 
 int	redir_file_have_quotes(char **str, t_shell *sh)
 {

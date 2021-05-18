@@ -98,5 +98,6 @@ char		**ft_lsttoa_if(t_list *lst, int (*cmp)());
 size_t		ft_strspn(const char *s, const char *charset);
 size_t		ft_strcspn(const char *s, const char *charset);
 char		*ft_strtok(char *str, const char *sep);
+char		*ft_strcpy(char *dest, char *src);
 
 #endif

@@ -63,5 +63,6 @@ int	builtin_exit(t_shell *sh, int argc, char **argv)
 		else
 			sh->status = ft_atoi(argv[1]);
 	}
+	tcsetattr(1, TCSANOW, &sh->term);
 	exit(sh->status);
 }
