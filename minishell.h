@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/14 14:13:30 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/18 19:33:55 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_token
 
 /*		builtin			*/
 
+int		set_env_delete(t_lista *lst, char *str);
 void	set_shelllvl(t_env *_env);
 int		builtin_echo(t_shell *sh, char **argv);
 

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:58:28 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/14 15:19:15 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/18 22:38:22 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ int	builtin_env(t_shell *sh)
 	envp = var_to_array(sh->_env.env_lst);
 	if (!envp)
 		return (1);
-	while (envp && envp[i])
+	while (envp[i])
 	{
 		ft_putstr_fd(envp[i], 1);
 		ft_putstr_fd("\n", 1);
 		i++;
 	}
 	ft_free_tab(envp);
-	return (0);
+	return (1);
 }
 
 int	builtin_echo(t_shell *sh, char **argv)
@@ -125,10 +125,58 @@ int	print_declare_env(t_shell *sh)
 	return (0);
 }
 
+void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status)
+{
+	ft_putstr_fd(sh->prompt, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd("not a valid identifier", 2);
+	ft_putstr_fd("\n", 2);
+	sh->status = status;
+}
+
+int	is_valid_identifier(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isdigit(str[0]) || (!ft_isalnum(str[i]) && str[i] != '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	builtin_unset(t_shell *sh, int argc, char **argv)
+{
+	int	i;
+
+	sh->status = 0;
+	if (argc > 1)
+	{
+		i = 1;
+		while (argv[i])
+		{
+			if (!is_valid_identifier(argv[i]))
+				print_identifier_error(sh, argv[0], argv[i], 1);
+			else
+				set_env_delete(sh->_env.env_lst, argv[i]);
+			i++;
+		}
+	}
+	return (1);
+}
+
 int	builtin_export(t_shell *sh, int argc, char **argv)
 {
-	if (argc < 1)
+	if (argc > 1)
 	{
+		sh->status = 0;
 		(void)argv;
 //		export_env(sh, argv++);
 	}
@@ -155,7 +203,7 @@ int	check_builtin(t_shell *sh, int argc, char **argv)
 		else if (!ft_strcmp(argv[0], "export"))
 			ret = builtin_export(sh, argc, argv);
 		else if (!ft_strcmp(argv[0], "unset"))
-			ret = ft_delete_node(sh->_env.env_lst, &*(++argv));
+			ret = builtin_unset(sh, argc, argv);
 		else if (!ft_strcmp(argv[0], "echo"))
 			ret = builtin_echo(sh, &argv[1]);
 	}
@@ -168,8 +216,11 @@ void	print_builtin_error(t_shell *sh, char **argv, char *str, int status)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(argv[0], 2);
 	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(argv[1], 2);
-	ft_putstr_fd(": ", 2);
+	if (argv[1])
+	{
+		ft_putstr_fd(argv[1], 2);
+		ft_putstr_fd(": ", 2);
+	}
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd("\n", 2);
 	sh->status = status;
