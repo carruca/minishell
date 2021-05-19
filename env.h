@@ -10,6 +10,7 @@ typedef struct s_variable
 {
 	char	*name;
 	char	*value;
+	int		flags;
 }			t_var;
 
 typedef struct s_line

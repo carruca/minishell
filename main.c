@@ -71,19 +71,33 @@ void	sig_handler(int sig)
 	ft_putchar_fd('\n', 1);
 }
 
-int	main(int argc, char **argv, char **environ)
+void	print_env(void *content)
+{
+	t_var	*var;
+
+	var = content;
+	printf("%s=%s=%d\n", var->name, var->value, var->flags);
+}
+
+int	main(int argc, char **argv, char **env)
 {
 	t_shell	sh;
 
-	ft_bzero(&sh, sizeof(sh));
-	init_environ(&sh._env);
-	tgetent(0, getenv("TERM"));
-	tcgetattr(1, &sh.term);
-	init_keyboard(&sh);
-	capture(&sh._env, environ);
+//	ft_bzero(&sh, sizeof(sh));
+//	init_environ(&sh._env);
+//	tgetent(0, getenv("TERM"));
+//	tcgetattr(1, &sh.term);
+//	init_keyboard(&sh);
+	sh.env_lst = capture_env(env);
+	if (sh.env_lst)
+	{
+		ft_lstiter(sh.env_lst, print_env);
+		return (1);
+	}
+	capture(&sh._env, env);
 	set_shelllvl(&sh._env);
-//	signal(SIGINT, sig_handler);
-//	signal(SIGQUIT, sig_handler);
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	sh.prompt = ft_strrchr(argv[0], '/') + 1;
 	if (argc == 1)
 		read_eval_print_loop(&sh);

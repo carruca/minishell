@@ -19,6 +19,7 @@ SRC = main.c \
 	  builtins/check.c \
 	  builtins/cd.c \
 	  builtins/exit.c \
+	  environ.c \
 	  create_var_array.c \
 	  env.c \
 	  free_var.c \

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/19 16:28:37 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/19 21:12:01 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,17 @@
 # define EXPAN	0x0040
 # define TOGET	0x0080
 
+
+# define EXPORT		0x0001
+# define ONLYENV	0x0002
+/*
+typedef struct s_variable
+{
+	char	*name;
+	char	*value;
+	int		flags;
+}			t_var;
+*/
 typedef struct s_shell
 {
 	char			*prompt;
@@ -106,6 +117,7 @@ typedef struct s_token
 
 /*		builtin			*/
 
+t_list	*capture_env(char **env);
 int		set_env_delete(t_lista *lst, char *str);
 void	set_shelllvl(t_env *_env);
 int		builtin_echo(t_shell *sh, char **argv);

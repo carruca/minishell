@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:11:16 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/10 16:19:47 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/19 21:46:46 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	executer_command(t_shell *sh, char *path, char **argv, char **env)
 		return (0);
 	else if (child_pid == 0)
 	{
+		tcsetattr(1, TCSANOW, &sh->term);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		execve(path, argv, env);
