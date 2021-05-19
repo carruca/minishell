@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 15:06:58 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/19 18:51:13 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/19 19:07:58 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 */
 static void	is_quoted_2(char c, int *quoted, int *i)
 {
-	printf("quoted = %d\n", *quoted);
 	if (c == '\"' && (*quoted == 0 || *quoted == 0x01))
 	{
 		*quoted ^= 0x01;
@@ -105,7 +104,7 @@ static int	count_without_quotes(char *str, t_shell *sh)
 	counter = 0;
 	while (str[i])
 	{
-		if ((str[i] == '\'' && (quoted == 0 || quoted == 0x02)) || (str[i] == '\"' && (quoted == 0 || quoted == 0x01)))
+		if (str[i] == '\'' || str[i] == '\"')
 			is_quoted_2(str[i], &quoted, &i);
 		if (str[i] && str[i] == '$' && (quoted == 0 || quoted == 0x01)
 				&& !ft_strchr("\'\"\0", str[i + 1]))
@@ -167,7 +166,7 @@ static void	copy_without_quotes(char *dst, char *src, t_shell *sh)
 	quoted = 0;
 	while (src[i])
 	{
-		while (src[i] == '\'' || src[i] == '\"')
+		if (src[i] == '\'' || src[i] == '\"')
 			is_quoted_2(src[i], &quoted, &i);
 		if (src[i] == '$' && (quoted == 0 || quoted == 0x01)
 				&& !ft_strchr("\'\"\0", src[i + 1]))
