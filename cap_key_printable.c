@@ -17,7 +17,7 @@ int	cap_key_printable(t_env *_env)
 		_env->cmd_cursor++;
 		*_env->cmd_cursor = '\0';
 	}
-	if (*(line->origin_line))
+	if (*(line->origin_line) || !_env->cli->prev)
 	{
 		if (line->clone_line != NULL)
 			tmp = line->clone_line;

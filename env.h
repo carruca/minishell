@@ -3,6 +3,8 @@
 # include "minishell.h"
 # define NL_KEY 10
 # define DL_KEY 127
+# define CTRL_D 4
+# define TAB	9
 # define FALSE 0
 # define TRUE 1
 
