@@ -12,6 +12,7 @@ typedef struct s_variable
 {
 	char	*name;
 	char	*value;
+	int		flags;
 }			t_var;
 
 typedef struct s_line
@@ -43,6 +44,7 @@ typedef struct s_environment
 	int			len_cursor;
 }	t_env;
 
+void	error_malloc();
 int		capture(t_env *_env, char **env);
 int		search_var_name(void *str, void *var);
 int		*read_cmdline(char **cmd, t_env *_env);
