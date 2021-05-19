@@ -55,6 +55,7 @@ void	read_eval_print_loop(t_shell *sh)
 		read_cmdline(&cmd_line, &sh->_env);
 //		cmd_line = read_command_line();
 		sh->pipeline_lst = parser(cmd_line, sh->prompt);
+		print_parse_tree(sh->pipeline_lst);
 		if (sh->pipeline_lst)
 			executer(sh);
 //		free(cmd_line);

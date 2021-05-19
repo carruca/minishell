@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/14 13:22:33 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/19 17:23:46 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 	int		builtin;
 
 	args_have_quotes(cmd->args_lst, sh);
+	printf("Entra\n");
 	argc = ft_lstsize_if(cmd->args_lst, is_not_empty);
 	argv = ft_lsttoa_if(cmd->args_lst, is_not_empty);
 	path = NULL;
 	env = var_to_array(sh->_env.env_lst);
+	printf("argv[0] = %s\n", argv[0]);
 	builtin = check_builtin(sh, argc, argv);
 	if (argc > 0 && !builtin)
 		path = get_exe_path(argv[0], sh);

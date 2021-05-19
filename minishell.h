@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/18 19:33:55 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/19 16:28:37 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_shell
 	t_list			*pipeline_lst;
 	struct termios	term;
 	struct termios	my_term;
+	t_list			*env_lst;
 	t_env			_env;
 	int				status;
 }					t_shell;

@@ -6,12 +6,13 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/12 14:24:02 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/18 22:37:04 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/19 16:39:21 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
 int	cmp_value_var(t_var *var, char *value)
 {
 	if (!ft_strcmp(var->value, value))
@@ -67,7 +68,7 @@ int	set_env_2(t_lista *lst, char *name, char *value, int overwrite)
 		lst->next = ft_lstnew()
 	}
 	
-/*	while (lst)
+	while (lst)
 	{
 		var = lst->content;
 		if (!ft_strcmp(name, var->name) && overwrite)
@@ -78,15 +79,15 @@ int	set_env_2(t_lista *lst, char *name, char *value, int overwrite)
 			return (1);
 		}
 		lst = lst->next;
-	}*/
+	}
 	return (0);
-}
+}*/
 
 int	builtin_cd(t_shell *sh, int	argc, char **argv)
 {
 	int		ret;
 	char	*dir;
-	char	pwd[2048];
+//	char	pwd[2048];
 	char	*oldpwd;
 
 	if (argc == 1)
@@ -103,8 +104,8 @@ int	builtin_cd(t_shell *sh, int	argc, char **argv)
 		oldpwd = find_node("PWD", sh->_env.env_lst);
 		if (oldpwd)
 		{
-			set_env_2(sh->_env.env_lst, "PWD",
-					getcwd(pwd, sizeof(char) * 2048), 1);
+/*			set_env_2(sh->_env.env_lst, "PWD",
+					getcwd(pwd, sizeof(char) * 2048), 1);*/
 		/*	if (find_node("OLDPWD", sh->_env.env_lst) != NULL)
 			{
 			//	oldpwd = ft_strdup(oldpwd);
