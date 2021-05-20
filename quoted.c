@@ -44,7 +44,7 @@ int	count_env(char *name, t_shell *sh)
 	}
 	else
 	{
-		envp = find_node(name, sh->_env.env_lst);
+		envp = get_env(name, sh->env_lst);
 		if (!envp)
 			return (0);
 		count = ft_strlen(envp);
@@ -131,7 +131,7 @@ void	copy_env(char *dst, char *name, int *j, t_shell *sh)
 		freed = 1;
 	}
 	else
-		envp = find_node(name, sh->_env.env_lst);
+		envp = get_env(name, sh->env_lst);
 	if (!envp)
 		return ;
 	i = 0;

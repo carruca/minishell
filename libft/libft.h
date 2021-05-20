@@ -94,7 +94,7 @@ void		ft_lstclear(t_list **lst, void (*del)(void *));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 t_list		*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *));
-char		**ft_lsttoa_if(t_list *lst, int (*cmp)());
+char		**ft_lsttoa_if(t_list *lst, char *(*cpy)(), int (*cmp)());
 size_t		ft_strspn(const char *s, const char *charset);
 size_t		ft_strcspn(const char *s, const char *charset);
 char		*ft_strtok(char *str, const char *sep);

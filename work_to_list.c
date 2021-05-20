@@ -16,7 +16,7 @@
 // }
 
 //funcion para cambiar el nivel de la shell
-
+/*
 void	set_shelllvl(t_env *_env)
 {
 	char	*value;
@@ -26,7 +26,7 @@ void	set_shelllvl(t_env *_env)
 	level = ft_atoi(value) + 1;
 	value = ft_itoa(level);
 	set_env(_env->env_lst, "SHLVL", value);
-}
+}*/
 
 //funcion para encontrar los comandos
 //esta función es solo para hacer pruebas

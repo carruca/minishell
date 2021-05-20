@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-char	**ft_lsttoa_if(t_list *lst, int (*cmp)())
+char	**ft_lsttoa_if(t_list *lst, char *(*cpy)(), int (*cmp)())
 {
 	char	**new;
 	int		counter;
@@ -27,7 +27,7 @@ char	**ft_lsttoa_if(t_list *lst, int (*cmp)())
 	{
 		if (cmp(lst->content))
 		{
-			new[i] = ft_strdup((char *)lst->content);
+			new[i] = cpy(lst->content);
 			if (!new[i])
 			{
 				ft_free_tab(new);

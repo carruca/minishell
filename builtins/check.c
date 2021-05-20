@@ -25,22 +25,17 @@ int	builtin_pwd(t_shell *sh)
 	return (1);
 }
 
-int	builtin_env(t_shell *sh)
+int	builtin_env(t_list *var_lst)
 {
-	char	**envp;
-	int		i;
-	
-	i = 0;
-	envp = var_to_array(sh->_env.env_lst);
-	if (!envp)
-		return (1);
-	while (envp[i])
+	t_var	*var;
+
+	while (var_lst)
 	{
-		ft_putstr_fd(envp[i], 1);
-		ft_putstr_fd("\n", 1);
-		i++;
+		var = var_lst->content;
+		if (is_env(var))
+			printf("%s=%s\n", var->name, var->value);
+		var_lst = var_lst->next;
 	}
-	ft_free_tab(envp);
 	return (1);
 }
 
@@ -165,7 +160,7 @@ int	builtin_unset(t_shell *sh, int argc, char **argv)
 			if (!is_valid_identifier(argv[i]))
 				print_identifier_error(sh, argv[0], argv[i], 1);
 			else
-				set_env_delete(sh->_env.env_lst, argv[i]);
+		//		set_env_delete(sh->_env.env_lst, argv[i]);
 			i++;
 		}
 	}
@@ -199,7 +194,7 @@ int	check_builtin(t_shell *sh, int argc, char **argv)
 		else if (!ft_strcmp(argv[0], "pwd"))
 			ret = builtin_pwd(sh);
 		else if (!ft_strcmp(argv[0], "env"))
-			ret = builtin_env(sh);
+			ret = builtin_env(sh->env_lst);
 		else if (!ft_strcmp(argv[0], "export"))
 			ret = builtin_export(sh, argc, argv);
 		else if (!ft_strcmp(argv[0], "unset"))
