@@ -22,11 +22,23 @@ void	control_key(t_env *_env)
 	else if (!ft_strcmp(_env->ch, tgetstr("kd", 0)))
 		_env->index_ch = cap_key_down(_env);
 	else if (!ft_strcmp(_env->ch, tgetstr("kr", 0)))
-		_env->index_ch = cap_key_right(_env);
+	{
+		_env->index_ch = 0;
+		ft_bzero(_env->ch, sizeof(_env->ch));
+	}
 	else if (!ft_strcmp(_env->ch, tgetstr("kl", 0)))
-		_env->index_ch = cap_key_left(_env);
+	{
+		_env->index_ch = 0;
+		ft_bzero(_env->ch, sizeof(_env->ch));
+	}
 	else if (ft_isprint(_env->str) && _env->check_esc == FALSE)
-		_env->index_ch = cap_key_printable(_env);	
+		_env->index_ch = cap_key_printable(_env);
+	else if (_env->check_esc == TRUE && _env->ch[2] != '\0')
+	{
+		_env->index_ch = 0;
+		ft_bzero(_env->ch, sizeof(_env->ch));
+		_env->check_esc = FALSE;
+	}
 }
 
 int	*read_cmdline(char **cmd, t_env *_env)
@@ -36,7 +48,8 @@ int	*read_cmdline(char **cmd, t_env *_env)
 	while (_env->str != NL_KEY)
 	{
 		read(0, &_env->str, 1);
-		if (_env->str != DL_KEY && _env->str != NL_KEY)
+		if (_env->str != DL_KEY && _env->str != NL_KEY && _env->str != TAB &&
+			_env->str != CTRL_D)
 		{
 			_env->ch[_env->index_ch++] = _env->str;
 			control_key(_env);
@@ -46,7 +59,7 @@ int	*read_cmdline(char **cmd, t_env *_env)
 		else if (_env->str == NL_KEY)
 		{
 			t_line *line = _env->cli->content;
-			if (*_env->cmd_buff  || line->origin_line)
+			if (*_env->cmd_buff || line->origin_line)
 			{
 				*cmd = next_line_key(_env);
 				break ;
@@ -54,6 +67,21 @@ int	*read_cmdline(char **cmd, t_env *_env)
 			*cmd = "";
 			printf("\n");
 		}
+		else if (_env->str == CTRL_D)
+		{
+			if (*_env->cmd_buff)
+			{
+				_env->index_ch = 0;
+				ft_bzero(_env->ch, sizeof(_env->ch));
+			}
+			else
+			{
+				printf("\n");
+				*cmd = "exit";
+				break ;
+			}
+		}
+		
 	}
 	return (0);
 }

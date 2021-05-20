@@ -1,10 +1,21 @@
 #include "minishell.h"
 
+#include "env.h"
+
+void	error_malloc()
+{
+	ft_putstr_fd("Error malloc", 2);
+	ft_putstr_fd("\n", 2);
+	exit(EXIT_FAILURE);
+}
+
 void	create_empty_node(t_env *_env)
 {
 	t_line	*line;
 
 	line = malloc(sizeof(t_line));
+	if (!line)
+		error_malloc();
 	line->origin_line = ft_strdup("");
 	line->clone_line = NULL;
 	_env->cli = ft_lst_new_lst(line);
@@ -31,6 +42,8 @@ void	create_node(t_env *_env)
 
 	content = _env->cli->content;
 	line = malloc(sizeof(t_line));
+	if (!line)
+		error_malloc();
 	if (!content->clone_line)
 	{
 		line->origin_line = ft_strdup(_env->cmd_buff);

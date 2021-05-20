@@ -9,6 +9,8 @@ t_lista	*ft_lst_new_lst(void *content)
 	new = NULL;
 	new = (t_lista *)malloc(sizeof(t_lista));
 	if (!new)
+		error_malloc();
+	if (!new)
 		return (NULL);
 	new->content = content;
 	new->prev = NULL;

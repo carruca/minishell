@@ -11,6 +11,8 @@ t_var	*array_to_var(char *str)
 	int		index;
 
 	new_var = (t_var *)malloc(sizeof(t_var));
+	if (!new_var)
+		error_malloc();
 	index = 0;
 	while (str[index] != '=')
 		index++;
@@ -30,6 +32,8 @@ char	*string_union(t_var *var, int len)
 	int		j;
 
 	string = (char *)malloc((sizeof(char) * len) + 1);
+	if (!string)
+		error_malloc();
 	i = 0;
 	while (i < len)
 	{
@@ -67,6 +71,8 @@ char	**var_to_array(t_lista *lista)
 	array = NULL;
 	cont = ft_lst_size_lst(lista);
 	array = (char **)malloc(sizeof(char *) * (cont + 1));
+	if (!array)
+		error_malloc();
 	while (i < cont)
 	{
 		var = lista->content;

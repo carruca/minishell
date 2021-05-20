@@ -3,6 +3,8 @@
 # include "minishell.h"
 # define NL_KEY 10
 # define DL_KEY 127
+# define CTRL_D 4
+# define TAB	9
 # define FALSE 0
 # define TRUE 1
 
@@ -42,6 +44,7 @@ typedef struct s_environment
 	int			len_cursor;
 }	t_env;
 
+void	error_malloc();
 int		capture(t_env *_env, char **env);
 int		search_var_name(void *str, void *var);
 int		*read_cmdline(char **cmd, t_env *_env);
