@@ -25,7 +25,6 @@ SRC = main.c \
 	  free_var.c \
 	  free_node.c \
 	  search_var.c \
-	  work_to_list.c \
 	  set_env.c \
 	  ft_insert_node_fin.c \
 	  ft_lst_new_lst.c \

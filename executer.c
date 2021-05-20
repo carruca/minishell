@@ -64,9 +64,9 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 
 	args_have_quotes(cmd->args_lst, sh);
 	argc = ft_lstsize_if(cmd->args_lst, is_not_empty);
-	argv = ft_lsttoa_if(cmd->args_lst, is_not_empty);
+	argv = ft_lsttoa_if(cmd->args_lst, ft_strdup, is_not_empty);
 	path = NULL;
-	env = var_to_array(sh->_env.env_lst);
+	env = ft_lsttoa_if(sh->env_lst, join_var, is_env);
 	builtin = check_builtin(sh, argc, argv);
 	if (argc > 0 && !builtin)
 		path = get_exe_path(argv[0], sh);

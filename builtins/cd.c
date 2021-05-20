@@ -12,60 +12,24 @@
 
 #include "../minishell.h"
 
-/*
-int	cmp_value_var(t_var *var, char *value)
+int	cmp_value_var(char *value, t_var *var)
 {
 	if (!ft_strcmp(var->value, value))
 		return (1);
 	return (0);
 }
-
-t_lista	*ft_lstfind_double(t_lista *lst, void *content, int (*cmp)())
-{
-	if (lst && cmp)
-	{
-		while (lst)
-		{
-			if (!cmp(content, lst->content))
-				return (lst);
-			lst = lst->next;
-		}
-	}
-	return (NULL);
-}
-
-t_lista	*ft_lstnew_double(void *content)
-{
-	t_list	*new;
-
-	new = malloc(sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content = (void *)content;
-	new->next = NULL;
-	return (new);
-}
-
-t_lista	*ft_lstlast_double(t_lista *lst)
-{
-	if (lst)
-		while (lst->next)
-			lst = lst->next;
-	return (lst);
-}
-
-
+/*
 int	set_env_2(t_lista *lst, char *name, char *value, int overwrite)
 {
-	t_lista	
+	t_list	*lst;
 	t_var	*var;
 	char	*ptr;
 
-	var = ft_lstfind_double(lst, &cmp_value_var);
+	lst = ft_lstfind(lst, value, &cmp_value_var);
 	if (!var)
 	{
-		lst = ft_lstlast_double(lst);
-		lst->next = ft_lstnew()
+		var = ft_lstnew();
+		ft_lst
 	}
 	
 	while (lst)
@@ -91,7 +55,7 @@ int	builtin_cd(t_shell *sh, int	argc, char **argv)
 	char	*oldpwd;
 
 	if (argc == 1)
-		dir = find_node("HOME", sh->_env.env_lst);
+		dir = get_env("HOME", sh->env_lst);
 	else
 		dir = argv[1];
 	ret = chdir(dir);
@@ -101,7 +65,7 @@ int	builtin_cd(t_shell *sh, int	argc, char **argv)
 		print_builtin_error(sh, argv, strerror(errno), 1);
 	else
 	{
-		oldpwd = find_node("PWD", sh->_env.env_lst);
+		oldpwd = get_env("PWD", sh->env_lst);
 		if (oldpwd)
 		{
 /*			set_env_2(sh->_env.env_lst, "PWD",

@@ -41,9 +41,8 @@
 # define EXPAN	0x0040
 # define TOGET	0x0080
 
-
-# define EXPORT		0x0001
-# define ONLYENV	0x0002
+# define EXPORT_VAR	0x0001
+# define ENV_VAR	0x0002
 /*
 typedef struct s_variable
 {
@@ -115,11 +114,15 @@ typedef struct s_token
 	int		identifier;
 }			t_token;
 
+int		is_export(t_var *var);
+int		is_env(t_var *var);
+char	*join_var(t_var *var);
+char	*get_env(char *name, t_list	*var_lst);
+t_list	*capture_env(char **env);
+
 /*		builtin			*/
 
-t_list	*capture_env(char **env);
-int		set_env_delete(t_lista *lst, char *str);
-void	set_shelllvl(t_env *_env);
+//int		set_env_delete(t_lista *lst, char *str);
 int		builtin_echo(t_shell *sh, char **argv);
 
 int		check_builtin(t_shell *sh, int argc, char **argv);
