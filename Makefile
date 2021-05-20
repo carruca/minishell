@@ -47,7 +47,6 @@ SRC = main.c \
 	  cap_key_down.c \
 	  ft_strjoin_free.c \
 	  cap_delete_char.c \
-	  execute_builtin.c \
 	  imprimir_lst.c
 
 OBJ = $(SRC:.c=.o)

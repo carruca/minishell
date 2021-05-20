@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:58:28 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/18 22:38:22 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/20 21:18:32 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,7 @@ int	builtin_echo(t_shell *sh, char **argv)
 	return (1);
 }
 
-void	export_env(t_shell *sh)
-{
-	sh->status = 0;
-}
-
+/*
 void	ft_sort_tab(char **tab_ptr)
 {
 	char	*aux;
@@ -89,36 +85,7 @@ void	ft_sort_tab(char **tab_ptr)
 		}
 		tab_ptr++;
 	}
-}
-
-int	print_declare_env(t_shell *sh)
-{
-	char	**envp;
-	char	*ptr;
-	int		i;
-
-	envp = var_to_array(sh->_env.env_lst);
-	if (!envp)
-		return (1);
-	ft_sort_tab(envp);
-	i = 0;
-	while (envp[i])
-	{
-		ft_putstr_fd("declare -x ", 1);
-		ptr = envp[i];
-		while (*ptr != '=')
-			ft_putchar_fd(*(ptr++), 1);
-		ft_putchar_fd(*(ptr++), 1);
-		ft_putchar_fd('\"', 1);
-		while (*ptr != '\0')
-			ft_putchar_fd(*(ptr++), 1);
-		ft_putchar_fd('\"', 1);
-		ft_putchar_fd('\n', 1);
-		i++;
-	}
-	ft_free_tab(envp);
-	return (0);
-}
+}*/
 
 void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status)
 {
@@ -167,16 +134,38 @@ int	builtin_unset(t_shell *sh, int argc, char **argv)
 	return (1);
 }
 
+void	print_export_var(void *content)
+{
+	t_var	*var;
+
+	var = content;
+	if (var->flags & EXPORT_VAR)
+		printf("declare -x %s=\"%s\"\n", var->name, var->value);
+}
+
+int	print_export(t_list *var_lst)
+{
+	t_list	*clone_lst;
+
+	clone_lst = ft_lstclone(var_lst, free);
+	if (!clone_lst)
+		return (0);
+	ft_lstsort(clone_lst, cmp_var);
+	ft_lstiter(clone_lst, print_export_var);
+	ft_lstclear(&clone_lst, free);
+	ft_lstiter(var_lst, print_export_var);
+	return (0);
+}
+
 int	builtin_export(t_shell *sh, int argc, char **argv)
 {
 	if (argc > 1)
 	{
 		sh->status = 0;
 		(void)argv;
-//		export_env(sh, argv++);
 	}
 	else
-		sh->status = print_declare_env(sh);
+		sh->status = print_export(sh->env_lst);
 	return (1);
 }
 

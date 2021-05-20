@@ -6,13 +6,11 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 16:23:43 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/19 22:10:12 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/20 18:14:58 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 t_var	*create_var(char *name, char *value, int flags)
 {
@@ -41,14 +39,14 @@ char	*capture_name(char *env)
 	return (name);
 }
 
-int		set_flag(t_var *var, int flags)
+void	set_flag(t_var *var, int flags)
 {
-	return (var->flags | flags);
+	var->flags |= flags;
 }
 
-int		unset_flag(t_var *var, int flags)
+void	unset_flag(t_var *var, int flags)
 {
-	return (var->flags ^ flags);
+	var->flags ^= flags;
 }
 
 char	*up_shlvl(char *value)
@@ -162,6 +160,11 @@ char	*get_env(char *name, t_list *var_lst)
 		var_lst = var_lst->next;
 	}
 	return (NULL);
+}
+
+int		cmp_var(t_var *var1, t_var *var2)
+{
+	return (ft_strcmp(var1->name, var2->name));
 }
 
 t_list	*capture_env(char **env)

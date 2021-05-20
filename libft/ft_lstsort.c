@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap.c                                        :+:      :+:    :+:   */
+/*   ft_lstsort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/01 11:51:56 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/20 21:03:11 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/05/20 17:32:42 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/05/20 20:39:43 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+void	ft_lstsort(t_list *lst, int (*cmp)())
 {
-	t_list	*new;
-	t_list	*head;
+	t_list	*last;
+	t_list	*alst;
+	void	*ptr;
 
-	if (!lst)
-		return (NULL);
-	new = ft_lstnew(f(lst->content));
-	head = new;
-	while (lst->next)
+	ptr = lst;
+	last = NULL;
+	while (ptr)
 	{
-		lst = lst->next;
-		new->next = ft_lstnew(f(lst->content));
-		if (!new->next)
+		alst = lst;
+		ptr = NULL;
+		while (alst->next != last)
 		{
-			del(new->content);
-			free(new);
-			return (NULL);
+			if ((cmp(alst->content, alst->next->content) > 0))
+			{
+				ptr = alst->content;
+				alst->content = alst->next->content;
+				alst->next->content = ptr;
+			}
+			alst = alst->next;
 		}
-		new = new->next;
+		last = alst;
 	}
-	return (head);
 }

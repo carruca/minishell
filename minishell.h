@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/19 21:12:01 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/20 18:11:50 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ typedef struct s_token
 	int		identifier;
 }			t_token;
 
+void	print_var(void *content);
+int		cmp_var(t_var *var1, t_var *var2);
 int		is_export(t_var *var);
 int		is_env(t_var *var);
 char	*join_var(t_var *var);
@@ -122,7 +124,6 @@ t_list	*capture_env(char **env);
 
 /*		builtin			*/
 
-//int		set_env_delete(t_lista *lst, char *str);
 int		builtin_echo(t_shell *sh, char **argv);
 
 int		check_builtin(t_shell *sh, int argc, char **argv);

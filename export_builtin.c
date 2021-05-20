@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+/*
 void	ordenar_tabla(char **tabla)
 {
 	char	*aux;
@@ -71,4 +72,4 @@ int	set_export(int argc, char **cmdline, t_env *_env)
 	else
 		print_export(_env->env_lst);
 	return (1);
-}
+}*/
