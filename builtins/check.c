@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:58:28 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/20 21:18:32 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/21 16:45:23 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,12 @@ void	print_export_var(void *content)
 
 	var = content;
 	if (var->flags & EXPORT_VAR)
-		printf("declare -x %s=\"%s\"\n", var->name, var->value);
+	{
+		if (var->value[0])
+			printf("declare -x %s=\"%s\"\n", var->name, var->value);
+		else
+			printf("declare -x %s\n", var->name);
+	}
 }
 
 static int	print_export(t_list *var_lst)
@@ -166,7 +171,10 @@ static int	add_new_var(t_list *var_lst, char *str)
 	var = capture_var(str);
 	if (!var)
 		return (1);
+	print_var(var);
 	new_lst = ft_lstnew(var);
+	if (!new_lst)
+		return (1);
 	ft_lstadd_back(&var_lst, new_lst);
 	return (0);
 }
@@ -183,7 +191,7 @@ int	builtin_export(t_shell *sh, int argc, char **argv)
 			if (!is_valid_identifier(argv[i]))
 				print_identifier_error(sh, argv[0], argv[i], 1);
 			else
-				add_new_var(sh->env_lst, argv[i]);
+				sh->status = add_new_var(sh->env_lst, argv[i]);
 			i++;
 		}
 	}

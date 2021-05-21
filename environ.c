@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 16:23:43 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/20 18:14:58 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/21 16:47:22 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,37 @@ t_var	*create_var(char *name, char *value, int flags)
 	return (var);
 }
 
+int		extract_var(char *env, char **name, char **value)
+{
+	char	*pos;
+
+	pos = ft_strchr(env, '=');
+	if (!pos)
+	{
+		*name = ft_strdup(env);
+		return (1);
+	}
+	*name = ft_substr(env, 0, pos - env);
+	if (!*name)
+		return (0);
+	*value = ft_strdup(pos + 1);
+	if (!*value)
+		return (0);
+	return (1);
+}
+
 char	*capture_name(char *env)
 {
 	char	*name;
 	char	*tmp;
 
 	tmp = ft_strchr(env, '=');
-	*tmp = '\0';
-	name = ft_strdup(env);
-	*tmp = '=';
+	if (!tmp)
+	{
+		name = ft_strdup(env);
+		return (name);
+	}
+	name = ft_substr(env, 0, tmp - env);
 	if (!name)
 		return (NULL);
 	return (name);
@@ -49,12 +71,26 @@ void	unset_flag(t_var *var, int flags)
 	var->flags ^= flags;
 }
 
-char	*up_shlvl(char *value)
+static int	env_name_cmp(char *name, t_var *var)
 {
+	return (ft_strcmp(name, var->name) == 0);
+}
+
+char	*up_shlvl(t_shell *sh, char *value)
+{
+	t_var	*var;
 	char	*new;
 	int		tmp;
 	
-	tmp = ft_atoi(value);
+//var = get_var_by_name(sh->env_lst, "SHLVL", ENV_VAR | EXPORT_VAR, CREATE);
+
+//	var = ft_lstfind(sh->env_lst, "SHLVL", env_name_cmp);
+	if (!var)
+				
+	if (!value || !*value)
+		tmp = 0;
+	else
+		tmp = ft_atoi(value);
 	new = ft_itoa(++tmp);
 	if (!new)
 		return (NULL);
@@ -68,7 +104,7 @@ char	*capture_value(char *env, char *name)
 
 	tmp = ft_strchr(env, '=');
 	if (!tmp)
-		return (NULL);
+		return (ft_strdup(""));
 	if (!ft_strcmp(name, "SHLVL"))
 		value = up_shlvl(tmp + 1);
 	else
