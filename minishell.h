@@ -114,6 +114,7 @@ typedef struct s_token
 	int		identifier;
 }			t_token;
 
+t_var	*capture_var(char *str);
 void	print_var(void *content);
 int		cmp_var(t_var *var1, t_var *var2);
 int		is_export(t_var *var);

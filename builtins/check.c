@@ -102,14 +102,11 @@ void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status)
 
 int	is_valid_identifier(char *str)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	while (*str && *str != '=')
 	{
-		if (ft_isdigit(str[0]) || (!ft_isalnum(str[i]) && str[i] != '_'))
+		if (ft_isdigit(str[0]) || (!ft_isalnum(*str) && *str != '_'))
 			return (0);
-		i++;
+		str++;
 	}
 	return (1);
 }
@@ -143,26 +140,52 @@ void	print_export_var(void *content)
 		printf("declare -x %s=\"%s\"\n", var->name, var->value);
 }
 
-int	print_export(t_list *var_lst)
+static int	print_export(t_list *var_lst)
 {
-	t_list	*clone_lst;
+	t_list	*export_lst;
 
-	clone_lst = ft_lstclone(var_lst, free);
-	if (!clone_lst)
-		return (0);
-	ft_lstsort(clone_lst, cmp_var);
-	ft_lstiter(clone_lst, print_export_var);
-	ft_lstclear(&clone_lst, free);
-	ft_lstiter(var_lst, print_export_var);
+	export_lst = ft_lstclone(var_lst, free);
+	if (!export_lst)
+		return (1);
+	ft_lstsort(export_lst, cmp_var);
+	ft_lstiter(export_lst, print_export_var);
+	ft_lstclear(&export_lst, NULL);
+	return (0);
+}
+
+/*
+Si tiene nombre: es exportable.
+Si tiene valor: es de entorno.
+*/
+
+static int	add_new_var(t_list *var_lst, char *str)
+{
+	t_list	*new_lst;
+	t_var	*var;
+
+	var = capture_var(str);
+	if (!var)
+		return (1);
+	new_lst = ft_lstnew(var);
+	ft_lstadd_back(&var_lst, new_lst);
 	return (0);
 }
 
 int	builtin_export(t_shell *sh, int argc, char **argv)
 {
+	int	i;
+
+	i = 1;
 	if (argc > 1)
 	{
-		sh->status = 0;
-		(void)argv;
+		while (--argc)
+		{
+			if (!is_valid_identifier(argv[i]))
+				print_identifier_error(sh, argv[0], argv[i], 1);
+			else
+				add_new_var(sh->env_lst, argv[i]);
+			i++;
+		}
 	}
 	else
 		sh->status = print_export(sh->env_lst);
@@ -171,27 +194,24 @@ int	builtin_export(t_shell *sh, int argc, char **argv)
 
 int	check_builtin(t_shell *sh, int argc, char **argv)
 {
-	int ret;
-
-	ret = 0;
 	if (argc > 0)
 	{
 		if (!ft_strcmp(argv[0], "cd"))
-			ret = builtin_cd(sh, argc, argv);
+			return (builtin_cd(sh, argc, argv));
 		else if (!ft_strcmp(argv[0], "exit"))
-			ret = builtin_exit(sh, argc, argv);
+			return (builtin_exit(sh, argc, argv));
 		else if (!ft_strcmp(argv[0], "pwd"))
-			ret = builtin_pwd(sh);
+			return (builtin_pwd(sh));
 		else if (!ft_strcmp(argv[0], "env"))
-			ret = builtin_env(sh->env_lst);
+			return (builtin_env(sh->env_lst));
 		else if (!ft_strcmp(argv[0], "export"))
-			ret = builtin_export(sh, argc, argv);
+			return (builtin_export(sh, argc, argv));
 		else if (!ft_strcmp(argv[0], "unset"))
-			ret = builtin_unset(sh, argc, argv);
+			return (builtin_unset(sh, argc, argv));
 		else if (!ft_strcmp(argv[0], "echo"))
-			ret = builtin_echo(sh, &argv[1]);
+			return (builtin_echo(sh, &argv[1]));
 	}
-	return (ret);
+	return (0);
 }
 
 void	print_builtin_error(t_shell *sh, char **argv, char *str, int status)

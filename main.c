@@ -75,22 +75,16 @@ void	sig_handler(int sig)
 int	main(int argc, char **argv, char **env)
 {
 	t_shell	sh;
-//	t_list	*clone_lst;
 
 	ft_bzero(&sh, sizeof(sh));
 	sh.prompt = ft_strrchr(argv[0], '/') + 1;
 	sh.env_lst = capture_env(env);
-//	clone_lst = ft_lstclone(sh.env_lst, free);
-//	ft_lstsort(clone_lst, cmp_var);
-//	ft_lstiter(clone_lst, print_var);
-//	ft_lstclear(&clone_lst, free);
 	if (!sh.env_lst)
 		return (1);
 	init_environ(&sh._env);
 	tgetent(0, getenv("TERM"));
 	tcgetattr(1, &sh.term);
 	init_keyboard(&sh);
-//	capture(&sh._env, env);
 //	signal(SIGINT, sig_handler);
 //	signal(SIGQUIT, sig_handler);
 	if (argc == 1)

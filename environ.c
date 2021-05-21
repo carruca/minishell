@@ -17,7 +17,7 @@ t_var	*create_var(char *name, char *value, int flags)
 	t_var	*var;
 
 	var = malloc(sizeof(t_var));
-	if (!var || !name || !value)
+	if (!var)
 		return (NULL);
 	var->name = name;
 	var->value = value;
@@ -55,8 +55,7 @@ char	*up_shlvl(char *value)
 	int		tmp;
 	
 	tmp = ft_atoi(value);
-	tmp++;
-	new = ft_itoa(tmp);
+	new = ft_itoa(++tmp);
 	if (!new)
 		return (NULL);
 	return (new);
@@ -67,40 +66,44 @@ char	*capture_value(char *env, char *name)
 	char	*value;
 	char	*tmp;
 
-	tmp = ft_strchr(env, '=') + 1;
+	tmp = ft_strchr(env, '=');
+	if (!tmp)
+		return (NULL);
 	if (!ft_strcmp(name, "SHLVL"))
-		value = up_shlvl(tmp);
+		value = up_shlvl(tmp + 1);
 	else
-		value = ft_strdup(tmp);
+		value = ft_strdup(tmp + 1);
 	if (!value)
 		return (NULL);
 	return (value);
 }
 
-int		capture_flags(char *name)
+int		capture_flags(char *str, char *name)
 {
 	if (!ft_strcmp(name, "_"))
 		return (ENV_VAR);
+	else if (!ft_strchr(str, '='))
+		return (EXPORT_VAR);
 	return (EXPORT_VAR | ENV_VAR);
 }
 
-t_var	*capture_var(char *env)
+t_var	*capture_var(char *str)
 {
 	t_var	*var;
 	char	*name;
 	char	*value;
 	int		flags;
 
-	name = capture_name(env);
+	name = capture_name(str);
 	if (!name)
 		return (NULL);
-	value = capture_value(env, name);
+	value = capture_value(str, name);
 	if (!value)
 	{
 		free(name);
 		return (NULL);
 	}
-	flags = capture_flags(name);
+	flags = capture_flags(str, name);
 	var = create_var(name, value, flags);
 	if (!var)
 	{
