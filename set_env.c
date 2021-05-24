@@ -1,5 +1,5 @@
 #include "minishell.h"
-
+/*
 t_var	*change_value(char *str, t_var *var)
 {
 	char	*tmp;
@@ -11,7 +11,7 @@ t_var	*change_value(char *str, t_var *var)
 		free(tmp);
 	}
 	return (var);
-}
+}*/
 
 int	search_env_name(char *str, t_var *var)
 {

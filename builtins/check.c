@@ -92,9 +92,9 @@ void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status)
 	ft_putstr_fd(sh->prompt, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(": `", 2);
 	ft_putstr_fd(arg, 2);
-	ft_putstr_fd(": ", 2);
+	ft_putstr_fd("´: ", 2);
 	ft_putstr_fd("not a valid identifier", 2);
 	ft_putstr_fd("\n", 2);
 	sh->status = status;
@@ -102,6 +102,8 @@ void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status)
 
 int	is_valid_identifier(char *str)
 {
+	if (!str)
+		return (0);
 	while (*str && *str != '=')
 	{
 		if (ft_isdigit(str[0]) || (!ft_isalnum(*str) && *str != '_'))
@@ -124,7 +126,7 @@ int	builtin_unset(t_shell *sh, int argc, char **argv)
 			if (!is_valid_identifier(argv[i]))
 				print_identifier_error(sh, argv[0], argv[i], 1);
 			else
-		//		set_env_delete(sh->_env.env_lst, argv[i]);
+				ft_lstdel_cmp(&sh->env_lst, argv[i], env_name_cmp, free_var);
 			i++;
 		}
 	}
@@ -138,7 +140,7 @@ void	print_export_var(void *content)
 	var = content;
 	if (var->flags & EXPORT_VAR)
 	{
-		if (var->value[0])
+		if (var->value)
 			printf("declare -x %s=\"%s\"\n", var->name, var->value);
 		else
 			printf("declare -x %s\n", var->name);
@@ -163,21 +165,6 @@ Si tiene nombre: es exportable.
 Si tiene valor: es de entorno.
 */
 
-static int	add_new_var(t_list *var_lst, char *str)
-{
-	t_list	*new_lst;
-	t_var	*var;
-
-	var = capture_var(str);
-	if (!var)
-		return (1);
-	print_var(var);
-	new_lst = ft_lstnew(var);
-	if (!new_lst)
-		return (1);
-	ft_lstadd_back(&var_lst, new_lst);
-	return (0);
-}
 
 int	builtin_export(t_shell *sh, int argc, char **argv)
 {
@@ -191,7 +178,7 @@ int	builtin_export(t_shell *sh, int argc, char **argv)
 			if (!is_valid_identifier(argv[i]))
 				print_identifier_error(sh, argv[0], argv[i], 1);
 			else
-				sh->status = add_new_var(sh->env_lst, argv[i]);
+				add_new_var(argv[i], &sh->env_lst, change_value);
 			i++;
 		}
 	}

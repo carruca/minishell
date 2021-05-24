@@ -114,14 +114,26 @@ typedef struct s_token
 	int		identifier;
 }			t_token;
 
+int	env_name_cmp(void *name, void *var);
+int	var_name_cmp(void *str, void *var);
+void	ft_lstdel_cmp(t_list **lst, void *content, int (*cmp)(), void (*del)(void *));
+void	free_var(void *var);
+int	unset_var(char *name, t_list **env_lst);
+void	increase_shlvl2(char *str, t_var *var);
+void	change_value(char *str, t_var *var);
+int	add_new_var(char *str, t_list **env_lst, void (*f)());
+t_var	*find_var(const char *name, t_list *env_lst);
+int	init_var(char *str, t_list **env_lst);
+int	increase_shlvl(t_shell *sh);
+int	add_var(t_var *var, t_list **env_lst);
 t_var	*capture_var(char *str);
 void	print_var(void *content);
-int		cmp_var(t_var *var1, t_var *var2);
-int		is_export(t_var *var);
-int		is_env(t_var *var);
+int	cmp_var(t_var *var1, t_var *var2);
+int	is_export(t_var *var);
+int	is_env(t_var *var);
 char	*join_var(t_var *var);
-char	*get_env(char *name, t_list	*var_lst);
-t_list	*capture_env(char **env);
+char	*get_env_value(char *name, t_list *env_lst);
+t_list	*extract_env(char **env);
 
 /*		builtin			*/
 

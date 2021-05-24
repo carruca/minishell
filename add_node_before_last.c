@@ -3,7 +3,7 @@
 //recibe una lista y un string
 //si existe el caracter = en el string agrega un nodo 
 //en la penultima posicion de la lista
-
+/*
 void	add_node_before_last(t_lista *lst, char **str)
 {
 	t_lista	*lista;
@@ -29,4 +29,4 @@ void	add_node_before_last(t_lista *lst, char **str)
 		}
 		str++;
 	}
-}
+}*/

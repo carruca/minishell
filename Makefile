@@ -22,15 +22,11 @@ SRC = main.c \
 	  environ.c \
 	  create_var_array.c \
 	  env.c \
-	  free_var.c \
-	  free_node.c \
-	  search_var.c \
-	  set_env.c \
 	  ft_insert_node_fin.c \
 	  ft_lst_new_lst.c \
 	  add_node_before_last.c \
 	  find_history.c \
-	  find_node.c \
+	  free_node.c \
 	  ft_delete_node.c \
 	  lst_iter_lst.c \
 	  ft_lst_size_lst.c \
@@ -63,8 +59,10 @@ RM = rm -rf
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LNAME)
-	$(CC) $(OBJ) $(LDFLAGS) -o $(NAME) $(LIBFT) $(TERMCAP)
+	$(CC) $(OBJ) -o $(NAME) $(LIBFT) $(TERMCAP)
 
+sanitize:
+	$(CC) $(OBJ) $(LDFLAGS) -o $(NAME) $(LIBFT) $(TERMCAP)
 $(LNAME): 
 	$(MAKE) -C $(LIBFT_DIR)
 

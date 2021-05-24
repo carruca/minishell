@@ -78,7 +78,9 @@ int	main(int argc, char **argv, char **env)
 
 	ft_bzero(&sh, sizeof(sh));
 	sh.prompt = ft_strrchr(argv[0], '/') + 1;
-	sh.env_lst = capture_env(env);
+	sh.env_lst = extract_env(env);
+	increase_shlvl(&sh);
+//	ft_lstiter(sh.env_lst, print_var);
 	if (!sh.env_lst)
 		return (1);
 	init_environ(&sh._env);
