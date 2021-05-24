@@ -51,18 +51,22 @@ LIBFT = -L $(LIBFT_DIR) -lft
 TERMCAP = -ltermcap
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror $(INC) -O0
-LDFLAGS = -g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror $(INC) -O0 $(COMMON)
+DEBUG	= -g3
+SANITIZE = -fsanitize=address
+COMMON = 
+LDFLAGS = $(COMMON) 
 MAKE = make
 RM = rm -rf
 
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LNAME)
-	$(CC) $(OBJ) -o $(NAME) $(LIBFT) $(TERMCAP)
+	$(CC) $(OBJ) -o $(NAME) $(LIBFT) $(TERMCAP) $(LDFLAGS)
 
-sanitize:
-	$(CC) $(OBJ) $(LDFLAGS) -o $(NAME) $(LIBFT) $(TERMCAP)
+sanitize:	COMMON += $(SANITIZE) $(DEBUG)
+sanitize:	all
+
 $(LNAME): 
 	$(MAKE) -C $(LIBFT_DIR)
 

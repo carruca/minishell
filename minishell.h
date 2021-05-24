@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/20 18:11:50 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/24 16:52:59 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ typedef struct s_token
 
 int	env_name_cmp(void *name, void *var);
 int	var_name_cmp(void *str, void *var);
-void	ft_lstdel_cmp(t_list **lst, void *content, int (*cmp)(), void (*del)(void *));
 void	free_var(void *var);
 int	unset_var(char *name, t_list **env_lst);
 void	increase_shlvl2(char *str, t_var *var);

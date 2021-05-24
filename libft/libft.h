@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:15:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/20 19:18:08 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/24 16:52:47 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ t_list		*ft_lstfind(t_list *lst, void *content, int (*cmp)(void *, void *));
 char		**ft_lsttoa_if(t_list *lst, char *(*cpy)(), int (*cmp)());
 t_list		*ft_lstclone(t_list *lst, void (*del)(void *));
 void		ft_lstsort(t_list *lst, int (*cmp)());
+void	ft_lstremove_if(t_list **alst, void *content, int (*cmp)(), void (*del)(void *));
 size_t		ft_strspn(const char *s, const char *charset);
 size_t		ft_strcspn(const char *s, const char *charset);
 char		*ft_strtok(char *str, const char *sep);

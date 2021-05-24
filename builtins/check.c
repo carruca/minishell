@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:58:28 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/21 16:45:23 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/24 20:31:01 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ int	is_valid_identifier(char *str)
 			return (0);
 		str++;
 	}
+	if (*str == '=')
+		return (2);
 	return (1);
 }
 
@@ -123,10 +125,10 @@ int	builtin_unset(t_shell *sh, int argc, char **argv)
 		i = 1;
 		while (argv[i])
 		{
-			if (!is_valid_identifier(argv[i]))
+			if (is_valid_identifier(argv[i]) != 1)
 				print_identifier_error(sh, argv[0], argv[i], 1);
 			else
-				ft_lstdel_cmp(&sh->env_lst, argv[i], env_name_cmp, free_var);
+				ft_lstremove_if(&sh->env_lst, argv[i], env_name_cmp, free_var);
 			i++;
 		}
 	}

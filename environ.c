@@ -6,11 +6,18 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 16:23:43 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/21 16:47:22 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/24 21:50:36 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
+
+/*
+ * build_var(char *str, t_list **env_lst)
+ * extract_var(char *str, char **name, char **value)
+ * set_var(char *name, char *value, t_list **env_lst, (void)(*f)())
+ */
 
 t_var	*create_var(char *name, char *value, int flags)
 {
@@ -136,26 +143,6 @@ int	add_new_var(char *str, t_list **env_lst, void (*f)())
 	return (1);
 }
 
-void	ft_lstdel_cmp(t_list **lst, void *content, int (*cmp)(), void (*del)(void *))
-{
-	t_list	*alst;
-	t_list	*tmp;
-	t_list	*next;
-
-	tmp = *lst;
-	while (tmp)
-	{
-		alst = tmp;
-		if (!cmp(content, alst->content))
-		{
-			next = alst->next;
-			ft_lstdelone(alst, del);
-			tmp = next;
-		}
-		else
-			tmp = tmp->next;
-	}
-}
 /*
 int	unset_var(char *name, t_list **env_lst)
 {
@@ -291,12 +278,12 @@ int	set_env(const char *name, const char *value, int overwrite, t_list *env_lst)
 
 char	*get_env_value(char *name, t_list *env_lst)
 {
-	t_list	*alst;
+	t_list	*lst;
 
-	alst = ft_lstfind(env_lst, name, env_name_cmp);
-	if (!alst)
-		(NULL);
-	return (((t_var *)(alst->content))->value);
+	lst = ft_lstfind(env_lst, name, env_name_cmp);
+	if (!lst)
+		return (NULL);
+	return (((t_var *)(lst->content))->value);
 }
 
 /*
