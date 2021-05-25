@@ -57,7 +57,7 @@ void	read_eval_print_loop(t_shell *sh)
 		sh->pipeline_lst = parser(cmd_line, sh->prompt);
 		if (sh->pipeline_lst)
 			executer(sh);
-//		free(cmd_line);
+		free(cmd_line);
 	}
 }
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv, char **env)
 	ft_bzero(&sh, sizeof(sh));
 	sh.prompt = ft_strrchr(argv[0], '/') + 1;
 	sh.env_lst = extract_env(env);
-	add_new_var("SHLVL=1", &sh.env_lst, increase_shlvl2);
+	set_var2("SHLVL", "1", &sh.env_lst, increase_shlvl2);
 //	ft_lstiter(sh.env_lst, print_var);
 	if (!sh.env_lst)
 		return (1);

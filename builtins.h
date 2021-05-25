@@ -1,4 +1,4 @@
-#ifndef BUILTINS_H
+/*#ifndef BUILTINS_H
 # define BUILTINS_H
 # include "minishell.h"
 
@@ -11,4 +11,4 @@ void	add_node_before_last(t_lista *lst, char **str);
 int		ft_delete_node(t_lista *lst, char **str);
 t_list	*modify_value(t_list *list, char *value);
 
-#endif
+#endif*/

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "env.h"
 
 int	set_env_delete(t_lista *lst, char *str)
 {

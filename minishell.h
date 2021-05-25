@@ -43,14 +43,14 @@
 
 # define EXPORT_VAR	0x0001
 # define ENV_VAR	0x0002
-/*
+
 typedef struct s_variable
 {
 	char	*name;
 	char	*value;
 	int		flags;
 }			t_var;
-*/
+
 typedef struct s_shell
 {
 	char			*prompt;
@@ -114,11 +114,14 @@ typedef struct s_token
 	int		identifier;
 }			t_token;
 
+int	build_var(char **str, t_list **env_lst, int (*f)());
+int	modify_value2(char *value, t_var *var);
+int	set_var2(char *name, char *value, t_list **env_lst, int (*f)());
 int	env_name_cmp(void *name, void *var);
 int	var_name_cmp(void *str, void *var);
 void	free_var(void *var);
 int	unset_var(char *name, t_list **env_lst);
-void	increase_shlvl2(char *str, t_var *var);
+int	increase_shlvl2(char *str, t_var *var);
 void	change_value(char *str, t_var *var);
 int	add_new_var(char *str, t_list **env_lst, void (*f)());
 t_var	*find_var(const char *name, t_list *env_lst);

@@ -180,7 +180,7 @@ int	builtin_export(t_shell *sh, int argc, char **argv)
 			if (!is_valid_identifier(argv[i]))
 				print_identifier_error(sh, argv[0], argv[i], 1);
 			else
-				add_new_var(argv[i], &sh->env_lst, change_value);
+				build_var(&argv[i], &sh->env_lst, modify_value2);
 			i++;
 		}
 	}

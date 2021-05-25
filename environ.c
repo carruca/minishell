@@ -19,6 +19,95 @@
  * set_var(char *name, char *value, t_list **env_lst, (void)(*f)())
  */
 
+void	extract_var2(char **str, char **name, char **value)
+{
+	char	*pos;
+
+	pos = ft_strchr(*str, '=');
+	if (!pos)
+		*name = *str;
+	else
+	{
+		*pos = '\0';
+		*name = *str;
+		*value = pos + 1;
+	}
+}
+
+void	set_flags2(t_var *var)
+{
+	if (!ft_strcmp(var->name, "_"))
+		var->flags |= ENV_VAR;
+	else if (!var->value)
+		var->flags |= EXPORT_VAR;
+	else
+		var->flags |= (EXPORT_VAR | ENV_VAR);
+}
+
+int	init_var2(char *name, char *value, t_list **env_lst)
+{
+	t_var	*var;
+
+	var = ft_calloc(1 , sizeof(t_var));
+	if (!var)
+		return (1);
+	var->name = ft_strdup(name);
+	if (value != NULL)
+		var->value = ft_strdup(value);
+	set_flags2(var);
+	add_var(var, env_lst);
+	if (!var)
+		return (1);
+	return (0);
+}
+
+int	modify_value2(char *value, t_var *var)
+{
+	char	*str;
+
+	if (!value)
+		return (1);
+	str = ft_strdup(value);
+	free(var->value);
+	var->value = str;
+	set_flags2(var);
+	return (1);
+}
+
+int	set_var2(char *name, char *value, t_list **env_lst, int (*f)())
+{
+	t_list	*lst;	
+	
+	lst = ft_lstfind(*env_lst, name, env_name_cmp);
+	if (!lst)
+		init_var2(name, value, env_lst);
+	else
+		f(value, lst->content);
+	return (1);
+}
+
+void	restore_env(char **env)
+{
+	char	*pos;
+
+	pos = ft_strchr(*env, '\0');
+	*pos = '=';
+
+}
+
+int	build_var(char **str, t_list **env_lst, int (*f)())
+{
+	char	*name;
+	char	*value;
+
+	name = NULL;
+	value = NULL;
+	extract_var2(str, &name, &value);
+	set_var2(name, value, env_lst, f);
+	restore_env(str);
+	return (1);
+}
+
 t_var	*create_var(char *name, char *value, int flags)
 {
 	t_var	*var;
@@ -106,7 +195,7 @@ int	env_name_cmp(void *name, void *var)
 	return (ft_strcmp(tmp_name, tmp_var->name) != 0);
 }
 
-void	increase_shlvl2(char *str, t_var *var)
+int	increase_shlvl2(char *str, t_var *var)
 {
 	int	tmp;
 
@@ -114,6 +203,7 @@ void	increase_shlvl2(char *str, t_var *var)
 	tmp = ft_atoi(var->value);
 	free(var->value);
 	var->value = ft_itoa(++tmp);
+	return (1);
 }
 
 void	change_value(char *str, t_var *var)
@@ -138,7 +228,7 @@ int	add_new_var(char *str, t_list **env_lst, void (*f)())
 	alst = ft_lstfind(*env_lst, str, var_name_cmp);
 	if (!alst)
 		init_var(str, env_lst);
-	else
+	else if (f)
 		f(str, alst->content);
 	return (1);
 }
@@ -263,7 +353,7 @@ void	print_var(void *content)
 	t_var	*var;
 
 	var = content;
-	printf("%s=%s 0x%04x\n", var->name, var->value, var->flags);
+	printf("[%s]=[%s] 0x%04x\n", var->name, var->value, var->flags);
 }
 
 t_var	*find_var(const char *name, t_list *env_lst)
@@ -357,7 +447,8 @@ t_list	*extract_env(char **env)
 	env_lst	= NULL;
 	while (*env)
 	{
-		init_var(*env, &env_lst);
+		build_var(env, &env_lst, modify_value2);
+//		init_var(*env, &env_lst);
 /*		name = NULL;
 		value = NULL;
 		flags = 0;

@@ -30,7 +30,7 @@ void	set_shelllvl(t_env *_env)
 
 //funcion para encontrar los comandos
 //esta función es solo para hacer pruebas
-
+/*
 int	work_to_list(t_env *_env, char *cmd)
 {
 	char	**cmdline;
@@ -50,4 +50,4 @@ int	work_to_list(t_env *_env, char *cmd)
 		ft_free_tab(cmdline);
 	}
 	return (0);
-}
+}*/

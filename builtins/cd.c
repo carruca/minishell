@@ -47,11 +47,11 @@ int	set_env_2(t_lista *lst, char *name, char *value, int overwrite)
 	return (0);
 }*/
 
-int	builtin_cd(t_shell *sh, int	argc, char **argv)
+int	builtin_cd(t_shell *sh, int argc, char **argv)
 {
 	int		ret;
 	char	*dir;
-//	char	pwd[2048];
+	char	pwd[2048];
 	char	*oldpwd;
 
 	if (argc == 1)
@@ -68,13 +68,9 @@ int	builtin_cd(t_shell *sh, int	argc, char **argv)
 		oldpwd = get_env_value("PWD", sh->env_lst);
 		if (oldpwd)
 		{
-/*			set_env_2(sh->_env.env_lst, "PWD",
-					getcwd(pwd, sizeof(char) * 2048), 1);*/
-		/*	if (find_node("OLDPWD", sh->_env.env_lst) != NULL)
-			{
-			//	oldpwd = ft_strdup(oldpwd);
-				set_env(sh->_env.env_lst, "OLDPWD", oldpwd);
-			}*/
+			set_var2("OLDPWD", oldpwd, &sh->env_lst, modify_value2);
+			set_var2("PWD", getcwd(pwd, sizeof(char) * 2048),
+					&sh->env_lst, modify_value2);
 		}
 		sh->status = 0;
 	}

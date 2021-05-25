@@ -1,20 +1,20 @@
 #ifndef ENV_H
 # define ENV_H
-# include "minishell.h"
+//# include "minishell.h"
 # define NL_KEY 10
 # define DL_KEY 127
 # define CTRL_D 4
 # define TAB	9
 # define FALSE 0
 # define TRUE 1
-
+/*
 typedef struct s_variable
 {
 	char	*name;
 	char	*value;
 	int		flags;
 }			t_var;
-
+*/
 typedef struct s_line
 {
 	char	*origin_line;
@@ -35,7 +35,7 @@ typedef struct s_environment
 	char		ch[4];
 	int			index_ch;
 	char		*cmd_line;
-	t_var		*var;
+//	t_var		*var;
 	t_lista		*env_lst;
 	t_lista		*cli;
 	char		cmd_buff[2048];
@@ -60,7 +60,7 @@ int		cap_key_down(t_env *_env);
 char	**var_to_array(t_lista *lista);
 char	*ft_strjoin_free(char *dst, char *src);
 void	find_history(t_env *_env);
-int		search_env_name(char *str, t_var *var);
+//int		search_env_name(char *str, t_var *var);
 int		set_env(t_lista *lst, char *name, char *new_value);
 void	cap_delete_char(t_env *_env);
 void	free_array(char **str);
@@ -70,7 +70,7 @@ void	create_empty_node(t_env *_env);
 void	create_node(t_env *_env);
 void	create_clon_node(t_env *_env);
 char	*next_line_key(t_env *_env);
-t_var	*array_to_var(char *str);
+//t_var	*array_to_var(char *str);
 t_lista	*ft_lst_new_lst(void *content);
 void	imprimir_content(void *cabeza);
 int		imprimir_tabla(char **array);

@@ -20,17 +20,17 @@ SRC = main.c \
 	  builtins/cd.c \
 	  builtins/exit.c \
 	  environ.c \
+	  error_malloc.c \
 	  create_var_array.c \
-	  env.c \
 	  ft_insert_node_fin.c \
 	  ft_lst_new_lst.c \
 	  add_node_before_last.c \
 	  find_history.c \
 	  free_node.c \
-	  ft_delete_node.c \
 	  lst_iter_lst.c \
 	  ft_lst_size_lst.c \
 	  ft_insert_node_ini.c \
+	  ft_strjoin_free.c \
 	  export_builtin.c \
 	  command_line.c \
 	  next_line_key.c \
@@ -41,7 +41,6 @@ SRC = main.c \
 	  cap_key_printable.c \
 	  cap_key_left.c \
 	  cap_key_down.c \
-	  ft_strjoin_free.c \
 	  cap_delete_char.c \
 	  imprimir_lst.c
 
