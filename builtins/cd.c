@@ -58,10 +58,10 @@ int	builtin_cd(t_shell *sh, int argc, char **argv)
 		dir = get_env_value("HOME", sh->env_lst);
 	else
 		dir = argv[1];
+	ret = chdir(dir);
 	if (!dir)
 		print_builtin_error(sh, argv, "HOME not set", 1);
-	ret = chdir(dir);
-	if (ret < 0)
+	else if (ret < 0)
 		print_builtin_error(sh, argv, strerror(errno), 1);
 	else
 	{
