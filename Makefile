@@ -41,8 +41,7 @@ SRC = main.c \
 	  cap_key_printable.c \
 	  cap_key_left.c \
 	  cap_key_down.c \
-	  cap_delete_char.c \
-	  imprimir_lst.c
+	  cap_delete_char.c
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 15:06:58 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/19 19:07:58 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/25 21:42:42 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,9 @@ static int	count_without_quotes(char *str, t_shell *sh)
 		if (str[i] && str[i] == '$' && (quoted == 0 || quoted == 0x01)
 				&& !ft_strchr("\'\"\0", str[i + 1]))
 			count_expander(str, &i, &counter, sh);
-		else if ((quoted || (str[i] != '\'' && str[i] != '\"')) && str[i])
+		else if (str[i] && ((quoted == 1 && str[i] != '\"')
+					|| (quoted == 2 && str[i] != '\'')
+					|| (str[i] != '\'' && str[i] != '\"')))
 		{
 			counter++;
 			i++;
@@ -171,7 +173,9 @@ static void	copy_without_quotes(char *dst, char *src, t_shell *sh)
 		if (src[i] == '$' && (quoted == 0 || quoted == 0x01)
 				&& !ft_strchr("\'\"\0", src[i + 1]))
 			copy_expander(dst, src, &i, &j, sh);
-		else if (src[i] && (quoted || (src[i] != '\'' && src[i] != '\"')))
+		else if (src[i] && (((quoted == 1 && src[i] != '\"')
+						|| (quoted == 2 && src[i] != '\''))
+					|| (src[i] != '\'' && src[i] != '\"')))
 		{
 			dst[j] = src[i];
 			i++;

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/19 19:08:35 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/25 21:32:19 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,12 @@ int		is_not_empty(char *str)
 {
 	return (str[0] != 0);
 }
+/*
+void	check_executer(t_shell *sh, char *path, int argc, char **argv, char **env)
+{
+	if (!check_builtin(sh, argc, argv))
+		sh->status = executer_command(sh, path, argv, env);
+}*/
 
 void	find_command(t_cmd *cmd, t_shell *sh)
 {
@@ -67,6 +73,8 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 	argv = ft_lsttoa_if(cmd->args_lst, ft_strdup, is_not_empty);
 	path = NULL;
 	env = ft_lsttoa_if(sh->env_lst, join_var, is_env);
+	if (*argv)
+		set_var2("_", argv[argc - 1], &sh->env_lst, modify_value2);
 	builtin = check_builtin(sh, argc, argv);
 	if (argc > 0 && !builtin)
 		path = get_exe_path(argv[0], sh);

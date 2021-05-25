@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:58:28 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/24 20:31:01 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/25 18:00:05 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,31 @@ int	builtin_env(t_list *var_lst)
 	return (1);
 }
 
+
+static int	is_flag(char *arg, int flag)
+{
+	int	pos;
+
+	pos = 0;
+	if (arg[pos] == '-' && arg[pos + 1])
+	{
+		pos++;
+		while (arg[pos] == flag)
+			pos++;
+		if (arg[pos] == '\0')
+			return (1);
+	}
+	return (0);
+}
+
 int	builtin_echo(t_shell *sh, char **argv)
 {
-	int	newline_char;
+	int	new_line;
 
-	newline_char = 1;
-	while (*argv && !ft_strcmp(*argv, "-n"))
+	new_line = 1;
+	while (*argv && is_flag(*argv, 'n'))
 	{
-		newline_char = 0;
+		new_line = 0;
 		argv++;
 	}
 	if (*argv)
@@ -56,7 +73,7 @@ int	builtin_echo(t_shell *sh, char **argv)
 		ft_putstr_fd(" ", 1);
 		ft_putstr_fd(*argv, 1);
 	}
-	if (newline_char)
+	if (new_line)
 		ft_putstr_fd("\n", 1);
 	sh->status = 0;
 	return (1);

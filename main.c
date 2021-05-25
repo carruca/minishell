@@ -57,7 +57,6 @@ void	read_eval_print_loop(t_shell *sh)
 		sh->pipeline_lst = parser(cmd_line, sh->prompt);
 		if (sh->pipeline_lst)
 			executer(sh);
-		free(cmd_line);
 	}
 }
 
@@ -71,6 +70,14 @@ void	sig_handler(int sig)
 	ft_putchar_fd('\n', 1);
 }
 
+void	build_env2(t_list **env_lst)
+{
+	char	pwd[2048];	
+
+	set_var2("PWD", getcwd(pwd, sizeof(char) * 2048), env_lst, modify_value2);
+	set_var2("SHLVL", "1", env_lst, increase_shlvl2);
+	set_var2("TERM", "xterm-256color", env_lst, modify_value2);
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -79,7 +86,7 @@ int	main(int argc, char **argv, char **env)
 	ft_bzero(&sh, sizeof(sh));
 	sh.prompt = ft_strrchr(argv[0], '/') + 1;
 	sh.env_lst = extract_env(env);
-	set_var2("SHLVL", "1", &sh.env_lst, increase_shlvl2);
+	build_env2(&sh.env_lst);
 //	ft_lstiter(sh.env_lst, print_var);
 	if (!sh.env_lst)
 		return (1);
@@ -88,7 +95,7 @@ int	main(int argc, char **argv, char **env)
 	tcgetattr(1, &sh.term);
 	init_keyboard(&sh);
 //	signal(SIGINT, sig_handler);
-//	signal(SIGQUIT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	if (argc == 1)
 		read_eval_print_loop(&sh);
 	tcsetattr(1, TCSANOW, &sh.term);

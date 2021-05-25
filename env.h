@@ -58,7 +58,7 @@ int		cap_key_right(t_env *_env);
 int		cap_key_up(t_env *_env);
 int		cap_key_down(t_env *_env);
 char	**var_to_array(t_lista *lista);
-char	*ft_strjoin_free(char *dst, char *src);
+//char	*ft_strjoin_free(char *dst, char *src);
 void	find_history(t_env *_env);
 //int		search_env_name(char *str, t_var *var);
 int		set_env(t_lista *lst, char *name, char *new_value);
