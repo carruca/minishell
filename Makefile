@@ -57,7 +57,7 @@ TERMCAP = -ltermcap
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -g $(INC) -O0
-LDFLAGS = -g3 -fsanitize=address
+LDFLAGS = #-g3 -fsanitize=address
 MAKE = make
 RM = rm -rf
 

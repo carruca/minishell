@@ -62,7 +62,6 @@ void	read_eval_print_loop(t_shell *sh)
 
 	while (1)
 	{
-		signal(SIGINT, sig_handler);
 		cmd_line = NULL;
 		print_prompt(sh->prompt);
 		read_cmdline(&cmd_line, &sh->cap);
@@ -89,7 +88,7 @@ int	main(int argc, char **argv, char **env)
 	tcgetattr(1, &sh.term);
 	init_keyboard(&sh);
 //	capture(&sh.cap, env);
-	//signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	if (argc == 1)
 		read_eval_print_loop(&sh);

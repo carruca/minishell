@@ -2,7 +2,7 @@
 
 // recibe una estructura t_var y crea un nodo de la lista
 
-t_lista	*ft_lst_new_lst(void *content)
+t_lista	*ft_lst_new_lst(void *content) //t_dlist	ft_dlstnew
 {
 	t_lista	*new;
 

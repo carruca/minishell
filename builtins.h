@@ -2,7 +2,6 @@
 # define BUILTINS_H
 # include "minishell.h"
 
-int		work_to_list(t_cap *cap, char *cmd);
 char	*find_node(char *str, t_lista *lst);
 int 	set_export(int argc, char **cmdline, t_cap *cap);
 int		execute_builtin(int argc, char **cmdline, t_cap *cap);
