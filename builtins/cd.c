@@ -11,13 +11,13 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/*
 int	cmp_value_var(char *value, t_var *var)
 {
 	if (!ft_strcmp(var->value, value))
 		return (1);
 	return (0);
-}
+}*/
 /*
 int	set_env_2(t_lista *lst, char *name, char *value, int overwrite)
 {
@@ -56,6 +56,8 @@ int	builtin_cd(t_shell *sh, int argc, char **argv)
 
 	if (argc == 1)
 		dir = get_env_value("HOME", sh->env_lst);
+	else if (!ft_strcmp(argv[1], "-"))
+		dir = get_env_value("OLDPWD", sh->env_lst);
 	else
 		dir = argv[1];
 	ret = chdir(dir);

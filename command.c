@@ -84,9 +84,10 @@ int	executer_command(t_shell *sh, char *path, char **argv, char **env)
 		execve(path, argv, env);
 		exit(0);
 	}
+	sh->status = 0;
 	waitpid(child_pid, &status, 0);
-	while (waitpid(-1, NULL, WNOHANG) > 0)
-		;
+//	while (waitpid(-1, NULL, WNOHANG) > 0)
+//		;
 	tcsetattr(1, TCSAFLUSH, &sh->my_term);
 	tputs(tgetstr("ks", 0), 1, ft_putchar);
 	if (WIFEXITED(status))

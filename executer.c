@@ -60,6 +60,41 @@ void	check_executer(t_shell *sh, char *path, int argc, char **argv, char **env)
 		sh->status = executer_command(sh, path, argv, env);
 }*/
 
+void	find_command2(t_shell *sh, char *path, char **argv, char **env, int builtin)
+{
+	if (!path && argv[0] && *argv[0] && !builtin)
+		print_error(sh, argv[0], "command not found", 127);
+	else if (path && is_directory(path))
+		print_error(sh, argv[0], "is a directory", 126);
+	else if (!builtin)
+		sh->status = executer_command(sh, path, argv, env);
+}
+
+void	build_command(t_cmd *cmd, t_shell *sh)
+{
+	int	argc;
+	char	**argv;
+	char	**env;
+	char	*path;
+	int	builtin;
+
+	args_have_quotes(cmd->args_lst, sh);
+	argc = ft_lstsize_if(cmd->args_lst, is_not_empty);
+	argv = ft_lsttoa_if(cmd->args_lst, ft_strdup, is_not_empty);
+	path = NULL;
+	env = ft_lsttoa_if(sh->env_lst, join_var, is_env);
+	if (*argv)
+		set_var2("_", argv[argc - 1], &sh->env_lst, modify_value2);
+	builtin = check_builtin(sh, argc, argv);
+	if (argc > 0 && !builtin)
+		path = get_exe_path(argv[0], sh);
+	find_command2(sh, path, argv, env, builtin);
+	if (path)
+		free(path);
+	ft_free_tab(argv);
+	ft_free_tab(env);
+}
+/*
 void	find_command(t_cmd *cmd, t_shell *sh)
 {
 	int		argc;
@@ -88,7 +123,7 @@ void	find_command(t_cmd *cmd, t_shell *sh)
 		free(path);
 	ft_free_tab(argv);
 	ft_free_tab(env);
-}
+}*/
 /*
 void	print_file_error(char *file, char *prompt)
 {
@@ -129,15 +164,34 @@ int	set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh)
 	return (1);
 }
 
+void	executer_compound(t_list *cmd_lst, t_shell *sh, t_fd *fd)
+{
+	t_cmd	*cmd;
+
+	cmd = cmd_lst->content;
+	if (!set_redir_fd(cmd->redir_lst, fd->redir_fd, sh))
+		sh->status = 1;
+	set_std_fd(fd, 0);
+	fd->piped = 0;
+	if (cmd_lst->next)
+		set_pipe(fd->fd, &fd->piped);
+	set_std_fd(fd, 1);
+	if (cmd->args_lst && fd->redir_fd[0] != -1 && fd->redir_fd[1] != -1)
+		build_command(cmd, sh);
+}
+
 void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_fd *fd)
 {
+//	int	status;
 	t_list	*head;
-	t_cmd	*acmd;
+//	t_cmd	*acmd;
+//	t_list	*pid_lst;
 
 	head = pipeline->cmd_lst;
 	while (pipeline->cmd_lst)
 	{
-		acmd = pipeline->cmd_lst->content;
+		executer_compound(pipeline->cmd_lst, sh, fd);
+/*		acmd = pipeline->cmd_lst->content;
 		if (!set_redir_fd(acmd->redir_lst, fd->redir_fd, sh))
 			sh->status = 1;
 		set_std_fd(fd, 0);
@@ -146,9 +200,11 @@ void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_fd *fd)
 			set_pipe(fd->fd, &fd->piped);
 		set_std_fd(fd, 1);
 		if (acmd->args_lst && fd->redir_fd[0] != -1 && fd->redir_fd[1] != -1)
-			find_command(acmd, sh);
+			find_command(acmd, sh);*/
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
+//	waitpid(0, &status, 0);
+//	ft_lstadd_back(&pid_lst, ft_lstnew(&status));
 	ft_lstclear(&head, free_command);
 }
 
