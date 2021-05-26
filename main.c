@@ -91,7 +91,11 @@ int	main(int argc, char **argv, char **env)
 	if (!sh.env_lst)
 		return (1);
 	init_environ(&sh._env);
-	tgetent(0, getenv("TERM"));
+	if (tgetent(0, get_env_value("TERM", sh.env_lst)) == -1)
+	{
+		printf("Terminal desconocida.\n");
+		return (-1);
+	}
 	tcgetattr(1, &sh.term);
 	init_keyboard(&sh);
 //	signal(SIGINT, sig_handler);

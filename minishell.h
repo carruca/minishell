@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/24 16:52:59 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/26 17:40:10 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,16 @@ typedef struct s_fd
 	int		redir_fd[2];
 	int		piped;
 }			t_fd;
+
+typedef struct s_exec
+{
+	char	*path;
+	int		argc;
+	char	**argv;
+	char	**env;
+	int		builtin;
+	t_fd	fd;
+}			t_exec;
 
 typedef struct s_lex
 {
@@ -192,7 +202,7 @@ void	set_pipe(int *fd, int *piped);
 /*		executer		*/
 
 void	executer(t_shell *sh);
-void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_fd *fd);
+void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_exec *exec);
 int		set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh);
 void	print_file_error(char *file, char *prompt);
 void	find_command(t_cmd *cmd, t_shell *sh);
@@ -201,7 +211,7 @@ void	find_command(t_cmd *cmd, t_shell *sh);
 
 int		search_directory(char *path, char *name);
 char	*get_exe_path(char *name, t_shell *sh);
-int		executer_command(t_shell *sh, char *path, char **argv, char **env);
+int		executer_command(t_shell *sh, t_exec *exec);
 void	print_command_error(char *cmd, char *prompt, int *status);
 
 /*		main			*/

@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:11:16 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/19 21:46:46 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/26 19:19:45 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*get_exe_path(char *name, t_shell *sh)
 	return (NULL);
 }
 
-int	executer_command(t_shell *sh, char *path, char **argv, char **env)
+int	executer_command(t_shell *sh, t_exec *exec)
 {
 	int		status;
 	pid_t	child_pid;
@@ -81,7 +81,7 @@ int	executer_command(t_shell *sh, char *path, char **argv, char **env)
 		tcsetattr(1, TCSANOW, &sh->term);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		execve(path, argv, env);
+		execve(exec->path, exec->argv, exec->env);
 		exit(0);
 	}
 	sh->status = 0;
@@ -90,9 +90,9 @@ int	executer_command(t_shell *sh, char *path, char **argv, char **env)
 //		;
 	tcsetattr(1, TCSAFLUSH, &sh->my_term);
 	tputs(tgetstr("ks", 0), 1, ft_putchar);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (status);
+//	if (WIFEXITED(status))
+//		return (WEXITSTATUS(status));
+	return (0);
 }
 /*
 void	print_command_error(char *cmd, char *prompt, int *status)
