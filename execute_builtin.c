@@ -23,7 +23,7 @@ int	_echo(t_shell *sh, char **argv)
 	return (1);
 }
 
-int	execute_builtin(int argc, char **cmdline, t_env *_env)
+int	execute_builtin(int argc, char **cmdline, t_cap *cap)
 {
 	char	cwd[2048];
 
@@ -36,11 +36,11 @@ int	execute_builtin(int argc, char **cmdline, t_env *_env)
 			return (1);
 		}
 		else if (!ft_strcmp(*cmdline, "env"))
-			return(imprimir_tabla(var_to_array(_env->env_lst)));
+			return(imprimir_tabla(var_to_array(cap->env_lst)));
 		else if (!ft_strcmp(*cmdline, "export"))
-			return(set_export(argc, cmdline, _env));
+			return(set_export(argc, cmdline, cap));
 		else if (!ft_strcmp(*cmdline, "unset"))
-			return(ft_delete_node(_env->env_lst, &*(++cmdline)));
+			return(ft_delete_node(cap->env_lst, &*(++cmdline)));
 		else if (!ft_strcmp(*cmdline, "echo"))
 		{
 			cmdline++;

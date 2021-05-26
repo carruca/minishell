@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:11:16 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/19 21:46:46 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/26 16:43:52 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	executer_command(t_shell *sh, char *path, char **argv, char **env)
 	waitpid(child_pid, &status, 0);
 	while (waitpid(-1, NULL, WNOHANG) > 0)
 		;
-	tcsetattr(1, TCSAFLUSH, &sh->my_term);
+	tcsetattr(1, TCSANOW, &sh->my_term);
 	tputs(tgetstr("ks", 0), 1, ft_putchar);
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));

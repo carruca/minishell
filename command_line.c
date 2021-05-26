@@ -3,76 +3,86 @@
 #include <curses.h>
 #include <sys/ioctl.h>
 
-void	init_aux(t_env *lst_env)
+void	init_aux(t_cap *cap)
 {
-	ft_bzero(lst_env->cmd_buff, sizeof(lst_env->cmd_buff));
-	lst_env->str = '\0';
-	lst_env->index_ch = 0;
-	lst_env->check_esc = 0;
-	lst_env->cmd_cursor = lst_env->cmd_buff;
-	lst_env->len_cursor = 0;
+	ft_bzero(cap->cmd_buff, sizeof(cap->cmd_buff));
+	cap->str = '\0';
+	cap->index_ch = 0;
+	cap->check_esc = 0;
+	cap->cmd_cursor = cap->cmd_buff;
+	cap->len_cursor = 0;
 }
 
-void	control_key(t_env *_env)
+void	control_key(t_cap *cap)
 {
-	if (_env->str == '\e')
-		_env->check_esc = TRUE;
-	if (!ft_strcmp(_env->ch, tgetstr("ku", 0)))
-		_env->index_ch = cap_key_up(_env);
-	else if (!ft_strcmp(_env->ch, tgetstr("kd", 0)))
-		_env->index_ch = cap_key_down(_env);
-	else if (!ft_strcmp(_env->ch, tgetstr("kr", 0)))
+	if (cap->str == '\e')
+		cap->check_esc = TRUE;
+	if (!ft_strcmp(cap->ch, tgetstr("ku", 0)))
+		cap->index_ch = cap_key_up(cap);
+	else if (!ft_strcmp(cap->ch, tgetstr("kd", 0)))
+		cap->index_ch = cap_key_down(cap);
+	else if (!ft_strcmp(cap->ch, tgetstr("kr", 0)))
 	{
-		_env->index_ch = 0;
-		ft_bzero(_env->ch, sizeof(_env->ch));
+		cap->index_ch = 0;
+		ft_bzero(cap->ch, sizeof(cap->ch));
 	}
-	else if (!ft_strcmp(_env->ch, tgetstr("kl", 0)))
+	else if (!ft_strcmp(cap->ch, tgetstr("kl", 0)))
 	{
-		_env->index_ch = 0;
-		ft_bzero(_env->ch, sizeof(_env->ch));
+		cap->index_ch = 0;
+		ft_bzero(cap->ch, sizeof(cap->ch));
 	}
-	else if (ft_isprint(_env->str) && _env->check_esc == FALSE)
-		_env->index_ch = cap_key_printable(_env);
-	else if (_env->check_esc == TRUE && _env->ch[2] != '\0')
+	else if (ft_isprint(cap->str) && cap->check_esc == FALSE)
+		cap->index_ch = cap_key_printable(cap);
+	else if (cap->check_esc == TRUE && cap->ch[2] != '\0')
 	{
-		_env->index_ch = 0;
-		ft_bzero(_env->ch, sizeof(_env->ch));
-		_env->check_esc = FALSE;
+		cap->index_ch = 0;
+		ft_bzero(cap->ch, sizeof(cap->ch));
+		cap->check_esc = FALSE;
 	}
 }
 
-int	*read_cmdline(char **cmd, t_env *_env)
+void	sig_ctrl_c()
 {
-	init_aux(_env);
+	ft_putchar_fd('\n', 1);
+	ft_putstr_fd("minishell$ ", 1);
+}
+
+int	*read_cmdline(char **cmd, t_cap *cap)
+{
+	t_line *line;
+
+	init_aux(cap);
 	tputs(save_cursor, 1, ft_putchar);
-	while (_env->str != NL_KEY)
+	while (cap->str != NL_KEY)
 	{
-		read(0, &_env->str, 1);
-		if (_env->str != DL_KEY && _env->str != NL_KEY && _env->str != TAB &&
-			_env->str != CTRL_D)
+		read(0, &cap->str, 1);
+		//printf("control \\: %d\n", cap->str);
+		if (cap->str == CTRL_C)
 		{
-			_env->ch[_env->index_ch++] = _env->str;
-			control_key(_env);
+			sig_ctrl_c();
+			tputs(save_cursor, 1, ft_putchar);
 		}
-		else if (_env->str == DL_KEY)
-			cap_delete_char(_env);
-		else if (_env->str == NL_KEY)
+		else if (cap->str == CTRL_4)
+			;
+		else if (cap->str == DL_KEY)
+			cap_delete_char(cap);
+		else if (cap->str == NL_KEY)
 		{
-			t_line *line = _env->cli->content;
-			if (*_env->cmd_buff || line->origin_line)
+			line = cap->cli->content;
+			if (*cap->cmd_buff || line->origin_line)
 			{
-				*cmd = next_line_key(_env);
+				*cmd = next_line_key(cap);
 				break ;
 			}
 			*cmd = "";
 			printf("\n");
 		}
-		else if (_env->str == CTRL_D)
+		else if (cap->str == CTRL_D)
 		{
-			if (*_env->cmd_buff)
+			if (*cap->cmd_buff)
 			{
-				_env->index_ch = 0;
-				ft_bzero(_env->ch, sizeof(_env->ch));
+				cap->index_ch = 0;
+				ft_bzero(cap->ch, sizeof(cap->ch));
 			}
 			else
 			{
@@ -81,7 +91,12 @@ int	*read_cmdline(char **cmd, t_env *_env)
 				break ;
 			}
 		}
-		
+		else if (cap->str != DL_KEY && cap->str != NL_KEY && cap->str != TAB &&
+			cap->str != CTRL_D)
+		{
+			cap->ch[cap->index_ch++] = cap->str;
+			control_key(cap);
+		}
 	}
 	return (0);
 }

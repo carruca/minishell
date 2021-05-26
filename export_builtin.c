@@ -64,11 +64,11 @@ void	print_export(t_lista *env)
 	ft_free_tab(tabla);
 }
 
-int	set_export(int argc, char **cmdline, t_env *_env)
+int	set_export(int argc, char **cmdline, t_cap *cap)
 {
 	if (argc > 1)
-		add_node_before_last(_env->env_lst, &*(++cmdline));
+		add_node_before_last(cap->env_lst, &*(++cmdline));
 	else
-		print_export(_env->env_lst);
+		print_export(cap->env_lst);
 	return (1);
 }

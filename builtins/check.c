@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:58:28 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/18 22:38:22 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/26 14:22:09 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	print_declare_env(t_shell *sh)
 	char	*ptr;
 	int		i;
 
-	envp = var_to_array(sh->_env.env_lst);
+	envp = var_to_array(sh->cap.env_lst);
 	if (!envp)
 		return (1);
 	ft_sort_tab(envp);

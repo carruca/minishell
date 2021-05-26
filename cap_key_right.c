@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-int	cap_key_right(t_env *_env)
+int	cap_key_right(t_cap *cap)
 {
-	if (_env->cmd_buff[_env->len_cursor])
+	if (cap->cmd_buff[cap->len_cursor])
 	{
 		tputs(cursor_right, 1, ft_putchar);
-		_env->len_cursor++;
+		cap->len_cursor++;
 	}
-	ft_bzero(_env->ch, sizeof(_env->ch));
-	_env->check_esc = 0;
+	ft_bzero(cap->ch, sizeof(cap->ch));
+	cap->check_esc = 0;
 	return (0);
 }

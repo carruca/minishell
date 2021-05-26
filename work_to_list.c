@@ -31,7 +31,7 @@ void	set_shelllvl(t_env *_env)
 //funcion para encontrar los comandos
 //esta función es solo para hacer pruebas
 
-int	work_to_list(t_env *_env, char *cmd)
+int	work_to_list(t_cap *cap, char *cmd)
 {
 	char	**cmdline;
 	int		len;
@@ -43,10 +43,10 @@ int	work_to_list(t_env *_env, char *cmd)
 		while (cmdline[len])
 			len++;
 		if (cmdline[0] && (!ft_strcmp(cmdline[0], "./minishell") || !ft_strcmp(cmdline[0], "bash")))
-			set_shelllvl(_env);
-		execute_builtin(len, cmdline, _env);     //    <---- esta llamada a la funcion es la que tenemos que meter en un punto del parseo
-		while (_env->env_lst && _env->env_lst->prev != NULL)	  // lo demas no sirve mas que para pruebas.
-			_env->env_lst = _env->env_lst->prev;
+			set_shelllvl(cap);
+		execute_builtin(len, cmdline, cap);     //    <---- esta llamada a la funcion es la que tenemos que meter en un punto del parseo
+		while (cap->env_lst && cap->env_lst->prev != NULL)	  // lo demas no sirve mas que para pruebas.
+			cap->env_lst = cap->env_lst->prev;
 		ft_free_tab(cmdline);
 	}
 	return (0);

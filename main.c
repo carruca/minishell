@@ -6,20 +6,20 @@ void	print_prompt(char *prompt)
 	ft_putstr_fd("$ ", 1);
 }
 
-void	init_environ(t_env *_env)
+void	init_environ(t_cap *cap)
 {
-	create_empty_node(_env);
+	create_empty_node(cap);
 }
 
-void	free_lista(t_env *_env)
+void	free_lista(t_cap *cap)
 {
 	t_lista *node;
 
-	while (_env->cli)
+	while (cap->cli)
 	{
-		node = _env->cli;
-		free_node(_env->cli);
-		_env->cli = _env->cli->next;
+		node = cap->cli;
+		free_node(cap->cli);
+		cap->cli = cap->cli->next;
 		free(node);
 	}
 }
@@ -30,6 +30,8 @@ void	init_keyboard(t_shell *sh)
 	sh->my_term.c_lflag &= ~(ECHO | ICANON);
 	sh->my_term.c_cc[VMIN] = 1;
 	sh->my_term.c_cc[VTIME] = 0;
+	sh->my_term.c_cc[VINTR] = 0;
+	sh->my_term.c_cc[VQUIT] = 0;
 	tcsetattr(1, TCSAFLUSH, &sh->my_term);
 	tputs(tgetstr("ks", 0), 1, ft_putchar);
 }
@@ -44,23 +46,6 @@ char	*read_command_line(void)
 	return (line);
 }
 
-void	read_eval_print_loop(t_shell *sh)
-{
-	char	*cmd_line;
-
-	while (1)
-	{
-		cmd_line = NULL;
-		print_prompt(sh->prompt);
-		read_cmdline(&cmd_line, &sh->_env);
-//		cmd_line = read_command_line();
-		sh->pipeline_lst = parser(cmd_line, sh->prompt);
-		if (sh->pipeline_lst)
-			executer(sh);
-//		free(cmd_line);
-	}
-}
-
 void	sig_handler(int sig)
 {
 	if (sig == SIGQUIT)
@@ -70,6 +55,24 @@ void	sig_handler(int sig)
 	}
 	ft_putchar_fd('\n', 1);
 }
+
+void	read_eval_print_loop(t_shell *sh)
+{
+	char	*cmd_line;
+
+	while (1)
+	{
+		signal(SIGINT, sig_handler);
+		cmd_line = NULL;
+		print_prompt(sh->prompt);
+		read_cmdline(&cmd_line, &sh->cap);
+//		cmd_line = read_command_line();
+		sh->pipeline_lst = parser(cmd_line, sh->prompt);
+		if (sh->pipeline_lst)
+			executer(sh);
+	}
+}
+
 
 
 int	main(int argc, char **argv, char **env)
@@ -81,13 +84,13 @@ int	main(int argc, char **argv, char **env)
 	sh.env_lst = capture_env(env);
 	if (!sh.env_lst)
 		return (1);
-	init_environ(&sh._env);
+	init_environ(&sh.cap);
 	tgetent(0, getenv("TERM"));
 	tcgetattr(1, &sh.term);
 	init_keyboard(&sh);
-//	capture(&sh._env, env);
-//	signal(SIGINT, sig_handler);
-//	signal(SIGQUIT, sig_handler);
+//	capture(&sh.cap, env);
+	//signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	if (argc == 1)
 		read_eval_print_loop(&sh);
 	tcsetattr(1, TCSANOW, &sh.term);

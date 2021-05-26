@@ -4,6 +4,8 @@
 # define NL_KEY 10
 # define DL_KEY 127
 # define CTRL_D 4
+# define CTRL_C 3
+# define CTRL_4 28
 # define TAB	9
 # define FALSE 0
 # define TRUE 1
@@ -28,7 +30,7 @@ typedef struct s_lista
 	struct s_lista	*prev;
 }	t_lista;
 
-typedef struct s_environment
+typedef struct s_capture
 {
 	char		str;
 	int			check_esc;
@@ -42,34 +44,35 @@ typedef struct s_environment
 	char		*cmd_cursor;
 	int			cli_bufflen;
 	int			len_cursor;
-}	t_env;
+}	t_cap;
 
 void	error_malloc();
-int		capture(t_env *_env, char **env);
+void	print_prompt(char *prompt);
+int		capture(t_cap *cap, char **env);
 int		search_var_name(void *str, void *var);
-int		*read_cmdline(char **cmd, t_env *_env);
+int		*read_cmdline(char **cmd, t_cap *cap);
 int		ft_putchar(int c);
 int		ft_insert_node_ini(t_lista **lst, t_lista *new);
 int		ft_insert_nodo_fin(t_lista **lst, t_lista *new);
 int		ft_lst_size_lst(t_lista *lst);
-int		cap_key_printable(t_env *_env);
-int		cap_key_left(t_env *_env);
-int		cap_key_right(t_env *_env);
-int		cap_key_up(t_env *_env);
-int		cap_key_down(t_env *_env);
+int		cap_key_printable(t_cap *cap);
+int		cap_key_left(t_cap *cap);
+int		cap_key_right(t_cap *cap);
+int		cap_key_up(t_cap *cap);
+int		cap_key_down(t_cap *cap);
 char	**var_to_array(t_lista *lista);
 char	*ft_strjoin_free(char *dst, char *src);
-void	find_history(t_env *_env);
+void	find_history(t_cap *cap);
 int		search_env_name(char *str, t_var *var);
 int		set_env(t_lista *lst, char *name, char *new_value);
-void	cap_delete_char(t_env *_env);
+void	cap_delete_char(t_cap *cap);
 void	free_array(char **str);
 void	free_node(t_lista *node);
 void	ft_lst_iter_lst(t_lista *lst, void (*f)(void *));
-void	create_empty_node(t_env *_env);
-void	create_node(t_env *_env);
-void	create_clon_node(t_env *_env);
-char	*next_line_key(t_env *_env);
+void	create_empty_node(t_cap *cap);
+void	create_node(t_cap *cap);
+void	create_clon_node(t_cap *cap);
+char	*next_line_key(t_cap *cap);
 t_var	*array_to_var(char *str);
 t_lista	*ft_lst_new_lst(void *content);
 void	imprimir_content(void *cabeza);

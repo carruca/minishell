@@ -1,33 +1,33 @@
 #include "minishell.h"
 
-char	*next_line_key(t_env *_env)
+char	*next_line_key(t_cap *cap)
 {
 	t_line	*line;
 
-	line = _env->cli->content;
+	line = cap->cli->content;
 	write(1, "\n", 1);
-	if (*_env->cmd_buff)
+	if (*cap->cmd_buff)
 	{
-		create_node(_env);
-		_env->cli_bufflen = 0;
-		while (_env->cli->prev)
+		create_node(cap);
+		cap->cli_bufflen = 0;
+		while (cap->cli->prev)
 		{
-			line = _env->cli->content;
-			_env->cli = _env->cli->prev;
+			line = cap->cli->content;
+			cap->cli = cap->cli->prev;
 		}
-		if (_env->cli->next->content)
+		if (cap->cli->next->content)
 		{
-			line = _env->cli->next->content;
+			line = cap->cli->next->content;
 			free(line->clone_line);
 			return (line->origin_line);
 		}
 	}	
 	else
 	{
-		while (_env->cli->prev)
+		while (cap->cli->prev)
 		{
-			line = _env->cli->content;
-			_env->cli = _env->cli->prev;
+			line = cap->cli->content;
+			cap->cli = cap->cli->prev;
 		}
 		return ("");
 	}
