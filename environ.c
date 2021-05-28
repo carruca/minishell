@@ -81,7 +81,7 @@ int	set_var2(char *name, char *value, t_list **env_lst, int (*f)())
 	lst = ft_lstfind(*env_lst, name, env_name_cmp);
 	if (!lst)
 		init_var2(name, value, env_lst);
-	else
+	else if (f)
 		f(value, lst->content);
 	return (1);
 }

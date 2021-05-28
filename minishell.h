@@ -44,6 +44,14 @@
 # define EXPORT_VAR	0x0001
 # define ENV_VAR	0x0002
 
+# define EXPORT_BUILTIN	0x0001
+# define ENV_BUILTIN	0x0002
+# define EXIT_BUILTIN	0x0004
+# define CD_BUILTIN	0x0008
+# define PWD_BUILTIN	0x0010
+# define UNSET_BUILTIN	0x0020
+# define ECHO_BUILTIN	0x0040
+
 typedef struct s_variable
 {
 	char	*name;
@@ -217,7 +225,7 @@ void	print_command_error(char *cmd, char *prompt, int *status);
 /*		main			*/
 
 void	print_prompt(char *prompt);
-char	*read_command_line(void);
+char	*read_command_line(t_shell *sh);
 void	read_eval_print_loop(t_shell *sh);
 void	print_error(t_shell *sh, char *str, char *msg, int status);
 

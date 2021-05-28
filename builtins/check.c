@@ -119,7 +119,7 @@ void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status)
 
 int	is_valid_identifier(char *str)
 {
-	if (!str)
+	if (!str || *str == '=')
 		return (0);
 	while (*str && *str != '=')
 	{
