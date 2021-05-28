@@ -16,14 +16,6 @@ SRC = main.c \
 	  command.c \
 	  fd.c \
 	  quoted.c \
-	  builtins/check.c \
-	  builtins/cd.c \
-	  builtins/exit.c \
-	  builtins/echo.c \
-	  builtins/env.c \
-	  builtins/export.c \
-	  builtins/pwd.c \
-	  builtins/unset.c \
 	  environ.c \
 	  error_malloc.c \
 	  create_var_array.c \
@@ -46,7 +38,17 @@ SRC = main.c \
 	  cap_key_printable.c \
 	  cap_key_left.c \
 	  cap_key_down.c \
-	  cap_delete_char.c
+	  cap_delete_char.c \
+	  builtins/check.c \
+	  builtins/print_error.c \
+	  builtins/is_valid_var.c \
+	  builtins/cd.c \
+	  builtins/exit.c \
+	  builtins/echo.c \
+	  builtins/env.c \
+	  builtins/export.c \
+	  builtins/pwd.c \
+	  builtins/unset.c
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)

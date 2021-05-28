@@ -165,7 +165,7 @@ int		builtin_unset(t_shell *sh, int argc, char **argv);
 int		builtin_env(t_list *var_lst);
 int		builtin_pwd(t_shell *sh);
 int		builtin_echo(t_shell *sh, char **argv);
-int		is_valid_identifier(char *str);
+int		is_valid_var(char *str);
 void	print_builtin_error(t_shell *sh, char **argv, char *str, int status);
 void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status);
 

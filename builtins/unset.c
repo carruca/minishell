@@ -22,7 +22,7 @@ int	builtin_unset(t_shell *sh, int argc, char **argv)
 		i = 1;
 		while (argv[i])
 		{
-			if (is_valid_identifier(argv[i]) != 1)
+			if (is_valid_var(argv[i]) != 1)
 				print_identifier_error(sh, argv[0], argv[i], 1);
 			else
 				ft_lstremove_if(&sh->env_lst, argv[i], env_name_cmp, free_var);
