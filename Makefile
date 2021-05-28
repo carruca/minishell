@@ -19,6 +19,11 @@ SRC = main.c \
 	  builtins/check.c \
 	  builtins/cd.c \
 	  builtins/exit.c \
+	  builtins/echo.c \
+	  builtins/env.c \
+	  builtins/export.c \
+	  builtins/pwd.c \
+	  builtins/unset.c \
 	  environ.c \
 	  error_malloc.c \
 	  create_var_array.c \

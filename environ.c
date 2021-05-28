@@ -6,18 +6,12 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/19 16:23:43 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/24 21:50:36 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/28 20:27:36 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
-
-/*
- * build_var(char *str, t_list **env_lst)
- * extract_var(char *str, char **name, char **value)
- * set_var(char *name, char *value, t_list **env_lst, (void)(*f)())
- */
 
 void	extract_var2(char **str, char **name, char **value)
 {
@@ -108,6 +102,7 @@ int	build_var(char **str, t_list **env_lst, int (*f)())
 	return (1);
 }
 
+/*
 t_var	*create_var(char *name, char *value, int flags)
 {
 	t_var	*var;
@@ -143,7 +138,7 @@ int		extract_var(char *env, char **name, char **value)
 		return (0);
 	}
 	return (1);
-}
+}*/
 //var = get_var_by_name(sh->env_lst, "SHLVL", ENV_VAR | EXPORT_VAR, CREATE);
 /*
 char	*capture_name(char *env)
@@ -164,12 +159,11 @@ char	*capture_name(char *env)
 }
 */
 
-
 void	set_flag(t_var *var, int flags)
 {
 	var->flags |= flags;
 }
-
+/*
 void	unset_flag(t_var *var, int flags)
 {
 	var->flags ^= flags;
@@ -184,6 +178,7 @@ int	var_name_cmp(void *str, void *var)
 	tmp = var;
 	return (ft_strncmp(ptr, tmp->name, ft_strlen(tmp->name)));
 }
+*/
 
 int	env_name_cmp(void *name, void *var)
 {
@@ -220,7 +215,7 @@ void	change_value(char *str, t_var *var)
 		set_flag(var, ENV_VAR);
 	}
 }
-
+/*
 int	add_new_var(char *str, t_list **env_lst, void (*f)())
 {
 	t_list	*alst;	
@@ -232,7 +227,7 @@ int	add_new_var(char *str, t_list **env_lst, void (*f)())
 		f(str, alst->content);
 	return (1);
 }
-
+*/
 /*
 int	unset_var(char *name, t_list **env_lst)
 {
@@ -241,7 +236,7 @@ int	unset_var(char *name, t_list **env_lst)
 
 	return (0);
 }*/
-
+/*
 int	increase_shlvl(t_shell *sh)
 {
 	t_list	*alst;
@@ -260,7 +255,7 @@ int	increase_shlvl(t_shell *sh)
 		var->value = ft_itoa(++tmp);
 	}
 	return (1);
-}
+}*/
 /*
 char	*capture_value(char *env, char *name)
 {
@@ -279,7 +274,7 @@ char	*capture_value(char *env, char *name)
 	return (value);
 }*/
 
-
+/*
 void	extract_flags(char *name, char *value, int *flags)
 {
 	if (!ft_strcmp(name, "_"))
@@ -288,7 +283,7 @@ void	extract_flags(char *name, char *value, int *flags)
 		*flags |= EXPORT_VAR;
 	else
 		*flags |= (EXPORT_VAR | ENV_VAR);
-}
+}*/
 /*
 t_var	*capture_var(char *str)
 {
@@ -347,14 +342,14 @@ char	*join_var(t_var	*var)
 {
 	return (ft_strjoin_btwchar(var->name, var->value, '='));
 }
-
+/*
 void	print_var(void *content)
 {
 	t_var	*var;
 
 	var = content;
 	printf("[%s]=[%s] 0x%04x\n", var->name, var->value, var->flags);
-}
+}*/
 
 t_var	*find_var(const char *name, t_list *env_lst)
 {
@@ -406,7 +401,6 @@ int		cmp_var(t_var *var1, t_var *var2)
 	return (ft_strcmp(var1->name, var2->name));
 }
 
-
 int	add_var(t_var *var, t_list **env_lst)
 {
 	t_list	*new_lst;
@@ -417,10 +411,8 @@ int	add_var(t_var *var, t_list **env_lst)
 	ft_lstadd_back(env_lst, new_lst);
 	return (1);
 }
-/*
-Tengo que saber si hay una 
-*/
 
+/*
 int	init_var(char *str, t_list **env_lst)
 {
 	t_var	*var;
@@ -435,30 +427,15 @@ int	init_var(char *str, t_list **env_lst)
 		return (1);
 	return (0);
 }
-
+*/
 t_list	*extract_env(char **env)
 {
 	t_list	*env_lst;
-/*	t_var	*var;
-	char	*name;
-	char	*value;
-	int	flags;*/
 
 	env_lst	= NULL;
 	while (*env)
 	{
 		build_var(env, &env_lst, modify_value2);
-//		init_var(*env, &env_lst);
-/*		name = NULL;
-		value = NULL;
-		flags = 0;
-		if (!extract_var(*env, &name, &value))
-			return (NULL);
-		extract_flags(name, value, &flags);
-		var = create_var(name, value, flags);
-		if (!var)
-			return (NULL);
-		add_var(var, &env_lst);*/
 		env++;
 	}
 	return (env_lst);

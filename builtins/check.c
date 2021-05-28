@@ -6,12 +6,13 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 14:58:28 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/25 18:00:05 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/28 20:00:42 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+/*
 int	builtin_pwd(t_shell *sh)
 {
 	char	pwd[2048];
@@ -23,8 +24,8 @@ int	builtin_pwd(t_shell *sh)
 		sh->status = 0;
 	}
 	return (1);
-}
-
+}*/
+/*
 int	builtin_env(t_list *var_lst)
 {
 	t_var	*var;
@@ -38,8 +39,8 @@ int	builtin_env(t_list *var_lst)
 	}
 	return (1);
 }
-
-
+*/
+/*
 static int	is_flag(char *arg, int flag)
 {
 	int	pos;
@@ -78,7 +79,7 @@ int	builtin_echo(t_shell *sh, char **argv)
 	sh->status = 0;
 	return (1);
 }
-
+*/
 /*
 void	ft_sort_tab(char **tab_ptr)
 {
@@ -132,6 +133,7 @@ int	is_valid_identifier(char *str)
 	return (1);
 }
 
+/*
 int	builtin_unset(t_shell *sh, int argc, char **argv)
 {
 	int	i;
@@ -151,8 +153,9 @@ int	builtin_unset(t_shell *sh, int argc, char **argv)
 	}
 	return (1);
 }
-
-void	print_export_var(void *content)
+*/
+/*
+static void	print_export_var(void *content)
 {
 	t_var	*var;
 
@@ -179,12 +182,6 @@ static int	print_export(t_list *var_lst)
 	return (0);
 }
 
-/*
-Si tiene nombre: es exportable.
-Si tiene valor: es de entorno.
-*/
-
-
 int	builtin_export(t_shell *sh, int argc, char **argv)
 {
 	int	i;
@@ -204,7 +201,7 @@ int	builtin_export(t_shell *sh, int argc, char **argv)
 	else
 		sh->status = print_export(sh->env_lst);
 	return (1);
-}
+}*/
 
 int	check_builtin(t_shell *sh, int argc, char **argv)
 {
@@ -234,7 +231,7 @@ void	print_builtin_error(t_shell *sh, char **argv, char *str, int status)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(argv[0], 2);
 	ft_putstr_fd(": ", 2);
-	if (argv[1])
+	if (argv[1] && ft_strcmp(argv[1], "-"))
 	{
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd(": ", 2);

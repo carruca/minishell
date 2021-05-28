@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/26 17:40:10 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/28 19:59:46 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,12 +157,17 @@ t_list	*extract_env(char **env);
 
 /*		builtin			*/
 
-int		builtin_echo(t_shell *sh, char **argv);
-
 int		check_builtin(t_shell *sh, int argc, char **argv);
-int		builtin_cd(t_shell *sh, int argc, char **argv);
+int		builtin_export(t_shell *sh, int argc, char **argv);
 int		builtin_exit(t_shell *sh, int argc, char **argv);
+int		builtin_cd(t_shell *sh, int argc, char **argv);
+int		builtin_unset(t_shell *sh, int argc, char **argv);
+int		builtin_env(t_list *var_lst);
+int		builtin_pwd(t_shell *sh);
+int		builtin_echo(t_shell *sh, char **argv);
+int		is_valid_identifier(char *str);
 void	print_builtin_error(t_shell *sh, char **argv, char *str, int status);
+void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status);
 
 /*		token			*/
 
