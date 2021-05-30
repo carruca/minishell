@@ -75,10 +75,10 @@ void	int_envlst(t_shell *sh, char **env)
 	char	pwd[2048];	
 
 	sh->env_lst = extract_env(env);
-	set_var2("TERM", "xterm-256color", &sh->env_lst, NULL);
-	set_var2("OLDPWD", NULL, &sh->env_lst, NULL);
-	set_var2("PWD", getcwd(pwd, sizeof(char) * 2048), &sh->env_lst, modify_value2);
-	set_var2("SHLVL", "1", &sh->env_lst, increase_shlvl2);
+	set_var("TERM", "xterm-256color", &sh->env_lst, NULL);
+	set_var("OLDPWD", NULL, &sh->env_lst, NULL);
+	set_var("PWD", getcwd(pwd, sizeof(char) * 2048), &sh->env_lst, modify_value);
+	set_var("SHLVL", "1", &sh->env_lst, increase_shlvl);
 }
 
 int	main(int argc, char **argv, char **env)
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **env)
 	if (!sh.env_lst)
 		return (1);
 	init_environ(&sh._env);
-	if (tgetent(0, get_env_value("TERM", sh.env_lst)) == -1)
+	if (tgetent(0, get_env("TERM", sh.env_lst)) == -1)
 	{
 		print_error(&sh, "env", "TERM not set", 1);
 		return (sh.status);

@@ -49,7 +49,7 @@ char	*get_exe_path(char *name, t_shell *sh)
 		return (ft_strdup(name));
 	}
 	sh->status = sh->status;
-	path.env = get_env_value("PATH", sh->env_lst);
+	path.env = get_env("PATH", sh->env_lst);
 	if (!path.env)
 		return (NULL);
 	path.env = ft_strdup(path.env);

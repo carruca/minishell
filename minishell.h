@@ -132,28 +132,27 @@ typedef struct s_token
 	int		identifier;
 }			t_token;
 
-int	build_var(char **str, t_list **env_lst, int (*f)());
-int	modify_value2(char *value, t_var *var);
-int	set_var2(char *name, char *value, t_list **env_lst, int (*f)());
-int	env_name_cmp(void *name, void *var);
-int	var_name_cmp(void *str, void *var);
-void	free_var(void *var);
-int	unset_var(char *name, t_list **env_lst);
-int	increase_shlvl2(char *str, t_var *var);
-void	change_value(char *str, t_var *var);
-int	add_new_var(char *str, t_list **env_lst, void (*f)());
-t_var	*find_var(const char *name, t_list *env_lst);
-int	init_var(char *str, t_list **env_lst);
-int	increase_shlvl(t_shell *sh);
+
+/*		environ			*/
+
 int	add_var(t_var *var, t_list **env_lst);
-t_var	*capture_var(char *str);
-void	print_var(void *content);
+int	build_var(char **str, t_list **env_lst, int (*f)());
 int	cmp_var(t_var *var1, t_var *var2);
-int	is_export(t_var *var);
-int	is_env(t_var *var);
-char	*join_var(t_var *var);
-char	*get_env_value(char *name, t_list *env_lst);
+int	env_name_cmp(void *name, void *var);
 t_list	*extract_env(char **env);
+void	extract_var(char **str, char **name, char **value);
+void	free_var(void *var);
+char	*get_env(char *name, t_list *env_lst);
+int	increase_shlvl(char *str, t_var *var);
+int	init_var(char *name, char *value, t_list **env_lst);
+int	is_env(t_var *var);
+int	is_export(t_var *var);
+char	*join_env(t_var *var);
+int	modify_value(char *value, t_var *var);
+void	restore_env(char **env);
+void	set_flag(t_var *var, int flags);
+void	set_flags(t_var *var);
+int	set_var(char *name, char *value, t_list **env_lst, int (*f)());
 
 /*		builtin			*/
 
@@ -166,8 +165,8 @@ int		builtin_env(t_list *var_lst);
 int		builtin_pwd(t_shell *sh);
 int		builtin_echo(t_shell *sh, char **argv);
 int		is_valid_var(char *str);
-void	print_builtin_error(t_shell *sh, char **argv, char *str, int status);
-void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status);
+void		print_builtin_error(t_shell *sh, char **argv, char *str, int status);
+void		print_identifier_error(t_shell *sh, char *cmd, char *arg, int status);
 
 /*		token			*/
 

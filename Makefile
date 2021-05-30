@@ -16,7 +16,6 @@ SRC = main.c \
 	  command.c \
 	  fd.c \
 	  quoted.c \
-	  environ.c \
 	  error_malloc.c \
 	  create_var_array.c \
 	  ft_insert_node_fin.c \
@@ -48,7 +47,26 @@ SRC = main.c \
 	  builtins/env.c \
 	  builtins/export.c \
 	  builtins/pwd.c \
-	  builtins/unset.c
+	  builtins/unset.c \
+	  environ/add_var.c \
+	  environ/build_var.c \
+	  environ/cmp_var.c \
+	  environ/env_name_cmp.c \
+	  environ/extract_var.c \
+	  environ/extract_env.c \
+	  environ/free_var.c \
+	  environ/get_env.c \
+	  environ/increase_shlvl.c \
+	  environ/init_var.c \
+	  environ/is_env.c \
+	  environ/is_export.c \
+	  environ/join_env.c \
+	  environ/modify_value.c \
+	  environ/restore_env.c \
+	  environ/set_flag.c \
+	  environ/set_flags.c \
+	  environ/set_var.c
+#	  environ.c \
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)

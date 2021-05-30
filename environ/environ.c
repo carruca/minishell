@@ -13,21 +13,7 @@
 #include "minishell.h"
 #include <stdio.h>
 
-void	extract_var2(char **str, char **name, char **value)
-{
-	char	*pos;
-
-	pos = ft_strchr(*str, '=');
-	if (!pos)
-		*name = *str;
-	else
-	{
-		*pos = '\0';
-		*name = *str;
-		*value = pos + 1;
-	}
-}
-
+/*
 void	set_flags2(t_var *var)
 {
 	if (!ft_strcmp(var->name, "_"))
@@ -101,7 +87,7 @@ int	build_var(char **str, t_list **env_lst, int (*f)())
 	restore_env(str);
 	return (1);
 }
-
+*/
 /*
 t_var	*create_var(char *name, char *value, int flags)
 {

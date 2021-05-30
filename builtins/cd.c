@@ -25,12 +25,12 @@ static int	change_directory(t_shell *sh, char **argv, char *dir)
 		print_builtin_error(sh, argv, strerror(errno), 1);
 	else
 	{
-		oldpwd = get_env_value("PWD", sh->env_lst);
+		oldpwd = get_env("PWD", sh->env_lst);
 		if (oldpwd)
 		{
-			set_var2("OLDPWD", oldpwd, &sh->env_lst, modify_value2);
-			set_var2("PWD", getcwd(pwd, sizeof(char) * 2048),
-				&sh->env_lst, modify_value2);
+			set_var("OLDPWD", oldpwd, &sh->env_lst, modify_value);
+			set_var("PWD", getcwd(pwd, sizeof(char) * 2048),
+				&sh->env_lst, modify_value);
 		}
 		sh->status = 0;
 	}
@@ -44,7 +44,7 @@ int	builtin_cd(t_shell *sh, int argc, char **argv)
 	dir = NULL;
 	if (argc == 1)
 	{
-		dir = get_env_value("HOME", sh->env_lst);
+		dir = get_env("HOME", sh->env_lst);
 		if (!dir)
 		{
 			print_builtin_error(sh, argv, "HOME not set", 1);
@@ -53,7 +53,7 @@ int	builtin_cd(t_shell *sh, int argc, char **argv)
 	}
 	else if (!ft_strcmp(argv[1], "-"))
 	{
-		dir = get_env_value("OLDPWD", sh->env_lst);
+		dir = get_env("OLDPWD", sh->env_lst);
 		if (!dir)
 		{
 			print_builtin_error(sh, argv, "OLDPWD not set", 1);

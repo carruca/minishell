@@ -51,7 +51,7 @@ int	builtin_export(t_shell *sh, int argc, char **argv)
 			if (!is_valid_var(argv[i]))
 				print_identifier_error(sh, argv[0], argv[i], 1);
 			else
-				build_var(&argv[i], &sh->env_lst, modify_value2);
+				build_var(&argv[i], &sh->env_lst, modify_value);
 			i++;
 		}
 	}
