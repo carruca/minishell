@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/31 19:20:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:20:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/05/31 21:26:23 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/05/31 21:27:15 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_env(char *name, t_list *env_lst)
+void	executer(t_shell *sh)
 {
-	t_list	*lst;
+	t_list	*head;
+	t_pip	*apipeline;
+	t_exec	exec;
 
-	lst = ft_lstfind(env_lst, name, env_name_cmp);
-	if (!lst)
-		return (NULL);
-	return (((t_var *)(lst->content))->value);
+	head = sh->pipeline_lst;
+	ft_bzero(&exec, sizeof(t_exec));
+	while (sh->pipeline_lst)
+	{
+		cpy_std_fd(exec.fd.std_fd);
+		apipeline = sh->pipeline_lst->content;
+		if (apipeline)
+			executer_pipeline(apipeline, sh, &exec);
+		reset_std_fd(exec.fd.std_fd);
+		sh->pipeline_lst = sh->pipeline_lst->next;
+	}
+	ft_lstclear(&head, free_pipeline);
 }

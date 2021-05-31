@@ -6,13 +6,12 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:11:16 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/26 19:19:45 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/31 21:37:54 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "command.h"
 #include "minishell.h"
-
+/*
 int	search_directory(char *path, char *name)
 {
 	DIR				*dirp;
@@ -34,8 +33,8 @@ int	search_directory(char *path, char *name)
 	}
 	closedir(dirp);
 	return (0);
-}
-
+}*/
+/*
 char	*get_exe_path(char *name, t_shell *sh)
 {
 	t_path		path;
@@ -66,8 +65,24 @@ char	*get_exe_path(char *name, t_shell *sh)
 	}
 	free(path.env);
 	return (NULL);
-}
+}*/
+/*
+int	add_pid(int child_pid, t_list **pid_lst)
+{
+	int		*pid;
+	t_list	*new;
 
+	pid = malloc(sizeof(int));
+	if (!pid)
+		return (0);
+	*pid = child_pid;
+	new = ft_lstnew(pid);
+	if (!new)
+		return (0);
+	ft_lstadd_back(pid_lst, new);
+	return (1);
+}*/
+/*
 int	executer_command(t_shell *sh, t_exec *exec)
 {
 	int		status;
@@ -78,7 +93,7 @@ int	executer_command(t_shell *sh, t_exec *exec)
 		return (0);
 	else if (child_pid == 0)
 	{
-		tcsetattr(1, TCSANOW, &sh->term);
+//		tcsetattr(1, TCSANOW, &sh->term);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		execve(exec->path, exec->argv, exec->env);
@@ -86,11 +101,10 @@ int	executer_command(t_shell *sh, t_exec *exec)
 	}
 	sh->status = 0;
 	waitpid(child_pid, &status, 0);
+	add_pid(child_pid, &sh->pid_lst);
 //	while (waitpid(-1, NULL, WNOHANG) > 0)
 //		;
-	tcsetattr(1, TCSAFLUSH, &sh->my_term);
-	tputs(tgetstr("ks", 0), 1, ft_putchar);
-//	if (WIFEXITED(status))
-//		return (WEXITSTATUS(status));
+//	tcsetattr(1, TCSAFLUSH, &sh->my_term);
+//	tputs(tgetstr("ks", 0), 1, ft_putchar);
 	return (0);
-}
+}*/

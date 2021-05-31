@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   add_pid.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/31 19:20:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:20:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/05/31 21:35:15 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/05/31 21:35:48 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_env(char *name, t_list *env_lst)
+int	add_pid(int child_pid, t_list **pid_lst)
 {
-	t_list	*lst;
+	int		*pid;
+	t_list	*new;
 
-	lst = ft_lstfind(env_lst, name, env_name_cmp);
-	if (!lst)
-		return (NULL);
-	return (((t_var *)(lst->content))->value);
+	pid = malloc(sizeof(int));
+	if (!pid)
+		return (0);
+	*pid = child_pid;
+	new = ft_lstnew(pid);
+	if (!new)
+		return (0);
+	ft_lstadd_back(pid_lst, new);
+	return (1);
 }

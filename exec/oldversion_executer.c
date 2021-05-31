@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 13:48:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/26 19:36:26 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/31 21:21:37 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "token.h"
 #include "quoted.h"
 */
-
+/*
 void	print_error(t_shell *sh, char *str, char *msg, int	status)
 {
 	ft_putstr_fd(sh->prompt, 2);
@@ -27,17 +27,8 @@ void	print_error(t_shell *sh, char *str, char *msg, int	status)
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd("\n", 2);
 	sh->status = status;
-}
-/*
-void	print_directory_error(char *dir_name, char *prompt, int *status)
-{
-	ft_putstr_fd(prompt, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(dir_name, 2);
-	ft_putstr_fd(": is a directory\n", 2);
-	*status = 127;
 }*/
-
+/*
 int		is_directory(char *path)
 {
 	DIR	*dirp;
@@ -47,20 +38,20 @@ int		is_directory(char *path)
 		return (0);
 	closedir(dirp);
 	return (1);
-}
-
+}*/
+/*
 int		is_not_empty(char *str)
 {
 	return (str[0] != 0);
-}
+}*/
 /*
 void	check_executer(t_shell *sh, char *path, int argc, char **argv, char **env)
 {
 	if (!check_builtin(sh, argc, argv))
 		sh->status = executer_command(sh, path, argv, env);
 }*/
-
-void	find_command2(t_shell *sh, t_exec *exec)
+/*
+void	find_command(t_shell *sh, t_exec *exec)
 {
 	if (!exec->path && exec->argv[0] && *exec->argv[0] && !exec->builtin)
 		print_error(sh, exec->argv[0], "command not found", 127);
@@ -68,8 +59,8 @@ void	find_command2(t_shell *sh, t_exec *exec)
 		print_error(sh, exec->argv[0], "is a directory", 126);
 	else if (!exec->builtin)
 		sh->status = executer_command(sh, exec);
-}
-
+}*/
+/*
 void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec)
 {
 	args_have_quotes(cmd->args_lst, sh);
@@ -81,14 +72,14 @@ void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec)
 	exec->builtin = check_builtin(sh, exec->argc, exec->argv);
 	if (exec->argc > 0 && !exec->builtin)
 		exec->path = get_exe_path(exec->argv[0], sh);
-	find_command2(sh, exec);
+	find_command(sh, exec);
 	if (exec->path)
 		free(exec->path);
 	ft_free_tab(exec->argv);
 	ft_free_tab(exec->env);
-}
+}*/
 /*
-void	find_command(t_cmd *cmd, t_shell *sh)
+void	find_command2(t_cmd *cmd, t_shell *sh)
 {
 	int		argc;
 	char	**argv;
@@ -127,7 +118,7 @@ void	print_file_error(char *file, char *prompt)
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
 }*/
-
+/*
 int	set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh)
 {
 	t_redir		*aredir;
@@ -155,8 +146,8 @@ int	set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh)
 		redir_lst = redir_lst->next;
 	}
 	return (1);
-}
-
+}*/
+/*
 void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec)
 {
 	t_cmd	*cmd;
@@ -175,47 +166,38 @@ void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec)
 	set_std_fd(&exec->fd, 1);
 	if (cmd->args_lst && exec->fd.redir_fd[0] != -1 && exec->fd.redir_fd[1] != -1)
 		build_command(cmd, sh, exec);
+}*/
+/*
+static void	print_pid(void *content)
+{
+	t_pid	*pid;
+
+	pid = content;
+	printf("pid = %d\n", pid->child);
 }
 
 void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_exec *exec)
 {
-//	int	status;
 	t_list	*head;
-//	t_cmd	*acmd;
-//	t_list	*pid_lst;
 
 	head = pipeline->cmd_lst;
 	while (pipeline->cmd_lst)
 	{
 		executer_compound(pipeline->cmd_lst, sh, exec);
-/*		acmd = pipeline->cmd_lst->content;
-		if (!set_redir_fd(acmd->redir_lst, fd->redir_fd, sh))
-			sh->status = 1;
-		set_std_fd(fd, 0);
-		fd->piped = 0;
-		if (pipeline->cmd_lst->next)
-			set_pipe(fd->fd, &fd->piped);
-		set_std_fd(fd, 1);
-		if (acmd->args_lst && fd->redir_fd[0] != -1 && fd->redir_fd[1] != -1)
-			find_command(acmd, sh);*/
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
-//	wait(NULL);
-//	waitpid(0, &status, 0);
-//	ft_lstadd_back(&pid_lst, ft_lstnew(&status));
+	ft_lstiter(sh->pid_lst, print_pid);
 	ft_lstclear(&head, free_command);
-}
-
+}*/
+/*
 void	executer(t_shell *sh)
 {
 	t_list	*head;
 	t_pip	*apipeline;
 	t_exec	exec;
-//	t_fd	fd;
 
 	head = sh->pipeline_lst;
 	ft_bzero(&exec, sizeof(t_exec));
-	//ft_bzero(&fd, sizeof(t_fd));
 	while (sh->pipeline_lst)
 	{
 		cpy_std_fd(exec.fd.std_fd);
@@ -226,4 +208,4 @@ void	executer(t_shell *sh)
 		sh->pipeline_lst = sh->pipeline_lst->next;
 	}
 	ft_lstclear(&head, free_pipeline);
-}
+}*/

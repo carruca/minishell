@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/28 19:59:46 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/31 21:37:42 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ typedef struct s_exec
 	int		builtin;
 	t_fd	fd;
 }			t_exec;
+
+typedef struct s_pid
+{
+	int		child;
+}			t_pid;
 
 typedef struct s_pos
 {
@@ -235,12 +240,17 @@ void	set_pipe(int *fd, int *piped);
 
 void	executer(t_shell *sh);
 void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_exec *exec);
+void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec);
 int		set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh);
-void	print_file_error(char *file, char *prompt);
-void	find_command(t_cmd *cmd, t_shell *sh);
+void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec);
+void	find_command(t_shell *sh, t_exec *exec);
+int		is_not_empty(char *str);
+int		is_directory(char *path);
+void	print_error(t_shell *sh, char *str, char *msg, int	status);
 
 /*		command			*/
 
+int		add_pid(int child_pid, t_list **pid_lst);
 int		search_directory(char *path, char *name);
 char	*get_exe_path(char *name, t_shell *sh);
 int		executer_command(t_shell *sh, t_exec *exec);

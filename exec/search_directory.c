@@ -1,23 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   search_directory.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/31 19:20:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:20:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/05/31 21:32:36 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/05/31 21:33:05 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_env(char *name, t_list *env_lst)
+int	search_directory(char *path, char *name)
 {
-	t_list	*lst;
+	DIR				*dirp;
+	struct dirent	*dp;
 
-	lst = ft_lstfind(env_lst, name, env_name_cmp);
-	if (!lst)
-		return (NULL);
-	return (((t_var *)(lst->content))->value);
+	dirp = opendir(path);
+	if (!dirp)
+		return (0);
+	while (1)
+	{
+		dp = readdir(dirp);
+		if (!dp)
+			break ;
+		if (!ft_strcmp(dp->d_name, name))
+		{
+			closedir(dirp);
+			return (1);
+		}
+	}
+	closedir(dirp);
+	return (0);
 }

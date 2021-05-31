@@ -6,16 +6,11 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 13:23:57 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/04/26 14:54:48 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/05/31 21:43:46 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-#include "parser.h"
-#include "fd.h"
-#include "executer.h"
-*/
 
 void	set_fd(int *fd, int id)
 {

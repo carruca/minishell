@@ -12,11 +12,8 @@ SRC = main.c \
 	  parser_utils.c \
 	  parser_free.c \
 	  parser_print.c \
-	  executer.c \
-	  command.c \
 	  fd.c \
 	  error_malloc.c \
-	  create_var_array.c \
 	  ft_insert_node_fin.c \
 	  ft_lst_new_lst.c \
 	  add_node_before_last.c \
@@ -77,8 +74,23 @@ SRC = main.c \
 	  expander/copy_expander.c \
 	  expander/count_env.c \
 	  expander/count_expander.c \
-	  expander/get_env_name.c
+	  expander/get_env_name.c \
+	  exec/build_command.c \
+	  exec/executer.c \
+	  exec/executer_compound.c \
+	  exec/executer_pipeline.c \
+	  exec/find_command.c \
+	  exec/is_directory.c \
+	  exec/is_not_empty.c \
+	  exec/print_error.c \
+	  exec/set_redir_fd.c \
+	  exec/add_pid.c \
+	  exec/executer_command.c \
+	  exec/get_exe_path.c \
+	  exec/search_directory.c
 #	  environ.c \
+	  executer.c \
+	  command.c \
 	  quoted.c
 
 OBJ = $(SRC:.c=.o)

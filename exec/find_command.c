@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   find_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/31 19:20:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:20:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/05/31 21:10:31 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/05/31 21:11:47 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_env(char *name, t_list *env_lst)
+void	find_command(t_shell *sh, t_exec *exec)
 {
-	t_list	*lst;
-
-	lst = ft_lstfind(env_lst, name, env_name_cmp);
-	if (!lst)
-		return (NULL);
-	return (((t_var *)(lst->content))->value);
+	if (!exec->path && exec->argv[0] && *exec->argv[0] && !exec->builtin)
+		print_error(sh, exec->argv[0], "command not found", 127);
+	else if (exec->path && is_directory(exec->path))
+		print_error(sh, exec->argv[0], "is a directory", 126);
+	else if (!exec->builtin)
+		sh->status = executer_command(sh, exec);
 }

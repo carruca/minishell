@@ -1,11 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   copy_without_quotes.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/31 19:26:41 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/05/31 19:26:48 by tsierra-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	copy_without_quotes(char *dst, char *src, t_shell *sh)
 {
 	int		quoted;
 	t_pos		pos;
-//	int		i;
-//	int		j;
 
 	ft_bzero(&pos, sizeof(t_pos));
 	quoted = 0;

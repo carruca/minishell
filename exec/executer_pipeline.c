@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_env.c                                          :+:      :+:    :+:   */
+/*   executer_pipeline.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/31 19:20:52 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:20:55 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/05/31 21:18:41 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/05/31 21:19:36 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_env(char *name, t_list *env_lst)
+static void	print_pid(void *content)
 {
-	t_list	*lst;
+	t_pid	*pid;
 
-	lst = ft_lstfind(env_lst, name, env_name_cmp);
-	if (!lst)
-		return (NULL);
-	return (((t_var *)(lst->content))->value);
+	pid = content;
+	printf("pid = %d\n", pid->child);
+}
+
+void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_exec *exec)
+{
+	t_list	*head;
+
+	head = pipeline->cmd_lst;
+	while (pipeline->cmd_lst)
+	{
+		executer_compound(pipeline->cmd_lst, sh, exec);
+		pipeline->cmd_lst = pipeline->cmd_lst->next;
+	}
+	ft_lstiter(sh->pid_lst, print_pid);
+	ft_lstclear(&head, free_command);
 }
