@@ -94,12 +94,3 @@ int	executer_command(t_shell *sh, t_exec *exec)
 //		return (WEXITSTATUS(status));
 	return (0);
 }
-/*
-void	print_command_error(char *cmd, char *prompt, int *status)
-{
-	ft_putstr_fd(prompt, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	*status = 126;
-}*/

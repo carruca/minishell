@@ -11,11 +11,8 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 /*
-#include "quoted.h"
-#include "parser.h"
-#include "executer.h"
-*/
 static void	is_quoted_2(char c, int *quoted, int *i)
 {
 	if (c == '\"' && (*quoted == 0 || *quoted == 0x01))
@@ -28,8 +25,8 @@ static void	is_quoted_2(char c, int *quoted, int *i)
 		*quoted ^= 0x02;
 		(*i)++;
 	}
-}
-
+}*/
+/*
 int	count_env(char *name, t_shell *sh)
 {
 	char	*envp;
@@ -50,8 +47,8 @@ int	count_env(char *name, t_shell *sh)
 		count = ft_strlen(envp);
 	}
    	return (count);
-}
-
+}*/
+/*
 char	*get_env_name(char *str, int *i)
 {
 	char	*envp;
@@ -78,8 +75,8 @@ char	*get_env_name(char *str, int *i)
 		return (NULL);
 	ft_strlcpy(envp, str + j, envc + 1);
 	return (envp);
-}
-
+}*/
+/*
 int	count_expander(char *str, int *i, int *counter, t_shell *sh)
 {
 	char	*envp;
@@ -91,8 +88,8 @@ int	count_expander(char *str, int *i, int *counter, t_shell *sh)
 	*counter += env_len;
 	free(envp);
 	return (env_len);
-}
-
+}*/
+/*
 static int	count_without_quotes(char *str, t_shell *sh)
 {
 	int		counter;
@@ -118,8 +115,8 @@ static int	count_without_quotes(char *str, t_shell *sh)
 		}
 	}
 	return (counter);
-}
-
+}*/
+/*
 void	copy_env(char *dst, char *name, int *j, t_shell *sh)
 {
 	int		i;
@@ -145,8 +142,8 @@ void	copy_env(char *dst, char *name, int *j, t_shell *sh)
 	}
 	if (freed)
 		free(envp);
-}
-
+}*/
+/*
 void	copy_expander(char *dst, char *src, int *i, int *j, t_shell *sh)
 {
 	char	*envp;
@@ -155,8 +152,8 @@ void	copy_expander(char *dst, char *src, int *i, int *j, t_shell *sh)
 	envp = get_env_name(src, i);
 	copy_env(dst, envp, j, sh);
 	free(envp);
-}
-
+}*/
+/*
 static void	copy_without_quotes(char *dst, char *src, t_shell *sh)
 {
 	int		quoted;
@@ -173,17 +170,17 @@ static void	copy_without_quotes(char *dst, char *src, t_shell *sh)
 		if (src[i] == '$' && (quoted == 0 || quoted == 0x01)
 				&& !ft_strchr("\'\"\0", src[i + 1]))
 			copy_expander(dst, src, &i, &j, sh);
-		else if (src[i] && (((quoted == 1 && src[i] != '\"')
-						|| (quoted == 2 && src[i] != '\''))
-					|| (src[i] != '\'' && src[i] != '\"')))
+		else if (src[i] && ((quoted == 1 && src[i] != '\"')
+				|| (quoted == 2 && src[i] != '\'')
+				|| (src[i] != '\'' && src[i] != '\"')))
 		{
 			dst[j] = src[i];
 			i++;
 			j++;
 		}
 	}
-}
-
+}*/
+/*
 char	*strtrim_quotes(char *str, t_shell *sh)
 {
 	char	*dst;
@@ -198,8 +195,8 @@ char	*strtrim_quotes(char *str, t_shell *sh)
 	copy_without_quotes(dst, str, sh);
 	dst[len] = '\0';
 	return (dst);
-}
-
+}*/
+/*
 void	change_content(t_list *lst, void *content)
 {
 	void	*ptr;
@@ -207,8 +204,8 @@ void	change_content(t_list *lst, void *content)
 	ptr = lst->content;
 	lst->content = content;
 	free(ptr);
-}
-
+}*/
+/*
 int	redir_file_have_quotes(char **str, t_shell *sh)
 {
 	char	*new;
@@ -227,8 +224,8 @@ int	redir_file_have_quotes(char **str, t_shell *sh)
 		free(ptr);
 	}
 	return (1);
-}
-
+}*/
+/*
 void	args_have_quotes(t_list *lst, t_shell *sh)
 {
 	char	*new;
@@ -244,4 +241,4 @@ void	args_have_quotes(t_list *lst, t_shell *sh)
 		}
 		lst = lst->next;
 	}
-}
+}*/

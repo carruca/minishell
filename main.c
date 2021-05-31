@@ -69,7 +69,7 @@ void	sig_handler(int sig)
 	}
 	ft_putchar_fd('\n', 1);
 }
-
+/*
 void	int_envlst(t_shell *sh, char **env)
 {
 	char	pwd[2048];	
@@ -79,7 +79,7 @@ void	int_envlst(t_shell *sh, char **env)
 	set_var("OLDPWD", NULL, &sh->env_lst, NULL);
 	set_var("PWD", getcwd(pwd, sizeof(char) * 2048), &sh->env_lst, modify_value);
 	set_var("SHLVL", "1", &sh->env_lst, increase_shlvl);
-}
+}*/
 
 int	main(int argc, char **argv, char **env)
 {

@@ -63,6 +63,7 @@ typedef struct s_shell
 {
 	char			*prompt;
 	t_list			*pipeline_lst;
+	t_list			*pid_lst;
 	struct termios	term;
 	struct termios	my_term;
 	t_list			*env_lst;
@@ -94,6 +95,12 @@ typedef struct s_exec
 	int		builtin;
 	t_fd	fd;
 }			t_exec;
+
+typedef struct s_pos
+{
+	int	i;
+	int	j;
+}		t_pos;
 
 typedef struct s_lex
 {
@@ -135,6 +142,7 @@ typedef struct s_token
 
 /*		environ			*/
 
+void	int_envlst(t_shell *sh, char **env);
 int	add_var(t_var *var, t_list **env_lst);
 int	build_var(char **str, t_list **env_lst, int (*f)());
 int	cmp_var(t_var *var1, t_var *var2);
@@ -178,6 +186,18 @@ void	del_current_token(t_list **tkn_lst);
 
 /*		quoted			*/
 
+void	args_have_quotes(t_list *lst, t_shell *sh);
+int	redir_file_have_quotes(char **str, t_shell *sh);
+void	change_content(t_list *lst, void *content);
+char	*trim_quotes(char *str, t_shell *sh);
+void	copy_without_quotes(char *dst, char *src, t_shell *sh);
+void	copy_expander(char *dst, char *src, t_pos *pos, t_shell *sh);
+void	copy_env(char *dst, char *name, int *j, t_shell *sh);
+int	count_without_quotes(char *str, t_shell *sh);
+int	count_expander(char *str, int *i, int *counter, t_shell *sh);
+char	*get_env_name(char *str, int *i);
+int	count_env(char *name, t_shell *sh);
+void	is_quoted_2(char c, int *quoted, int *i);
 void	args_have_quotes(t_list *lst, t_shell *sh);
 int		redir_file_have_quotes(char **str, t_shell *sh);
 

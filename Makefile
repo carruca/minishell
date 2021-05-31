@@ -15,7 +15,6 @@ SRC = main.c \
 	  executer.c \
 	  command.c \
 	  fd.c \
-	  quoted.c \
 	  error_malloc.c \
 	  create_var_array.c \
 	  ft_insert_node_fin.c \
@@ -65,8 +64,22 @@ SRC = main.c \
 	  environ/restore_env.c \
 	  environ/set_flag.c \
 	  environ/set_flags.c \
-	  environ/set_var.c
+	  environ/set_var.c \
+	  environ/int_envlst.c \
+	  quotes/args_have_quotes.c \
+	  quotes/change_content.c \
+	  quotes/copy_without_quotes.c \
+	  quotes/count_without_quotes.c \
+	  quotes/is_quoted2.c \
+	  quotes/redir_file_have_quotes.c \
+	  quotes/trim_quotes.c \
+	  expander/copy_env.c \
+	  expander/copy_expander.c \
+	  expander/count_env.c \
+	  expander/count_expander.c \
+	  expander/get_env_name.c
 #	  environ.c \
+	  quoted.c
 
 OBJ = $(SRC:.c=.o)
 INC = -I. -I $(LIBFT_DIR)
