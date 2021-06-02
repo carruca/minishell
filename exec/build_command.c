@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 21:12:46 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 21:13:15 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 16:23:30 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec)
 {
 	args_have_quotes(cmd->args_lst, sh);
-	exec->argc = ft_olstsize_if(cmd->args_lst, is_not_empty);
+	exec->argc = ft_lstsize_if(cmd->args_lst, is_not_empty);
 	if (exec->argc)
 		exec->argv = ft_lsttoa_if(cmd->args_lst, ft_strdup, is_not_empty);
 	if (exec->argv)

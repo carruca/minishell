@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 19:21:11 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:21:13 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 19:50:27 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	init_var(char *name, char *value, t_list **env_lst)
 {
 	t_var	*var;
 
-	var = ft_calloc(1 , sizeof(t_var));
+	var = ft_calloc(1, sizeof(t_var));
 	if (!var)
 		return (1);
 	var->name = ft_strdup(name);

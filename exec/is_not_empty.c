@@ -6,13 +6,13 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 21:09:09 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 21:09:39 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 19:56:54 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		is_not_empty(char *str)
+int	is_not_empty(char *str)
 {
 	return (str[0] != 0);
 }

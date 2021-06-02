@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 19:25:34 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:25:39 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 20:08:10 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_env_name(char *str, int *i)
 
 	j = *i;
 	envc = 0;
-	if(str[*i] == '?')
+	if (str[*i] == '?')
 	{
 		(*i)++;
 		envc++;
@@ -33,7 +33,7 @@ char	*get_env_name(char *str, int *i)
 			envc++;
 		}
 	}
-	envp = malloc(sizeof(char) *envc + 1);
+	envp = malloc(sizeof(char) * envc + 1);
 	if (!envp)
 		return (NULL);
 	ft_strlcpy(envp, str + j, envc + 1);

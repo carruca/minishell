@@ -61,7 +61,7 @@ SRC = main.c \
 	  environ/set_flag.c \
 	  environ/set_flags.c \
 	  environ/set_var.c \
-	  environ/int_envlst.c \
+	  environ/init_envlst.c \
 	  quotes/args_have_quotes.c \
 	  quotes/change_content.c \
 	  quotes/copy_without_quotes.c \

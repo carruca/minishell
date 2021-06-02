@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 19:25:15 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:25:17 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 20:07:19 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ int	count_env(char *name, t_shell *sh)
 			return (0);
 		count = ft_strlen(envp);
 	}
-   	return (count);
+	return (count);
 }

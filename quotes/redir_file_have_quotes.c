@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 19:27:09 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:27:10 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 20:23:55 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int	redir_file_have_quotes(char **str, t_shell *sh)
 		print_error(sh, *str, "ambiguous redirect", 1);
 		return (0);
 	}
-	else if (ft_strchr(*str, '\'') || ft_strchr(*str, '\"') || ft_strchr(*str, '$'))
+	else if (ft_strchr(*str, '\'') || ft_strchr(*str, '\"')
+		|| ft_strchr(*str, '$'))
 	{
 		new = trim_quotes(*str, sh);
 		ptr = *str;

@@ -6,13 +6,13 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 19:21:35 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:21:36 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 19:54:13 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		is_env(t_var *var)
+int	is_env(t_var *var)
 {
 	if (var->flags & ENV_VAR)
 		return (1);

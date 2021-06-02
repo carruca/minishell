@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 21:37:42 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 20:40:29 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,6 @@
 # define UNSET_BUILTIN	0x0020
 # define ECHO_BUILTIN	0x0040
 
-typedef struct s_variable
-{
-	char	*name;
-	char	*value;
-	int		flags;
-}			t_var;
-
 typedef struct s_shell
 {
 	char			*prompt;
@@ -70,12 +63,19 @@ typedef struct s_shell
 	int				status;
 }					t_shell;
 
+typedef struct s_variable
+{
+	char	*name;
+	char	*value;
+	int		flags;
+}			t_var;
+
 typedef struct s_path
 {
-	char			*env;
-	char			*dir;
-	char			*exe;
-}					t_path;
+	char	*env;
+	char	*dir;
+	char	*exe;
+}			t_path;
 
 typedef struct s_fd
 {
@@ -102,9 +102,9 @@ typedef struct s_pid
 
 typedef struct s_pos
 {
-	int	i;
-	int	j;
-}		t_pos;
+	int		i;
+	int		j;
+}			t_pos;
 
 typedef struct s_lex
 {
@@ -143,28 +143,27 @@ typedef struct s_token
 	int		identifier;
 }			t_token;
 
-
 /*		environ			*/
 
-void	int_envlst(t_shell *sh, char **env);
-int	add_var(t_var *var, t_list **env_lst);
-int	build_var(char **str, t_list **env_lst, int (*f)());
-int	cmp_var(t_var *var1, t_var *var2);
-int	env_name_cmp(void *name, void *var);
+void	init_envlst(t_shell *sh, char **env);
+int		add_var(t_var *var, t_list **env_lst);
+int		build_var(char **str, t_list **env_lst, int (*f)());
+int		cmp_var(t_var *var1, t_var *var2);
+int		env_name_cmp(void *name, void *var);
 t_list	*extract_env(char **env);
 void	extract_var(char **str, char **name, char **value);
 void	free_var(void *var);
 char	*get_env(char *name, t_list *env_lst);
-int	increase_shlvl(char *str, t_var *var);
-int	init_var(char *name, char *value, t_list **env_lst);
-int	is_env(t_var *var);
-int	is_export(t_var *var);
+int		increase_shlvl(char *str, t_var *var);
+int		init_var(char *name, char *value, t_list **env_lst);
+int		is_env(t_var *var);
+int		is_export(t_var *var);
 char	*join_env(t_var *var);
-int	modify_value(char *value, t_var *var);
+int		modify_value(char *value, t_var *var);
 void	restore_env(char **env);
 void	set_flag(t_var *var, int flags);
 void	set_flags(t_var *var);
-int	set_var(char *name, char *value, t_list **env_lst, int (*f)());
+int		set_var(char *name, char *value, t_list **env_lst, int (*f)());
 
 /*		builtin			*/
 
@@ -179,8 +178,8 @@ int		builtin_env(t_list *var_lst);
 int		builtin_pwd(t_shell *sh);
 int		builtin_echo(t_shell *sh, char **argv);
 int		is_valid_var(char *str);
-void		print_builtin_error(t_shell *sh, char **argv, char *str, int status);
-void		print_identifier_error(t_shell *sh, char *cmd, char *arg, int status);
+void	print_builtin_error(t_shell *sh, char **argv, char *str, int status);
+void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status);
 
 /*		token			*/
 
@@ -193,16 +192,16 @@ void	del_current_token(t_list **tkn_lst);
 /*		quoted			*/
 
 void	args_have_quotes(t_list *lst, t_shell *sh);
-int	redir_file_have_quotes(char **str, t_shell *sh);
+int		redir_file_have_quotes(char **str, t_shell *sh);
 void	change_content(t_list *lst, void *content);
 char	*trim_quotes(char *str, t_shell *sh);
 void	copy_without_quotes(char *dst, char *src, t_shell *sh);
 void	copy_expander(char *dst, char *src, t_pos *pos, t_shell *sh);
 void	copy_env(char *dst, char *name, int *j, t_shell *sh);
-int	count_without_quotes(char *str, t_shell *sh);
-int	count_expander(char *str, int *i, int *counter, t_shell *sh);
+int		count_without_quotes(char *str, t_shell *sh);
+int		count_expander(char *str, int *i, int *counter, t_shell *sh);
 char	*get_env_name(char *str, int *i);
-int	count_env(char *name, t_shell *sh);
+int		count_env(char *name, t_shell *sh);
 void	is_quoted_2(char c, int *quoted, int *i);
 void	args_have_quotes(t_list *lst, t_shell *sh);
 int		redir_file_have_quotes(char **str, t_shell *sh);

@@ -13,7 +13,7 @@ void	init_environ(t_env *_env)
 
 void	free_lista(t_env *_env)
 {
-	t_lista *node;
+	t_lista	*node;
 
 	while (_env->cli)
 	{
@@ -69,17 +69,6 @@ void	sig_handler(int sig)
 	}
 	ft_putchar_fd('\n', 1);
 }
-/*
-void	int_envlst(t_shell *sh, char **env)
-{
-	char	pwd[2048];	
-
-	sh->env_lst = extract_env(env);
-	set_var("TERM", "xterm-256color", &sh->env_lst, NULL);
-	set_var("OLDPWD", NULL, &sh->env_lst, NULL);
-	set_var("PWD", getcwd(pwd, sizeof(char) * 2048), &sh->env_lst, modify_value);
-	set_var("SHLVL", "1", &sh->env_lst, increase_shlvl);
-}*/
 
 int	main(int argc, char **argv, char **env)
 {
@@ -87,7 +76,7 @@ int	main(int argc, char **argv, char **env)
 
 	ft_bzero(&sh, sizeof(t_shell));
 	sh.prompt = ft_strrchr(argv[0], '/') + 1;
-	int_envlst(&sh, env);
+	init_envlst(&sh, env);
 	if (!sh.env_lst)
 		return (1);
 	init_environ(&sh._env);

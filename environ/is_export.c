@@ -6,13 +6,13 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 19:21:41 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:21:43 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 19:54:34 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		is_export(t_var *var)
+int	is_export(t_var *var)
 {
 	if (var->flags & EXPORT_VAR)
 		return (1);

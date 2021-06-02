@@ -6,13 +6,14 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/24 16:50:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/24 16:51:46 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 20:10:09 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstremove_if(t_list **alst, void *content, int (*cmp)(), void (*del)(void *))
+void	ft_lstremove_if(t_list **alst, void *content,
+		int (*cmp)(), void (*del)(void *))
 {
 	t_list	*current;
 	t_list	*prev;

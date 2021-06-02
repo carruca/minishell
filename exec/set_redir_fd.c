@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 21:15:02 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 21:15:30 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/02 19:57:32 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh)
 	while (redir_lst)
 	{
 		aredir = redir_lst->content;
-		if(!redir_file_have_quotes(&aredir->file, sh))
+		if (!redir_file_have_quotes(&aredir->file, sh))
 		{
 			fd[0] = -1;
 			return (0);
