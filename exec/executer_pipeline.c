@@ -31,5 +31,6 @@ void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_exec *exec)
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
 	}
 	ft_lstiter(sh->pid_lst, print_pid);
+	ft_lstclear(&sh->pid_lst, free);
 	ft_lstclear(&head, free_command);
 }

@@ -16,14 +16,12 @@ SRC = main.c \
 	  error_malloc.c \
 	  ft_insert_node_fin.c \
 	  ft_lst_new_lst.c \
-	  add_node_before_last.c \
 	  find_history.c \
 	  free_node.c \
 	  lst_iter_lst.c \
 	  ft_lst_size_lst.c \
 	  ft_insert_node_ini.c \
 	  ft_strjoin_free.c \
-	  export_builtin.c \
 	  command_line.c \
 	  next_line_key.c \
 	  ft_putchar.c \
@@ -34,6 +32,7 @@ SRC = main.c \
 	  cap_key_left.c \
 	  cap_key_down.c \
 	  cap_delete_char.c \
+	  builtins/execute.c \
 	  builtins/check.c \
 	  builtins/print_error.c \
 	  builtins/is_valid_var.c \
@@ -70,11 +69,11 @@ SRC = main.c \
 	  quotes/is_quoted2.c \
 	  quotes/redir_file_have_quotes.c \
 	  quotes/trim_quotes.c \
-	  expander/copy_env.c \
-	  expander/copy_expander.c \
-	  expander/count_env.c \
-	  expander/count_expander.c \
-	  expander/get_env_name.c \
+	  expanser/copy_env.c \
+	  expanser/copy_expander.c \
+	  expanser/count_env.c \
+	  expanser/count_expander.c \
+	  expanser/get_env_name.c \
 	  exec/build_command.c \
 	  exec/executer.c \
 	  exec/executer_compound.c \

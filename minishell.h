@@ -30,7 +30,6 @@
 # include <term.h>
 # include <termios.h>
 # include "env.h"
-# include "builtins.h"
 
 # define WORD	0x0001
 # define LESS	0x0002
@@ -169,7 +168,9 @@ int	set_var(char *name, char *value, t_list **env_lst, int (*f)());
 
 /*		builtin			*/
 
-int		check_builtin(t_shell *sh, int argc, char **argv);
+int		execute_builtin(t_shell *sh, t_exec *exec);
+int		check_builtin(int argc, char *arg);
+int		check_builtin2(t_shell *sh, int argc, char **argv);
 int		builtin_export(t_shell *sh, int argc, char **argv);
 int		builtin_exit(t_shell *sh, int argc, char **argv);
 int		builtin_cd(t_shell *sh, int argc, char **argv);

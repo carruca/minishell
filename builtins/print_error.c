@@ -19,7 +19,7 @@ void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status)
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": `", 2);
 	ft_putstr_fd(arg, 2);
-	ft_putstr_fd("´: ", 2);
+	ft_putstr_fd("': ", 2);
 	ft_putstr_fd("not a valid identifier", 2);
 	ft_putstr_fd("\n", 2);
 	sh->status = status;

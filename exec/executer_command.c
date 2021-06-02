@@ -25,7 +25,10 @@ int	executer_command(t_shell *sh, t_exec *exec)
 //		tcsetattr(1, TCSANOW, &sh->term);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		execve(exec->path, exec->argv, exec->env);
+		if (exec->builtin)
+			execute_builtin(sh, exec);
+		else
+			execve(exec->path, exec->argv, exec->env);
 		exit(0);
 	}
 	sh->status = 0;
