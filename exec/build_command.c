@@ -35,6 +35,7 @@ void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec)
 	}
 	ft_free_tab(exec->argv);
 	exec->argv = NULL;
-	ft_free_tab(exec->env);
+	if (exec->env)
+		ft_free_tab(exec->env);
 	exec->env = NULL;
 }

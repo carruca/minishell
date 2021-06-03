@@ -14,7 +14,7 @@
 
 int	executer_command(t_shell *sh, t_exec *exec)
 {
-	int		status;
+//	int		status;
 	pid_t	child_pid;
 
 	child_pid = fork();
@@ -32,7 +32,7 @@ int	executer_command(t_shell *sh, t_exec *exec)
 		exit(0);
 	}
 	sh->status = 0;
-	waitpid(child_pid, &status, 0);
+//	waitpid(child_pid, &status, 0);
 	add_pid(child_pid, &sh->pid_lst);
 //	while (waitpid(-1, NULL, WNOHANG) > 0)
 //		;

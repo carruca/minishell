@@ -23,12 +23,19 @@ void	print_pid(void *content)
 void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_exec *exec)
 {
 	t_list	*head;
+	int	child_counter;
 
 	head = pipeline->cmd_lst;
 	while (pipeline->cmd_lst)
 	{
 		executer_compound(pipeline->cmd_lst, sh, exec);
 		pipeline->cmd_lst = pipeline->cmd_lst->next;
+	}
+	child_counter = ft_lstsize(sh->pid_lst);
+	if (child_counter > 0)
+	{
+		while (child_counter--)
+			wait(NULL);
 	}
 //	ft_lstiter(sh->pid_lst, print_pid);
 	ft_lstclear(&sh->pid_lst, free);

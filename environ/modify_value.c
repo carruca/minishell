@@ -17,7 +17,11 @@ int	modify_value(char *value, t_var *var)
 	char	*str;
 
 	if (!value)
+	{
+		free(var->value);
+		var->value = NULL;
 		return (1);
+	}
 	str = ft_strdup(value);
 	free(var->value);
 	var->value = str;
