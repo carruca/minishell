@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 19:22:03 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/31 19:22:05 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/03 16:31:24 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int	modify_value(char *value, t_var *var)
 
 	if (!value)
 	{
-		free(var->value);
+		if (var->value)
+			free(var->value);
 		var->value = NULL;
+		set_flags(var);
 		return (1);
 	}
 	str = ft_strdup(value);
