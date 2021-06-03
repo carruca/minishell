@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/02 20:40:29 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/03 17:52:31 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@
 # define EXPORT_BUILTIN	0x0001
 # define ENV_BUILTIN	0x0002
 # define EXIT_BUILTIN	0x0004
-# define CD_BUILTIN	0x0008
+# define CD_BUILTIN		0x0008
 # define PWD_BUILTIN	0x0010
 # define UNSET_BUILTIN	0x0020
 # define ECHO_BUILTIN	0x0040
@@ -239,7 +239,7 @@ void	set_pipe(int *fd, int *piped);
 /*		executer		*/
 
 void	executer(t_shell *sh);
-void	executer_pipeline(t_pip *pipeline, t_shell *sh, t_exec *exec);
+void	executer_pipeline(t_pip *pipeline, t_shell *sh);
 void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec);
 int		set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh);
 void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec);
