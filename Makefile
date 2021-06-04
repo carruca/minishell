@@ -76,6 +76,7 @@ SRC = main.c \
 	  expanser/get_env_name.c \
 	  exec/build_command.c \
 	  exec/executer.c \
+	  exec/execute_pipeline.c \
 	  exec/executer_compound.c \
 	  exec/executer_pipeline.c \
 	  exec/find_command.c \

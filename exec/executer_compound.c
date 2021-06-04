@@ -17,9 +17,10 @@ void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec)
 	t_cmd	*cmd;
 
 	cmd = cmd_lst->content;
-	//build_command;
+	//build_command
 	//is builtin and !cmd_lst->next
 	//pipe and redir
+	//error command
 	//execute_command
 	if (!set_redir_fd(cmd->redir_lst, exec->fd.redir_fd, sh))
 		sh->status = 1;

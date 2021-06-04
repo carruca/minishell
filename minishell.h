@@ -238,6 +238,7 @@ void	set_pipe(int *fd, int *piped);
 
 /*		executer		*/
 
+int	execute_pipeline(t_shell *sh, t_list *cmd_lst);
 void	executer(t_shell *sh);
 void	executer_pipeline(t_pip *pipeline, t_shell *sh);
 void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec);

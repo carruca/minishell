@@ -52,7 +52,10 @@ void	read_eval_print_loop(t_shell *sh)
 	{
 		cmd_line = NULL;
 		print_prompt(sh->prompt);
+		tcsetattr(1, TCSAFLUSH, &sh->my_term);
+		tputs(tgetstr("ks", 0), 1, ft_putchar);
 		read_cmdline(&cmd_line, &sh->_env);
+		tcsetattr(1, TCSANOW, &sh->term);
 //		cmd_line = read_command_line(sh);
 		sh->pipeline_lst = parser(cmd_line, sh->prompt);
 		if (sh->pipeline_lst)

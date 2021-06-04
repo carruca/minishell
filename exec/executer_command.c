@@ -38,5 +38,6 @@ int	executer_command(t_shell *sh, t_exec *exec)
 //		;
 //	tcsetattr(1, TCSAFLUSH, &sh->my_term);
 //	tputs(tgetstr("ks", 0), 1, ft_putchar);
+//		tcsetattr(1, TCSANOW, &sh->term);
 	return (0);
 }

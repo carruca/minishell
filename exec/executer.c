@@ -15,18 +15,15 @@
 void	executer(t_shell *sh)
 {
 	t_list	*head;
-	t_pip	*apipeline;
-//	t_exec	exec;
+	t_pip	*pipeline;
 
 	head = sh->pipeline_lst;
-//	ft_bzero(&exec, sizeof(t_exec));
 	while (sh->pipeline_lst)
 	{
-//		cpy_std_fd(exec.fd.std_fd);
-		apipeline = sh->pipeline_lst->content;
-		if (apipeline)
-			executer_pipeline(apipeline, sh);
-//		reset_std_fd(exec.fd.std_fd);
+		pipeline = sh->pipeline_lst->content;
+		if (pipeline)
+			execute_pipeline(sh, pipeline->cmd_lst);
+			//executer_pipeline(pipeline, sh);
 		sh->pipeline_lst = sh->pipeline_lst->next;
 	}
 	ft_lstclear(&head, free_pipeline);
