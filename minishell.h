@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/07 18:46:20 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/07 20:21:03 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 # define PWD_BUILTIN	0x0010
 # define UNSET_BUILTIN	0x0020
 # define ECHO_BUILTIN	0x0040
+# define FORK_BUILTIN	0x007B
 
 typedef struct s_shell
 {

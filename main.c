@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	tcgetattr(1, &sh.term);
 	init_keyboard(&sh);
-//	signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	if (argc == 1)
 		read_eval_print_loop(&sh);

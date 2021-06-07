@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 17:25:08 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/07 18:51:57 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/07 20:59:32 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,11 @@ int	build_exec(t_exec *exec, t_cmd *cmd, t_shell *sh)
 		else
 			return (0);
 		exec->builtin = check_builtin(exec->argc, exec->argv[0]);
+		if (exec->argc > 0 && !exec->builtin)
+			exec->path = get_exe_path(exec->argv[0], sh);
+		if (*exec->argv)
+			set_var("_", exec->argv[exec->argc - 1], &sh->env_lst, modify_value);
 	}
-	if (exec->argc > 0 && !exec->builtin)
-		exec->path = get_exe_path(exec->argv[0], sh);
 	return (1);
 }
 
@@ -80,9 +82,7 @@ int	set_redir(t_shell *sh, t_list *redir_lst)
 int	execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next, t_cmd *cmd)
 {
 	pid_t	pid;
-	int		fd_out;
 
-	fd_out = 1;
 	pid = fork();
 	if (pid < 0)
 		return (1);
@@ -97,11 +97,9 @@ int	execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next, t_cmd *cmd)
 			dup2(fd_next[1], 1);
 		if (!set_redir(sh, cmd->redir_lst))
 		{
-			if (exec->builtin & EXIT_BUILTIN)
-				;
-			else if (exec->builtin)
+			if (exec->builtin & FORK_BUILTIN)
 				execute_builtin(sh, exec);
-			else if (!check_error(sh, exec))
+			else if (!exec->builtin && !check_error(sh, exec))
 				execve(exec->path, exec->argv, exec->env);
 		}
 		close(fd_next[1]);
