@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/07 20:21:03 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/07 21:14:28 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,11 +241,17 @@ void	set_pipe(int *fd, int *piped);
 
 int		execute_pipeline(t_shell *sh, t_list *cmd_lst);
 void	executer(t_shell *sh);
-void	executer_pipeline(t_pip *pipeline, t_shell *sh);
-void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec);
-int		set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh);
-void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec);
-void	find_command(t_shell *sh, t_exec *exec);
+int		build_exec(t_exec *exec, t_cmd *cmd, t_shell *sh);
+void	free_exec(t_exec *exec);
+int		check_error(t_shell *sh, t_exec *exec);
+int		set_redir(t_shell *sh, t_list *redir_lst);
+int		execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next, t_cmd *cmd);
+//void	executer_pipeline(t_pip *pipeline, t_shell *sh);
+//void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec);
+//int		set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh);
+//void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec);
+//void	find_command(t_shell *sh, t_exec *exec);
+int		print_error(t_shell *sh, char *str, char *msg, int status);
 int		is_not_empty(char *str);
 int		is_directory(char *path);
 
@@ -262,6 +268,5 @@ void	print_command_error(char *cmd, char *prompt, int *status);
 void	print_prompt(char *prompt);
 char	*read_command_line(t_shell *sh);
 void	read_eval_print_loop(t_shell *sh);
-int		print_error(t_shell *sh, char *str, char *msg, int status);
 
 #endif

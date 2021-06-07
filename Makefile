@@ -6,18 +6,16 @@ OBJ_DIR		= obj/
 LIBFT_DIR	= libft/
 
 EXECUTER_DIR	= exec/
-EXECUTER_SRC	= build_command.c \
-	  executer.c \
+EXECUTER_SRC	= executer.c \
 	  execute_pipeline.c \
-	  executer_compound.c \
-	  executer_pipeline.c \
-	  find_command.c \
+	  execute_fork.c \
+	  build_exec.c \
+	  free_exec.c \
+	  set_redir.c \
 	  is_directory.c \
 	  is_not_empty.c \
+	  check_error.c \
 	  print_error.c \
-	  set_redir_fd.c \
-	  add_pid.c \
-	  executer_command.c \
 	  get_exe_path.c \
 	  search_directory.c
 
@@ -78,7 +76,6 @@ MAIN_SRC = main.c \
 	  parser_utils.c \
 	  parser_free.c \
 	  parser_print.c \
-	  fd.c \
 	  error_malloc.c \
 	  ft_insert_node_fin.c \
 	  ft_lst_new_lst.c \

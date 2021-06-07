@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executer.c                                         :+:      :+:    :+:   */
+/*   check_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/31 21:26:23 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/07 21:21:31 by tsierra-         ###   ########.fr       */
+/*   Created: 2021/06/07 21:08:32 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/06/07 21:12:26 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-void	executer(t_shell *sh)
+int	check_error(t_shell *sh, t_exec *exec)
 {
-	t_list	*head;
-	t_pip	*pipeline;
-
-	head = sh->pipeline_lst;
-	while (sh->pipeline_lst)
-	{
-		pipeline = sh->pipeline_lst->content;
-		if (pipeline)
-			execute_pipeline(sh, pipeline->cmd_lst);
-		sh->pipeline_lst = sh->pipeline_lst->next;
-	}
-	ft_lstclear(&head, free_pipeline);
+	if (!exec->path && exec->argv[0] && *exec->argv[0] && !exec->builtin)
+		return (print_error(sh, exec->argv[0], "command not found", 127));
+	else if (exec->path && is_directory(exec->path))
+		return (print_error(sh, exec->argv[0], "is a directory", 126));
+	return (0);
 }
