@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/03 17:52:31 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/07 18:46:20 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ void	set_pipe(int *fd, int *piped);
 
 /*		executer		*/
 
-int	execute_pipeline(t_shell *sh, t_list *cmd_lst);
+int		execute_pipeline(t_shell *sh, t_list *cmd_lst);
 void	executer(t_shell *sh);
 void	executer_pipeline(t_pip *pipeline, t_shell *sh);
 void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec);
@@ -247,7 +247,6 @@ void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec);
 void	find_command(t_shell *sh, t_exec *exec);
 int		is_not_empty(char *str);
 int		is_directory(char *path);
-void	print_error(t_shell *sh, char *str, char *msg, int	status);
 
 /*		command			*/
 
@@ -262,6 +261,6 @@ void	print_command_error(char *cmd, char *prompt, int *status);
 void	print_prompt(char *prompt);
 char	*read_command_line(t_shell *sh);
 void	read_eval_print_loop(t_shell *sh);
-void	print_error(t_shell *sh, char *str, char *msg, int status);
+int		print_error(t_shell *sh, char *str, char *msg, int status);
 
 #endif

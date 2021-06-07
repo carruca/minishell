@@ -1,4 +1,16 @@
-#include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_pipeline.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/07 17:25:08 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/06/07 18:51:57 by tsierra-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 int	build_exec(t_exec *exec, t_cmd *cmd, t_shell *sh)
 {
@@ -31,22 +43,46 @@ void	free_exec(t_exec *exec)
 static int	check_error(t_shell *sh, t_exec *exec)
 {
 	if (!exec->path && exec->argv[0] && *exec->argv[0] && !exec->builtin)
-	{
-		print_error(sh, exec->argv[0], "command not found", 127);
-		return (1);
-	}
+		return (print_error(sh, exec->argv[0], "command not found", 127));
 	else if (exec->path && is_directory(exec->path))
-	{
-		print_error(sh, exec->argv[0], "is a directory", 126);
-		return (1);
-	}
+		return (print_error(sh, exec->argv[0], "is a directory", 126));
 	return (0);
 }
 
-int		execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next)
+int	set_redir(t_shell *sh, t_list *redir_lst)
+{
+	t_redir	*redir;
+	int		fd_redir[2];
+
+	ft_bzero(fd_redir, sizeof(int) * 2);
+	while (redir_lst)
+	{
+		redir = redir_lst->content;
+		if (!redir_file_have_quotes(&redir->file, sh))
+			return (1);
+		if (redir->type & LESS)
+			fd_redir[0] = open(redir->file, O_RDONLY);
+		else if (redir->type & GREAT)
+			fd_redir[1] = open(redir->file, O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
+		else if (redir->type & DGREAT)
+			fd_redir[1] = open(redir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
+		if (fd_redir[0] == -1 || fd_redir[1] == -1)
+			return (print_error(sh, redir->file, strerror(errno), 1));
+		redir_lst = redir_lst->next;
+	}
+	if (fd_redir[0] > 2)
+		dup2(fd_redir[0], 0);
+	if (fd_redir[1] > 2)
+		dup2(fd_redir[1], 1);
+	return (0);
+}
+
+int	execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next, t_cmd *cmd)
 {
 	pid_t	pid;
+	int		fd_out;
 
+	fd_out = 1;
 	pid = fork();
 	if (pid < 0)
 		return (1);
@@ -59,10 +95,15 @@ int		execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next)
 		close(fd_next[0]);
 		if (fd_next[1] != 1)
 			dup2(fd_next[1], 1);
-		if (exec->builtin)
-			execute_builtin(sh, exec);
-		else if (!check_error(sh, exec))
-			execve(exec->path, exec->argv, exec->env);
+		if (!set_redir(sh, cmd->redir_lst))
+		{
+			if (exec->builtin & EXIT_BUILTIN)
+				;
+			else if (exec->builtin)
+				execute_builtin(sh, exec);
+			else if (!check_error(sh, exec))
+				execve(exec->path, exec->argv, exec->env);
+		}
 		close(fd_next[1]);
 		exit(0);
 	}
@@ -76,7 +117,7 @@ int		execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next)
 	return (0);
 }
 
-int		execute_pipeline(t_shell *sh, t_list *cmd_lst)
+int	execute_pipeline(t_shell *sh, t_list *cmd_lst)
 {
 	t_list	*current;
 	t_exec	exec;
@@ -85,7 +126,6 @@ int		execute_pipeline(t_shell *sh, t_list *cmd_lst)
 	int		fd_next[2];
 
 	fd_in = 0;
-//	ft_bzero(fd_next, sizeof(int) * 2);
 	len_lst = ft_lstsize(cmd_lst);
 	current = cmd_lst;
 	while (current)
@@ -100,10 +140,7 @@ int		execute_pipeline(t_shell *sh, t_list *cmd_lst)
 				pipe(fd_next);
 			else
 				fd_next[1] = 1;
-//			set_redir_fd((((t_cmd *)current->content))->redir_lst, fd_next, sh);
-//			if (fd_next[0] != 0)
-//				fd_in = fd_next[0];
-			execute_fork(sh, &exec, fd_in, fd_next);
+			execute_fork(sh, &exec, fd_in, fd_next, (t_cmd *)current->content);
 			fd_in = fd_next[0];
 		}
 		free_exec(&exec);
@@ -111,6 +148,6 @@ int		execute_pipeline(t_shell *sh, t_list *cmd_lst)
 	}
 	while (len_lst--)
 		wait(NULL);
-//	system("lsof -c minishell");
+	//system("lsof -c minishell");
 	return (0);
 }
