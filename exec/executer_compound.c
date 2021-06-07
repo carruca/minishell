@@ -22,8 +22,7 @@ void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec)
 	//pipe and redir
 	//error command
 	//execute_command
-	if (!set_redir_fd(cmd->redir_lst, exec->fd.redir_fd, sh))
-		sh->status = 1;
+	sh->status = set_redir_fd(cmd->redir_lst, exec->fd.redir_fd, sh);
 	set_std_fd(&exec->fd, 0);
 	exec->fd.piped = 0;
 	if (cmd_lst->next)

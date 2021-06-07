@@ -16,14 +16,14 @@ int	set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh)
 {
 	t_redir		*aredir;
 
-	ft_bzero(fd, sizeof(fd));
+//	ft_bzero(fd, sizeof(fd));
 	while (redir_lst)
 	{
 		aredir = redir_lst->content;
 		if (!redir_file_have_quotes(&aredir->file, sh))
 		{
 			fd[0] = -1;
-			return (0);
+			return (1);
 		}
 		if (aredir->type == LESS)
 			fd[0] = open(aredir->file, O_RDONLY);
@@ -34,9 +34,9 @@ int	set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh)
 		if (fd[0] == -1 || fd[1] == -1)
 		{
 			print_error(sh, aredir->file, strerror(errno), 1);
-			return (0);
+			return (1);
 		}
 		redir_lst = redir_lst->next;
 	}
-	return (1);
+	return (0);
 }

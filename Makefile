@@ -1,11 +1,77 @@
-NAME = minishell
-LNAME = ./libft/libft.a
+NAME		= minishell
+LNAME		= ./libft/libft.a
 
-SRC_DIR = ./src/
-OBJ_DIR = ./obj/
-LIBFT_DIR = ./libft/
+SRC_DIR		= src/
+OBJ_DIR		= obj/
+LIBFT_DIR	= libft/
 
-SRC = main.c \
+EXECUTER_DIR	= exec/
+EXECUTER_SRC	= build_command.c \
+	  executer.c \
+	  execute_pipeline.c \
+	  executer_compound.c \
+	  executer_pipeline.c \
+	  find_command.c \
+	  is_directory.c \
+	  is_not_empty.c \
+	  print_error.c \
+	  set_redir_fd.c \
+	  add_pid.c \
+	  executer_command.c \
+	  get_exe_path.c \
+	  search_directory.c
+
+BUILTIN_DIR = builtins/
+BUILTIN_SRC = execute.c \
+	  check.c \
+	  print_error.c \
+	  is_valid_var.c \
+	  cd.c \
+	  exit.c \
+	  echo.c \
+	  env.c \
+	  export.c \
+	  pwd.c \
+	  unset.c
+
+ENVIRON_DIR = environ/
+ENVIRON_SRC = add_var.c \
+	  build_var.c \
+	  cmp_var.c \
+	  env_name_cmp.c \
+	  extract_var.c \
+	  extract_env.c \
+	  free_var.c \
+	  get_env.c \
+	  increase_shlvl.c \
+	  init_var.c \
+	  is_env.c \
+	  is_export.c \
+	  join_env.c \
+	  modify_value.c \
+	  restore_env.c \
+	  set_flag.c \
+	  set_flags.c \
+	  set_var.c \
+	  init_envlst.c
+
+QUOTES_DIR = quotes/
+QUOTES_SRC = args_have_quotes.c \
+	  change_content.c \
+	  copy_without_quotes.c \
+	  count_without_quotes.c \
+	  is_quoted2.c \
+	  redir_file_have_quotes.c \
+	  trim_quotes.c
+
+EXPANSER_DIR = expanser/
+EXPANSER_SRC = copy_env.c \
+	  copy_expander.c \
+	  count_env.c \
+	  count_expander.c \
+	  get_env_name.c
+
+MAIN_SRC = main.c \
 	  lexer.c \
 	  token.c \
 	  parser.c \
@@ -31,70 +97,18 @@ SRC = main.c \
 	  cap_key_printable.c \
 	  cap_key_left.c \
 	  cap_key_down.c \
-	  cap_delete_char.c \
-	  builtins/execute.c \
-	  builtins/check.c \
-	  builtins/print_error.c \
-	  builtins/is_valid_var.c \
-	  builtins/cd.c \
-	  builtins/exit.c \
-	  builtins/echo.c \
-	  builtins/env.c \
-	  builtins/export.c \
-	  builtins/pwd.c \
-	  builtins/unset.c \
-	  environ/add_var.c \
-	  environ/build_var.c \
-	  environ/cmp_var.c \
-	  environ/env_name_cmp.c \
-	  environ/extract_var.c \
-	  environ/extract_env.c \
-	  environ/free_var.c \
-	  environ/get_env.c \
-	  environ/increase_shlvl.c \
-	  environ/init_var.c \
-	  environ/is_env.c \
-	  environ/is_export.c \
-	  environ/join_env.c \
-	  environ/modify_value.c \
-	  environ/restore_env.c \
-	  environ/set_flag.c \
-	  environ/set_flags.c \
-	  environ/set_var.c \
-	  environ/init_envlst.c \
-	  quotes/args_have_quotes.c \
-	  quotes/change_content.c \
-	  quotes/copy_without_quotes.c \
-	  quotes/count_without_quotes.c \
-	  quotes/is_quoted2.c \
-	  quotes/redir_file_have_quotes.c \
-	  quotes/trim_quotes.c \
-	  expanser/copy_env.c \
-	  expanser/copy_expander.c \
-	  expanser/count_env.c \
-	  expanser/count_expander.c \
-	  expanser/get_env_name.c \
-	  exec/build_command.c \
-	  exec/executer.c \
-	  exec/execute_pipeline.c \
-	  exec/executer_compound.c \
-	  exec/executer_pipeline.c \
-	  exec/find_command.c \
-	  exec/is_directory.c \
-	  exec/is_not_empty.c \
-	  exec/print_error.c \
-	  exec/set_redir_fd.c \
-	  exec/add_pid.c \
-	  exec/executer_command.c \
-	  exec/get_exe_path.c \
-	  exec/search_directory.c
-#	  environ.c \
-	  executer.c \
-	  command.c \
-	  quoted.c
+	  cap_delete_char.c
+
+SRC := $(SRC) \
+	$(addprefix $(EXECUTER_DIR), $(EXECUTER_SRC)) \
+	$(addprefix $(BUILTIN_DIR), $(BUILTIN_SRC)) \
+	$(addprefix $(ENVIRON_DIR), $(ENVIRON_SRC)) \
+	$(addprefix $(QUOTES_DIR), $(QUOTES_SRC)) \
+	$(addprefix $(EXPANSER_DIR), $(EXPANSER_SRC)) \
+	$(MAIN_SRC)
 
 OBJ = $(SRC:.c=.o)
-INC = -I. -I $(LIBFT_DIR)
+INC = -I. -I$(LIBFT_DIR)
 LIBFT = -L $(LIBFT_DIR) -lft
 TERMCAP = -ltermcap
 

@@ -31,7 +31,6 @@ int	executer_command(t_shell *sh, t_exec *exec)
 			execve(exec->path, exec->argv, exec->env);
 		exit(0);
 	}
-	sh->status = 0;
 //	waitpid(child_pid, &status, 0);
 	add_pid(child_pid, &sh->pid_lst);
 //	while (waitpid(-1, NULL, WNOHANG) > 0)
