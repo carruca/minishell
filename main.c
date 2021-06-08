@@ -60,7 +60,6 @@ void	read_eval_print_loop(t_shell *sh)
 		sh->pipeline_lst = parser(cmd_line, sh->prompt);
 		if (sh->pipeline_lst)
 			executer(sh);
-//		system("lsof -c minishell");
 	}
 }
 

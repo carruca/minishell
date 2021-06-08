@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	print_error(t_shell *sh, char *str, char *msg, int	status)
+int	print_error(t_shell *sh, char *str, char *msg, int status)
 {
 	ft_putstr_fd(sh->prompt, 2);
 	ft_putstr_fd(": ", 2);
@@ -21,5 +21,5 @@ int	print_error(t_shell *sh, char *str, char *msg, int	status)
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd("\n", 2);
 	sh->status = status;
-	return (1);
+	return (status);
 }

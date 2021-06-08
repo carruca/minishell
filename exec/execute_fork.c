@@ -14,12 +14,10 @@
 
 int	execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next, t_cmd *cmd)
 {
-	pid_t	pid;
-
-	pid = fork();
-	if (pid < 0)
+	sh->lastpid = fork();
+	if (sh->lastpid < 0)
 		return (1);
-	else if (pid == 0)
+	else if (sh->lastpid == 0)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);

@@ -52,6 +52,15 @@
 # define ECHO_BUILTIN	0x0040
 # define FORK_BUILTIN	0x007B
 
+typedef struct s_exec
+{
+	char	*path;
+	int		argc;
+	char	**argv;
+	char	**env;
+	int		builtin;
+}			t_exec;
+
 typedef struct s_shell
 {
 	char			*prompt;
@@ -61,6 +70,11 @@ typedef struct s_shell
 	struct termios	my_term;
 	t_list			*env_lst;
 	t_env			_env;
+	pid_t				lastpid;
+	int				len_lst;
+	t_exec			exec;
+	int				fd_next[2];
+	int				sig;
 	int				status;
 }					t_shell;
 
@@ -77,24 +91,6 @@ typedef struct s_path
 	char	*dir;
 	char	*exe;
 }			t_path;
-
-typedef struct s_fd
-{
-	int		fd[2];
-	int		std_fd[2];
-	int		redir_fd[2];
-	int		piped;
-}			t_fd;
-
-typedef struct s_exec
-{
-	char	*path;
-	int		argc;
-	char	**argv;
-	char	**env;
-	int		builtin;
-	t_fd	fd;
-}			t_exec;
 
 typedef struct s_pid
 {
@@ -228,14 +224,6 @@ void	free_pipeline(void *pipeline);
 t_list	*tokenizer(char *input);
 int		skip_to_delimiter(char *str, char *set, int *len);
 void	is_quoted(char c, int *quoted);
-
-/*		fd				*/
-
-void	set_fd(int *fd, int id);
-void	cpy_std_fd(int *fd);
-void	reset_std_fd(int *fd);
-void	set_std_fd(t_fd *fd, int id);
-void	set_pipe(int *fd, int *piped);
 
 /*		executer		*/
 

@@ -22,7 +22,7 @@ int	set_redir(t_shell *sh, t_list *redir_lst)
 	{
 		redir = redir_lst->content;
 		if (!redir_file_have_quotes(&redir->file, sh))
-			return (1);
+			exit(1);
 		if (redir->type & LESS)
 			fd[0] = open(redir->file, O_RDONLY);
 		else if (redir->type & GREAT)
@@ -30,7 +30,7 @@ int	set_redir(t_shell *sh, t_list *redir_lst)
 		else if (redir->type & DGREAT)
 			fd[1] = open(redir->file, O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);
 		if (fd[0] == -1 || fd[1] == -1)
-			return (print_error(sh, redir->file, strerror(errno), 1));
+			exit(print_error(sh, redir->file, strerror(errno), 1));
 		redir_lst = redir_lst->next;
 	}
 	if (fd[0] > 2)
