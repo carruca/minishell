@@ -111,7 +111,7 @@ LIBFT = -L $(LIBFT_DIR) -lft
 TERMCAP = -ltermcap
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror $(INC) -O0 $(COMMON)
+CFLAGS = -Wall -Wextra -Werror $(INC) -O3 $(COMMON)
 DEBUG	= -g3
 SANITIZE = -fsanitize=address
 COMMON = 

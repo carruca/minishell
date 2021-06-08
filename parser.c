@@ -24,6 +24,7 @@ t_cmd	*new_simple_command(t_list **tkn_lst, char *prompt)
 	cmd = ft_calloc(1, sizeof(t_cmd));
 	if (!cmd)
 		return (NULL);
+	id = 0;
 	while (*tkn_lst && id != SCOLON)
 	{
 		id = ((t_token *)(*tkn_lst)->content)->identifier;

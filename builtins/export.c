@@ -20,9 +20,9 @@ static void	print_export_var(void *content)
 	if (var->flags & EXPORT_VAR)
 	{
 		if (var->value)
-			dprintf(1, "declare -x %s=\"%s\"\n", var->name, var->value);
+			printf("declare -x %s=\"%s\"\n", var->name, var->value);
 		else
-			dprintf(1, "declare -x %s\n", var->name);
+			printf("declare -x %s\n", var->name);
 	}
 }
 
