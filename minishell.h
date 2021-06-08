@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/07 21:14:28 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/08 21:52:19 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,10 @@ int		build_exec(t_exec *exec, t_cmd *cmd, t_shell *sh);
 void	free_exec(t_exec *exec);
 int		check_error(t_shell *sh, t_exec *exec);
 int		set_redir(t_shell *sh, t_list *redir_lst);
-int		execute_fork(t_shell *sh, t_exec *exec, int fd_in, int *fd_next, t_cmd *cmd);
+int		execute_fork(t_shell *sh, int fd_in, int *fd_next, t_cmd *cmd);
+void	reset_std_fd(int *fd);
+void	cpy_std_fd(int *fd);
+void	set_std_fd(int fd, int std);
 //void	executer_pipeline(t_pip *pipeline, t_shell *sh);
 //void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec);
 //int		set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh);

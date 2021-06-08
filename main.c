@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/08 20:51:54 by tsierra-          #+#    #+#             */
+/*   Updated: 2021/06/08 21:06:11 by tsierra-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	print_prompt(char *prompt)
@@ -90,7 +102,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	tcgetattr(1, &sh.term);
 	init_keyboard(&sh);
-	signal(SIGINT, sig_handler);
+//	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	if (argc == 1)
 		read_eval_print_loop(&sh);

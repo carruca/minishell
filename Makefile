@@ -9,6 +9,7 @@ EXECUTER_DIR	= exec/
 EXECUTER_SRC	= executer.c \
 	  execute_pipeline.c \
 	  execute_fork.c \
+	  fd.c \
 	  build_exec.c \
 	  free_exec.c \
 	  set_redir.c \

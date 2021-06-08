@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 19:58:20 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/05/28 19:59:04 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/08 22:53:36 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ static void	print_export_var(void *content)
 	if (var->flags & EXPORT_VAR)
 	{
 		if (var->value)
-			printf("declare -x %s=\"%s\"\n", var->name, var->value);
+			dprintf(1, "declare -x %s=\"%s\"\n", var->name, var->value);
 		else
-			printf("declare -x %s\n", var->name);
+			dprintf(1, "declare -x %s\n", var->name);
 	}
 }
 
