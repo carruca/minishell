@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/08 21:52:19 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/09 21:28:32 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ typedef struct s_shell
 	struct termios	my_term;
 	t_list			*env_lst;
 	t_env			_env;
-	pid_t				lastpid;
+	pid_t			lastpid;
 	int				len_lst;
 	t_exec			exec;
 	int				fd_next[2];
@@ -178,14 +178,6 @@ int		is_valid_var(char *str);
 void	print_builtin_error(t_shell *sh, char **argv, char *str, int status);
 void	print_identifier_error(t_shell *sh, char *cmd, char *arg, int status);
 
-/*		token			*/
-
-t_token	*new_token(char *str);
-int		id_token(char *str);
-void	free_token(void *tkn);
-void	print_token(void *tkn);
-void	del_current_token(t_list **tkn_lst);
-
 /*		quoted			*/
 
 void	args_have_quotes(t_list *lst, t_shell *sh);
@@ -224,6 +216,10 @@ void	free_pipeline(void *pipeline);
 t_list	*tokenizer(char *input);
 int		skip_to_delimiter(char *str, char *set, int *len);
 void	is_quoted(char c, int *quoted);
+t_token	*new_token(char *str);
+int		id_token(char *str);
+void	free_token(void *tkn);
+void	del_current_token(t_list **tkn_lst);
 
 /*		executer		*/
 
@@ -233,26 +229,16 @@ int		build_exec(t_exec *exec, t_cmd *cmd, t_shell *sh);
 void	free_exec(t_exec *exec);
 int		check_error(t_shell *sh, t_exec *exec);
 int		set_redir(t_shell *sh, t_list *redir_lst);
+int		wait_children(int *ret, int *sig);
 int		execute_fork(t_shell *sh, int fd_in, int *fd_next, t_cmd *cmd);
 void	reset_std_fd(int *fd);
 void	cpy_std_fd(int *fd);
 void	set_std_fd(int fd, int std);
-//void	executer_pipeline(t_pip *pipeline, t_shell *sh);
-//void	executer_compound(t_list *cmd_lst, t_shell *sh, t_exec *exec);
-//int		set_redir_fd(t_list *redir_lst, int *fd, t_shell *sh);
-//void	build_command(t_cmd *cmd, t_shell *sh, t_exec *exec);
-//void	find_command(t_shell *sh, t_exec *exec);
 int		print_error(t_shell *sh, char *str, char *msg, int status);
 int		is_not_empty(char *str);
 int		is_directory(char *path);
-
-/*		command			*/
-
-int		add_pid(int child_pid, t_list **pid_lst);
 int		search_directory(char *path, char *name);
 char	*get_exe_path(char *name, t_shell *sh);
-int		executer_command(t_shell *sh, t_exec *exec);
-void	print_command_error(char *cmd, char *prompt, int *status);
 
 /*		main			*/
 

@@ -6,34 +6,11 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/07 17:25:08 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/08 22:43:05 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/09 17:54:50 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	wait_children(int *ret, int *sig)
-{
-	int	status;
-	pid_t	pid;
-
-	*sig = 0;
-	*ret = 0;
-	pid = wait(&status);
-	if (pid < 0)
-		return (pid);
-	if (WIFEXITED(status))
-		*ret = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-		*sig = WTERMSIG(status);
-	if (WIFSTOPPED(status))
-		*sig = WSTOPSIG(status);
-	if (*ret == -1)
-		*ret = errno;
-	else if (*sig)
-		*ret = *sig + 128;
-	return (pid);
-}
 
 static void	execute_cmd(t_shell *sh, t_list *cmd_lst, int *fd_in)
 {
@@ -81,6 +58,5 @@ int	execute_pipeline(t_shell *sh, t_list *cmd_lst)
 		if (sh->lastpid == wait_children(&ret, &sh->sig))
 			sh->status = ret;
 	}
-//	system("lsof -c minishell");
 	return (0);
 }
