@@ -103,9 +103,8 @@ MAIN_SRC		= main.c \
 				  find_history.c \
 				  free_node.c \
 				  lst_iter_lst.c \
-				  t_lst_size_lst.c \
+				  ft_lst_size_lst.c \
 				  ft_insert_node_ini.c \
-				  ft_strjoin_free.c \
 				  command_line.c \
 				  next_line_key.c \
 				  ft_putchar.c \
