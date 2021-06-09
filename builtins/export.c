@@ -6,7 +6,7 @@
 /*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 19:58:20 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/08 22:53:36 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/09 17:46:50 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,15 @@ static void	print_export_var(void *content)
 	var = content;
 	if (var->flags & EXPORT_VAR)
 	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(var->name, 1);
 		if (var->value)
-			printf("declare -x %s=\"%s\"\n", var->name, var->value);
-		else
-			printf("declare -x %s\n", var->name);
+		{
+			ft_putstr_fd("=\"", 1);
+			ft_putstr_fd(var->value, 1);
+			ft_putstr_fd("\"", 1);
+		}
+		ft_putstr_fd("\n", 1);
 	}
 }
 
