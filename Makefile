@@ -96,15 +96,13 @@ LEXER_SRC		= tokenizer.c \
 				  del_current_token.c
 
 MAIN_SRC		= main.c \
+				  init_keyboard.c \
+				  init_environ.c \
 				  parser_print.c \
 				  error_malloc.c \
-				  ft_insert_node_fin.c \
-				  ft_lst_new_lst.c \
+				  ft_dlstnew.c \
 				  find_history.c \
 				  free_node.c \
-				  lst_iter_lst.c \
-				  ft_lst_size_lst.c \
-				  ft_insert_node_ini.c \
 				  command_line.c \
 				  next_line_key.c \
 				  ft_putchar.c \
@@ -114,7 +112,8 @@ MAIN_SRC		= main.c \
 				  cap_key_printable.c \
 				  cap_key_left.c \
 				  cap_key_down.c \
-				  cap_delete_char.c
+				  cap_delete_char.c \
+				  cap_control.c
 
 SRC				:= $(SRC) \
 				   $(addprefix $(EXECUTER_DIR), $(EXECUTER_SRC)) \

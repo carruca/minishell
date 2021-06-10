@@ -1,34 +1,40 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   next_line_key.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/10 14:17:58 by ccardozo          #+#    #+#             */
+/*   Updated: 2021/06/10 14:46:37 by ccardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-char	*next_line_key(t_env *_env)
+char	*next_line_key(t_cap *cap)
 {
 	t_line	*line;
 
-	line = _env->cli->content;
+	line = NULL;
 	write(1, "\n", 1);
-	if (*_env->cmd_buff)
+	if (*cap->cmd_buff)
 	{
-		create_node(_env);
-		_env->cli_bufflen = 0;
-		while (_env->cli->prev)
+		create_node(cap);
+		cap->cli_bufflen = 0;
+		while (cap->cli->prev)
+			cap->cli = cap->cli->prev;
+		if (cap->cli->next->content)
 		{
-			line = _env->cli->content;
-			_env->cli = _env->cli->prev;
-		}
-		if (_env->cli->next->content)
-		{
-			line = _env->cli->next->content;
+			line = cap->cli->next->content;
 			free(line->clone_line);
 			return (line->origin_line);
 		}
 	}	
 	else
 	{
-		while (_env->cli->prev)
-		{
-			line = _env->cli->content;
-			_env->cli = _env->cli->prev;
-		}
+		while (cap->cli->prev)
+			cap->cli = cap->cli->prev;
 		return ("");
 	}
 	return (NULL);

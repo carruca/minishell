@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/09 21:28:32 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/10 16:08:16 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_shell
 	struct termios	term;
 	struct termios	my_term;
 	t_list			*env_lst;
-	t_env			_env;
+	t_cap			cap;
 	pid_t			lastpid;
 	int				len_lst;
 	t_exec			exec;
@@ -242,6 +242,8 @@ char	*get_exe_path(char *name, t_shell *sh);
 
 /*		main			*/
 
+void	init_keyboard(t_shell *sh);
+void	init_environ(t_cap *cap);
 void	print_prompt(char *prompt);
 char	*read_command_line(t_shell *sh);
 void	read_eval_print_loop(t_shell *sh);

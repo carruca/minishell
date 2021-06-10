@@ -1,7 +1,18 @@
-#include "minishell.h"
-#include "env.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   create_node.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/10 14:03:02 by ccardozo          #+#    #+#             */
+/*   Updated: 2021/06/10 14:44:25 by ccardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	create_empty_node(t_env *_env)
+#include "minishell.h"
+
+void	create_empty_node(t_cap *cap)
 {
 	t_line	*line;
 
@@ -10,44 +21,44 @@ void	create_empty_node(t_env *_env)
 		error_malloc();
 	line->origin_line = ft_strdup("");
 	line->clone_line = NULL;
-	_env->cli = ft_lst_new_lst(line);
+	cap->cli = ft_dlstnew(line);
 }
 
-void	insert_node_in_list(t_env *_env, t_lista *new)
+void	insert_node_in_list(t_cap *cap, t_lista *new)
 {
-	while (_env->cli->prev)
-		_env->cli = _env->cli->prev;
-	new->prev = _env->cli;
-	if (_env->cli->next)
+	while (cap->cli->prev)
+		cap->cli = cap->cli->prev;
+	new->prev = cap->cli;
+	if (cap->cli->next)
 	{
-		new->next = _env->cli->next;
-		_env->cli->next->prev = new;
+		new->next = cap->cli->next;
+		cap->cli->next->prev = new;
 	}
-	_env->cli->next = new;
+	cap->cli->next = new;
 }
 
-void	create_node(t_env *_env)
+void	create_node(t_cap *cap)
 {
 	t_lista	*new;
 	t_line	*line;
 	t_line	*content;
 
-	content = _env->cli->content;
+	content = cap->cli->content;
 	line = malloc(sizeof(t_line));
 	if (!line)
 		error_malloc();
 	if (!content->clone_line)
 	{
-		line->origin_line = ft_strdup(_env->cmd_buff);
+		line->origin_line = ft_strdup(cap->cmd_buff);
 		line->clone_line = NULL;
 	}
 	else
 	{
-		line->origin_line = ft_strdup(_env->cmd_buff);
+		line->origin_line = ft_strdup(cap->cmd_buff);
 		line->clone_line = NULL;
 		free(content->clone_line);
 		content->clone_line = NULL;
 	}
-	new = ft_lst_new_lst(line);
-	insert_node_in_list(_env, new);
+	new = ft_dlstnew(line);
+	insert_node_in_list(cap, new);
 }

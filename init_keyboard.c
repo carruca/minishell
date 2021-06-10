@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_node.c                                        :+:      :+:    :+:   */
+/*   init_keyboard.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/10 14:03:18 by ccardozo          #+#    #+#             */
-/*   Updated: 2021/06/10 14:03:19 by ccardozo         ###   ########.fr       */
+/*   Created: 2021/06/10 16:05:21 by ccardozo          #+#    #+#             */
+/*   Updated: 2021/06/10 16:05:32 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_node(t_lista *node)
+void	init_keyboard(t_shell *sh)
 {
-	t_line	*line;
-
-	line = node->content;
-	free(line->origin_line);
-	free(line->clone_line);
-	free(line);
+	sh->my_term = sh->term;
+	sh->my_term.c_lflag &= ~(ECHO | ICANON);
+	sh->my_term.c_cc[VMIN] = 1;
+	sh->my_term.c_cc[VTIME] = 0;
+	sh->my_term.c_cc[VINTR] = 0;
+	sh->my_term.c_cc[VQUIT] = 0;
+	tcsetattr(1, TCSAFLUSH, &sh->my_term);
+	tputs(tgetstr("ks", 0), 1, ft_putchar);
 }

@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cap_key_left.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/10 13:58:23 by ccardozo          #+#    #+#             */
+/*   Updated: 2021/06/10 14:42:25 by ccardozo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	cap_key_left(t_env *_env)
+int	cap_key_left(t_cap *cap)
 {	
-	if (_env->len_cursor)
+	if (cap->len_cursor)
 	{
 		tputs(cursor_left, 1, ft_putchar);
-		_env->len_cursor--;
+		cap->len_cursor--;
 	}
-	ft_bzero(_env->ch, sizeof(_env->ch));
-	_env->check_esc = 0;
+	ft_bzero(cap->ch, sizeof(cap->ch));
+	cap->check_esc = 0;
 	return (0);
 }

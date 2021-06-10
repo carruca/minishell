@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tsierra- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 20:51:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/08 21:06:11 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/10 16:18:20 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,6 @@ void	print_prompt(char *prompt)
 {
 	ft_putstr_fd(prompt, 1);
 	ft_putstr_fd("$ ", 1);
-}
-
-void	init_environ(t_env *_env)
-{
-	create_empty_node(_env);
-}
-
-void	free_lista(t_env *_env)
-{
-	t_lista	*node;
-
-	while (_env->cli)
-	{
-		node = _env->cli;
-		free_node(_env->cli);
-		_env->cli = _env->cli->next;
-		free(node);
-	}
-}
-
-void	init_keyboard(t_shell *sh)
-{
-	sh->my_term = sh->term;
-	sh->my_term.c_lflag &= ~(ECHO | ICANON);
-	sh->my_term.c_cc[VMIN] = 1;
-	sh->my_term.c_cc[VTIME] = 0;
-	tcsetattr(1, TCSAFLUSH, &sh->my_term);
-	tputs(tgetstr("ks", 0), 1, ft_putchar);
 }
 
 char	*read_command_line(t_shell *sh)
@@ -66,10 +38,8 @@ void	read_eval_print_loop(t_shell *sh)
 		print_prompt(sh->prompt);
 		tcsetattr(1, TCSAFLUSH, &sh->my_term);
 		tputs(tgetstr("ks", 0), 1, ft_putchar);
-		read_cmdline(&cmd_line, &sh->_env);
+		read_cmdline(&cmd_line, &sh->cap);
 		tcsetattr(1, TCSANOW, &sh->term);
-//		printf("cmdline = %s\n", cmd_line);
-//		cmd_line = read_command_line(sh);
 		sh->pipeline_lst = parser(cmd_line, sh->prompt);
 		if (sh->pipeline_lst)
 			executer(sh);
@@ -95,7 +65,7 @@ int	main(int argc, char **argv, char **env)
 	init_envlst(&sh, env);
 	if (!sh.env_lst)
 		return (1);
-	init_environ(&sh._env);
+	init_environ(&sh.cap);
 	if (tgetent(0, get_env("TERM", sh.env_lst)) == -1)
 	{
 		print_error(&sh, "env", "TERM not set", 1);
@@ -103,7 +73,7 @@ int	main(int argc, char **argv, char **env)
 	}
 	tcgetattr(1, &sh.term);
 	init_keyboard(&sh);
-//	signal(SIGINT, sig_handler);
+	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
 	if (argc == 1)
 		read_eval_print_loop(&sh);
