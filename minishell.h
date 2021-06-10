@@ -6,7 +6,7 @@
 /*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 14:00:45 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/10 16:08:16 by ccardozo         ###   ########.fr       */
+/*   Updated: 2021/06/10 17:05:58 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <string.h>
 # include <errno.h>
 # include <limits.h>
-# include "parser_print.h"
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/wait.h>

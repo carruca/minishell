@@ -6,7 +6,7 @@
 /*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 20:51:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/10 16:18:20 by ccardozo         ###   ########.fr       */
+/*   Updated: 2021/06/10 17:00:29 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,6 @@ void	print_prompt(char *prompt)
 {
 	ft_putstr_fd(prompt, 1);
 	ft_putstr_fd("$ ", 1);
-}
-
-char	*read_command_line(t_shell *sh)
-{
-	char	*line;
-
-	line = NULL;
-	if (get_next_line(0, &line) < 0)
-		print_error(sh, "gnl", "lecture error", 1);
-	return (line);
 }
 
 void	read_eval_print_loop(t_shell *sh)

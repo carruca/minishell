@@ -95,10 +95,9 @@ LEXER_SRC		= tokenizer.c \
 				  free_token.c \
 				  del_current_token.c
 
-MAIN_SRC		= main.c \
-				  init_keyboard.c \
+TERMCAPS_DIR	= termcaps/
+TERMCAPS_SRC	= init_keyboard.c \
 				  init_environ.c \
-				  parser_print.c \
 				  error_malloc.c \
 				  ft_dlstnew.c \
 				  find_history.c \
@@ -123,7 +122,8 @@ SRC				:= $(SRC) \
 				   $(addprefix $(EXPANSER_DIR), $(EXPANSER_SRC)) \
 				   $(addprefix $(PARSER_DIR), $(PARSER_SRC)) \
 				   $(addprefix $(LEXER_DIR), $(LEXER_SRC)) \
-				   $(MAIN_SRC)
+				   $(addprefix $(TERMCAPS_DIR), $(TERMCAPS_SRC)) \
+				   main.c
 
 OBJ				= $(SRC:.c=.o)
 INC				= -I. -I$(LIBFT_DIR)
