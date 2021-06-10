@@ -6,7 +6,7 @@
 /*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 15:38:28 by ccardozo          #+#    #+#             */
-/*   Updated: 2021/06/10 15:57:50 by ccardozo         ###   ########.fr       */
+/*   Updated: 2021/06/10 16:57:40 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	cap_control(t_cap *cap, char **cmd)
 {
 	if (cap->str == CTRL_D)
 	{
-		cap_control_d(cap, &(*cmd));
-		return (1);
+		if (cap_control_d(cap, &(*cmd)))
+		    return (1);
 	}
 	else if (cap->str == CTRL_C)
 	{
