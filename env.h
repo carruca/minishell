@@ -38,7 +38,7 @@ typedef struct s_environment
 	int			len_cursor;
 }	t_cap;
 
-void	error_malloc();
+void	error_malloc(void);
 int		capture(t_cap *cap, char **env);
 int		search_var_name(void *str, void *var);
 int		*read_cmdline(char **cmd, t_cap *cap);
