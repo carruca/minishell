@@ -25,7 +25,7 @@ int	parse_pipe(t_list **tkn_lst, t_cmd *cmd, int *pipe, char *prompt)
 		return (0);
 	}
 	atkn = (*tkn_lst)->content;
-	if (atkn->identifier != WORD)
+	if (atkn->identifier & (PIPE | SCOLON))
 	{
 		print_syntax_error(atkn->token, tkn_lst, prompt);
 		free_command(cmd);

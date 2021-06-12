@@ -36,8 +36,6 @@
 # define DGREAT	0x0008
 # define PIPE	0x0010
 # define SCOLON	0x0020
-# define EXPAN	0x0040
-# define TOGET	0x0080
 
 # define EXPORT_VAR	0x0001
 # define ENV_VAR	0x0002
