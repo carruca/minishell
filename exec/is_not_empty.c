@@ -14,5 +14,5 @@
 
 int	is_not_empty(char *str)
 {
-	return (str[0] != 0);
+	return (str != NULL);
 }
