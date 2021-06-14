@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cap_control.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccardozo <ccardozo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 15:38:28 by ccardozo          #+#    #+#             */
-/*   Updated: 2021/06/14 15:35:25 by ccardozo         ###   ########.fr       */
+/*   Updated: 2021/06/15 00:28:18 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,6 @@ int	cap_control(t_cap *cap, char **cmd)
 	{
 		cap_control_c(cap, &(*cmd));
 		return (1);
-	}
-	else
-	{
-		cap->index_ch = 0;
-		ft_bzero(cap->ch, sizeof(cap->ch));
-		return (0);
 	}
 	return (0);
 }

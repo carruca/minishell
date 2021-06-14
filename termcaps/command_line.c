@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_line.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ccardozo <ccardozo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 13:59:10 by ccardozo          #+#    #+#             */
-/*   Updated: 2021/06/14 15:26:37 by ccardozo         ###   ########.fr       */
+/*   Updated: 2021/06/15 00:28:30 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ void	control_key(t_cap *cap)
 		cap->index_ch = 0;
 		ft_bzero(cap->ch, sizeof(cap->ch));
 		cap->check_esc = FALSE;
+	}
+	if (cap->check_esc == FALSE)
+	{
+		cap->index_ch = 0;
+		ft_bzero(cap->ch, sizeof(cap->ch));
 	}
 }
 
