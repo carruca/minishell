@@ -6,7 +6,7 @@
 /*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/08 20:51:54 by tsierra-          #+#    #+#             */
-/*   Updated: 2021/06/10 17:00:29 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/14 18:42:39 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	print_prompt(char *prompt)
 
 char	*get_prompt(char *arg1)
 {
-	char *pos;
+	char	*pos;
 
 	pos = ft_strrchr(arg1, '/');
 	if (!pos)
