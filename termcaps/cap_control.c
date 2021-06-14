@@ -6,7 +6,7 @@
 /*   By: ccardozo <ccardozo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 15:38:28 by ccardozo          #+#    #+#             */
-/*   Updated: 2021/06/10 17:01:35 by tsierra-         ###   ########.fr       */
+/*   Updated: 2021/06/14 15:35:25 by ccardozo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,12 @@ int	cap_control(t_cap *cap, char **cmd)
 	{
 		cap_control_c(cap, &(*cmd));
 		return (1);
+	}
+	else
+	{
+		cap->index_ch = 0;
+		ft_bzero(cap->ch, sizeof(cap->ch));
+		return (0);
 	}
 	return (0);
 }
