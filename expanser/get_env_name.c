@@ -27,7 +27,7 @@ char	*get_env_name(char *str, int *i)
 	}
 	else
 	{
-		while (!ft_strchr(" $\'\"\0", str[*i]))
+		while (!ft_strchr(": $\'\"\0", str[*i]))
 		{
 			(*i)++;
 			envc++;

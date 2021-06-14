@@ -18,6 +18,16 @@ void	print_prompt(char *prompt)
 	ft_putstr_fd("$ ", 1);
 }
 
+char	*get_prompt(char *arg1)
+{
+	char *pos;
+
+	pos = ft_strrchr(arg1, '/');
+	if (!pos)
+		return (arg1);
+	return (pos + 1);
+}
+
 void	read_eval_print_loop(t_shell *sh)
 {
 	char	*cmd_line;
@@ -51,7 +61,7 @@ int	main(int argc, char **argv, char **env)
 	t_shell	sh;
 
 	ft_bzero(&sh, sizeof(t_shell));
-	sh.prompt = ft_strrchr(argv[0], '/') + 1;
+	sh.prompt = get_prompt(argv[0]);
 	init_envlst(&sh, env);
 	if (!sh.env_lst)
 		return (1);
