@@ -6,7 +6,7 @@
 /*   By: ccardozo <ccardozo@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/10 13:59:10 by ccardozo          #+#    #+#             */
-/*   Updated: 2021/06/15 00:28:30 by ccardozo         ###   ########.fr       */
+/*   Updated: 2021/06/15 16:16:45 by tsierra-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ void	init_aux(t_cap *lstcap)
 	lstcap->len_cursor = 0;
 }
 
+static void	reset_buffer(t_cap *cap)
+{
+	cap->index_ch = 0;
+	ft_bzero(cap->ch, sizeof(cap->ch));
+}
+
 void	control_key(t_cap *cap)
 {
 	if (cap->str == '\e')
@@ -31,28 +37,18 @@ void	control_key(t_cap *cap)
 	else if (!ft_strcmp(cap->ch, tgetstr("kd", 0)))
 		cap->index_ch = cap_key_down(cap);
 	else if (!ft_strcmp(cap->ch, tgetstr("kr", 0)))
-	{
-		cap->index_ch = 0;
-		ft_bzero(cap->ch, sizeof(cap->ch));
-	}
+		reset_buffer(cap);
 	else if (!ft_strcmp(cap->ch, tgetstr("kl", 0)))
-	{
-		cap->index_ch = 0;
-		ft_bzero(cap->ch, sizeof(cap->ch));
-	}
+		reset_buffer(cap);
 	else if (ft_isprint(cap->str) && cap->check_esc == FALSE)
 		cap->index_ch = cap_key_printable(cap);
 	else if (cap->check_esc == TRUE && cap->ch[2] != '\0')
 	{
-		cap->index_ch = 0;
-		ft_bzero(cap->ch, sizeof(cap->ch));
+		reset_buffer(cap);
 		cap->check_esc = FALSE;
 	}
 	if (cap->check_esc == FALSE)
-	{
-		cap->index_ch = 0;
-		ft_bzero(cap->ch, sizeof(cap->ch));
-	}
+		reset_buffer(cap);
 }
 
 int	cap_nextline_key(t_cap *cap, char **cmd)
