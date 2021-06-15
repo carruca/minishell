@@ -30,7 +30,6 @@ typedef struct s_environment
 	char		ch[4];
 	int			index_ch;
 	char		*cmd_line;
-	t_lista		*env_lst;
 	t_lista		*cli;
 	char		cmd_buff[2048];
 	char		*cmd_cursor;
